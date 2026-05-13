@@ -1,6 +1,326 @@
- title: 'City Driving Game',
-      description: 'GTA-style 3D city grid driving with traffic lights, AI traffic, and police chases.',
-      href: '/examples/city-driving',
-      badge: 'Game',
-      accentClassName: 'from-indigo-500/12 via-indigo-500/0',
-    },
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D City Drive - Bridge Fix Edition</title>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background: #87CEEB; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+
+        #ui { 
+            position: absolute; 
+            top: 20px; 
+            left: 20px; 
+            color: white; 
+            background: rgba(0, 0, 0, 0.8); 
+            padding: 20px; 
+            border-radius: 12px; 
+            border: 2px solid #00ff88; 
+            pointer-events: none; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .label { font-size: 10px; color: #aaa; letter-spacing: 1px; text-transform: uppercase; }
+        .gauge { font-size: 32px; font-weight: bold; color: #00ff88; }
+        
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            background: rgba(0,0,0,0.6);
+            padding: 12px;
+            border-radius: 8px;
+            z-index: 10;
+            line-height: 1.5;
+        }
+        b { color: #00ff88; }
+    </style>
+</head>
+<body>
+
+    <div id="ui">
+        <div class="label">Speedometer</div>
+        <div class="gauge"><span id="speedo">0</span> <small style="font-size: 14px;">MPH</small></div>
+    </div>
+
+    <div id="controls">
+        <b>WASD / Arrows</b> to Drive<br>
+        <b>Space</b> to Brake<br>
+        <b>Status:</b> Bridge Teleportation Bug Fixed.
+    </div>
+
+    <script type="module">
+        import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
+
+        // --- SCENE SETUP ---
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x87CEEB);
+        scene.fog = new THREE.Fog(0x87CEEB, 50, 450);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        document.body.appendChild(renderer.domElement);
+
+        // --- LIGHTING ---
+        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambient);
+
+        const sun = new THREE.DirectionalLight(0xffffff, 1);
+        sun.position.set(100, 200, 100);
+        sun.castShadow = true;
+        sun.shadow.camera.left = -400;
+        sun.shadow.camera.right = 400;
+        sun.shadow.camera.top = 400;
+        sun.shadow.camera.bottom = -400;
+        sun.shadow.mapSize.width = 2048;
+        sun.shadow.mapSize.height = 2048;
+        scene.add(sun);
+
+        // --- CONSTANTS & GROUPS ---
+        const buildings = [];
+        const driveableSurfaces = []; 
+        const tileSize = 30;
+
+        // --- ASSET GENERATORS ---
+        function createCarMesh(color) {
+            const group = new THREE.Group();
+            
+            const body = new THREE.Mesh(
+                new THREE.BoxGeometry(2.2, 1.2, 4.5),
+                new THREE.MeshStandardMaterial({ color: color })
+            );
+            body.position.y = 0.7;
+            body.castShadow = true;
+            group.add(body);
+
+            const cabin = new THREE.Mesh(
+                new THREE.BoxGeometry(1.8, 0.9, 2.2),
+                new THREE.MeshStandardMaterial({ color: 0x222222 })
+            );
+            cabin.position.set(0, 1.4, -0.3);
+            group.add(cabin);
+
+            const lightGeo = new THREE.BoxGeometry(0.6, 0.3, 0.1);
+            const lightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const headL = new THREE.Mesh(lightGeo, lightMat);
+            const headR = new THREE.Mesh(lightGeo, lightMat);
+            headL.position.set(0.7, 0.8, 2.25);
+            headR.position.set(-0.7, 0.8, 2.25);
+            group.add(headL, headR);
+
+            return group;
+        }
+
+        function createBridge(x, z, horizontal) {
+            const bridgeGroup = new THREE.Group();
+            const mat = new THREE.MeshStandardMaterial({ color: 0x444444 });
+            const deckH = 9;  
+            const rampL = 40; 
+
+            const deckGeo = horizontal ? new THREE.BoxGeometry(60, 1.5, 18) : new THREE.BoxGeometry(18, 1.5, 60);
+            const deck = new THREE.Mesh(deckGeo, mat);
+            deck.position.y = deckH;
+            deck.receiveShadow = true;
+            deck.castShadow = true;
+            bridgeGroup.add(deck);
+            driveableSurfaces.push(deck);
+
+            const pMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
+            const p1 = new THREE.Mesh(new THREE.BoxGeometry(4, deckH, 4), pMat);
+            const p2 = new THREE.Mesh(new THREE.BoxGeometry(4, deckH, 4), pMat);
+            if (horizontal) {
+                p1.position.set(-25, deckH/2, 0);
+                p2.position.set(25, deckH/2, 0);
+            } else {
+                p1.position.set(0, deckH/2, -25);
+                p2.position.set(0, deckH/2, 25);
+            }
+            bridgeGroup.add(p1, p2);
+            buildings.push({ x: x + p1.position.x, z: z + p1.position.z, h: deckH, size: 2.5 });
+            buildings.push({ x: x + p2.position.x, z: z + p2.position.z, h: deckH, size: 2.5 });
+
+            const rampGeo = horizontal ? new THREE.BoxGeometry(rampL, 1, 18) : new THREE.BoxGeometry(18, 1, rampL);
+            const r1 = new THREE.Mesh(rampGeo, mat);
+            const r2 = new THREE.Mesh(rampGeo, mat);
+            const angle = Math.atan(deckH / rampL);
+
+            if (horizontal) {
+                r1.position.set(-30 - rampL/2, deckH/2, 0);
+                r1.rotation.z = angle;
+                r2.position.set(30 + rampL/2, deckH/2, 0);
+                r2.rotation.z = -angle;
+            } else {
+                r1.position.set(0, deckH/2, -30 - rampL/2);
+                r1.rotation.x = -angle;
+                r2.position.set(0, deckH/2, 30 + rampL/2);
+                r2.rotation.x = angle;
+            }
+            bridgeGroup.add(r1, r2);
+            driveableSurfaces.push(r1, r2);
+
+            bridgeGroup.position.set(x, 0, z);
+            scene.add(bridgeGroup);
+        }
+
+        // --- WORLD GENERATION ---
+        const ground = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshStandardMaterial({ color: 0x223322 }));
+        ground.rotation.x = -Math.PI / 2;
+        ground.receiveShadow = true;
+        scene.add(ground);
+        driveableSurfaces.push(ground);
+
+        for (let x = -420; x <= 420; x += tileSize) {
+            for (let z = -420; z <= 420; z += tileSize) {
+                const isRoadX = Math.abs(x) % 60 === 0;
+                const isRoadZ = Math.abs(z) % 60 === 0;
+
+                if (isRoadX || isRoadZ) {
+                    const road = new THREE.Mesh(
+                        new THREE.PlaneGeometry(tileSize, tileSize), 
+                        new THREE.MeshStandardMaterial({ color: 0x222222 })
+                    );
+                    road.rotation.x = -Math.PI/2;
+                    road.position.set(x, 0.02, z);
+                    road.receiveShadow = true;
+                    scene.add(road);
+
+                    if (Math.random() > 0.97 && (Math.abs(x) > 60 || Math.abs(z) > 60)) {
+                        createBridge(x, z, isRoadZ);
+                    }
+                } else {
+                    const h = 15 + Math.random() * 50;
+                    const b = new THREE.Mesh(
+                        new THREE.BoxGeometry(22, h, 22), 
+                        new THREE.MeshStandardMaterial({ color: new THREE.Color().setHSL(Math.random(), 0.2, 0.3) })
+                    );
+                    b.position.set(x, h/2, z);
+                    b.castShadow = true;
+                    scene.add(b);
+                    buildings.push({ x, z, h, size: 11 });
+                }
+            }
+        }
+
+        // --- PLAYER ---
+        const playerCar = createCarMesh(0x00ff88);
+        playerCar.position.set(0, 2, 30);
+        scene.add(playerCar);
+
+        let velocity = 0, angle = 0;
+        const keys = {};
+        window.onkeydown = (e) => keys[e.code.toLowerCase()] = true;
+        window.onkeyup = (e) => keys[e.code.toLowerCase()] = false;
+
+        const raycaster = new THREE.Raycaster();
+        const downVec = new THREE.Vector3(0, -1, 0);
+
+        // --- ANIMATION LOOP ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // 1. INPUT
+            if (keys.keyw || keys.arrowup) velocity += 0.03; 
+            else if (keys.keys || keys.arrowdown) velocity -= 0.02; 
+            else velocity *= 0.96;
+            
+            if (keys.space) velocity *= 0.85; 
+            velocity *= 0.99; 
+            
+            // 2. STEERING
+            const turnFactor = 0.045 * (Math.min(Math.abs(velocity) * 4, 1));
+            const direction = velocity >= 0 ? 1 : -1;
+            if (keys.keya || keys.arrowleft) angle += turnFactor * direction;
+            if (keys.keyd || keys.arrowright) angle -= turnFactor * direction;
+
+            // 3. COLLISION PREDICTION
+            const nx = playerCar.position.x + Math.sin(angle) * velocity;
+            const nz = playerCar.position.z + Math.cos(angle) * velocity;
+
+            let hit = false;
+            for (let b of buildings) {
+                if (Math.abs(nx - b.x) < b.size + 1.2 && Math.abs(nz - b.z) < b.size + 1.2) {
+                    if (playerCar.position.y < b.h) {
+                        hit = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!hit) {
+                playerCar.position.x = nx;
+                playerCar.position.z = nz;
+            } else {
+                velocity *= -0.4; 
+            }
+
+            // 4. THE BRIDGE FIX (Nearest Surface Selection)
+            const rayOrigin = new THREE.Vector3(playerCar.position.x, playerCar.position.y + 5, playerCar.position.z);
+            raycaster.set(rayOrigin, downVec);
+            
+            const intersects = raycaster.intersectObjects(driveableSurfaces);
+            if (intersects.length > 0) {
+                // Find the surface closest to the car's current height to prevent teleporting to ground
+                let bestHit = intersects[0];
+                let minDiff = Math.abs(playerCar.position.y - intersects[0].point.y);
+
+                for (let i = 1; i < intersects.length; i++) {
+                    let diff = Math.abs(playerCar.position.y - intersects[i].point.y);
+                    if (diff < minDiff) {
+                        minDiff = diff;
+                        bestHit = intersects[i];
+                    }
+                }
+
+                const groundY = bestHit.point.y;
+                playerCar.position.y = THREE.MathUtils.lerp(playerCar.position.y, groundY + 0.1, 0.2);
+
+                // Calculate Surface Normal for Tilting
+                const normal = bestHit.face.normal.clone();
+                const worldNormal = normal.transformDirection(bestHit.object.matrixWorld);
+                
+                const lookAtPos = new THREE.Vector3(
+                    playerCar.position.x + Math.sin(angle),
+                    playerCar.position.y,
+                    playerCar.position.z + Math.cos(angle)
+                );
+                playerCar.lookAt(lookAtPos);
+                
+                const slopeQuat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0), worldNormal);
+                playerCar.quaternion.premultiply(slopeQuat);
+            } else {
+                playerCar.position.y -= 0.2; 
+                playerCar.rotation.y = angle;
+            }
+
+            // 5. CAMERA
+            const camOffset = new THREE.Vector3(0, 7, -16).applyQuaternion(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0), angle));
+            const targetCamPos = playerCar.position.clone().add(camOffset);
+            camera.position.lerp(targetCamPos, 0.1);
+            camera.lookAt(playerCar.position.x, playerCar.position.y + 1, playerCar.position.z);
+
+            // 6. UI
+            document.getElementById('speedo').innerText = Math.floor(Math.abs(velocity) * 160);
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.onresize = () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        };
+    </script>
+</body>
+</html>
