@@ -1,0 +1,6 @@
+ title: 'City Driving Game',
+      description: 'GTA-style 3D city grid driving with traffic lights, AI traffic, and police chases.',
+      href: '/examples/city-driving',
+      badge: 'Game',
+      accentClassName: 'from-indigo-500/12 via-indigo-500/0',
+    },
