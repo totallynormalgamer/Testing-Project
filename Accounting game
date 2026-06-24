@@ -2,18 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bank Ledger Legends</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Press+Start+2P&display=swap');
-        
         :root {
             --primary: #4a90e2;
             --accent: #f39c12;
-            --success: #2ecc71;
+            --success: #22c55e;
             --danger: #e74c3c;
         }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Fredoka', sans-serif;
@@ -22,235 +20,318 @@
             min-height: 100vh;
             overflow: hidden;
         }
-        
         .header {
             background: rgba(15, 23, 42, 0.95);
-            padding: 15px 30px;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 4px solid var(--primary);
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 8px;
         }
-        
         .logo {
             font-family: 'Press Start 2P', cursive;
-            font-size: 24px;
+            font-size: 22px;
             color: var(--accent);
             text-shadow: 0 0 10px var(--accent);
         }
-        
-        .stats {
-            display: flex;
-            gap: 25px;
-            font-size: 18px;
-        }
-        
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .coin {
-            color: #f1c40f;
-            font-size: 22px;
-        }
-        
-        .main {
-            display: flex;
-            height: calc(100vh - 70px);
-        }
-        
+        .stats { display: flex; gap: 20px; font-size: 17px; flex-wrap: wrap; }
+        .stat { display: flex; align-items: center; gap: 6px; }
+        .coin { color: #f1c40f; font-size: 24px; }
+
+        .main { display: flex; flex-direction: column; height: calc(100vh - 68px); }
         .sidebar {
-            width: 220px;
-            background: rgba(15, 23, 42, 0.9);
-            padding: 20px;
-            border-right: 3px solid var(--primary);
+            background: rgba(15, 23, 42, 0.95);
+            padding: 12px 8px;
+            border-top: 3px solid var(--primary);
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            justify-content: space-around;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.4);
+            flex-wrap: wrap;
         }
-        
         .nav-btn {
-            padding: 14px 20px;
+            padding: 14px 16px;
             background: #334155;
             border: none;
             color: white;
             font-size: 16px;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 12px;
             transition: all 0.3s;
-            text-align: left;
-        }
-        
-        .nav-btn:hover, .nav-btn.active {
-            background: var(--primary);
-            transform: translateX(8px);
-        }
-        
-        .game-area {
             flex: 1;
-            padding: 30px;
-            overflow-y: auto;
+            margin: 0 4px;
+            font-weight: 600;
+            min-width: 80px;
         }
-        
+        .nav-btn:hover, .nav-btn.active { 
+            background: var(--primary); 
+            transform: translateY(-4px);
+        }
+
+        .game-area { 
+            flex: 1; 
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .card {
             background: rgba(30, 41, 59, 0.95);
             border-radius: 16px;
-            padding: 25px;
+            padding: 24px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
-        
-        .mission-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        h1, h2 {
-            color: #60a5fa;
-        }
-        
-        .transaction {
-            background: #1e2937;
-            padding: 15px;
-            margin: 12px 0;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-left: 6px solid var(--accent);
-        }
-        
-        .entry-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr 120px 80px;
-            gap: 10px;
-            margin: 15px 0;
-            align-items: center;
-        }
-        
-        select, input {
-            padding: 10px;
-            border-radius: 6px;
-            border: 2px solid #475569;
-            background: #0f172a;
-            color: white;
-        }
-        
+
         button {
-            padding: 10px 18px;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--accent), #e67e22);
+            color: black;
+            font-size: 20px;
+            padding: 18px 50px;
+            border-radius: 12px;
+        }
+
+        .difficulty-select { text-align: center; margin: 30px 0; }
+        .difficulty-btn {
+            padding: 18px 36px;
+            margin: 10px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 18px;
+            border: 3px solid transparent;
+            min-width: 140px;
+        }
+        .difficulty-btn.easy { background: #4ade80; color: #0f172a; }
+        .difficulty-btn.medium { background: #facc15; color: #0f172a; }
+        .difficulty-btn.hard { background: #f87171; color: white; }
+
+        button[onclick="showTips()"] { background: #8b5cf6; color: white; }
+        button[onclick="submitMission()"] { background: var(--success); color: white; font-size: 17px; }
+
+        .edit-btn { background: #f39c12; color: black; }
+        .explain-btn { background: #8b5cf6; color: white; padding: 10px 18px; font-size: 15px; }
+
+        .shop-item button { background: var(--accent); color: black; }
+
+        .modal-btn {
             background: var(--primary);
             color: white;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             border: none;
-            border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 20px;
         }
-        
-        button:hover {
-            background: #60a5fa;
+        .modal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
-        
-        .success { background: var(--success); }
-        .danger { background: var(--danger); }
-        
-        .ledger {
+
+        .calendar {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        
-        .t-account {
-            background: #1e2937;
-            padding: 15px;
-            border-radius: 12px;
-        }
-        
-        .t-header {
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin: 20px 0;
             text-align: center;
-            font-weight: bold;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 3px solid #64748b;
         }
-        
-        .balance {
-            font-size: 28px;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 15px;
-            color: #a5f3fc;
-        }
-        
-        .shop-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
-        }
-        
-        .item {
+        .calendar-header { font-weight: bold; color: #60a5fa; padding: 8px 4px; }
+        .day {
+            padding: 16px 8px;
             background: #1e2937;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.3s;
+            border-radius: 10px;
             cursor: pointer;
-        }
-        
-        .item:hover {
-            transform: scale(1.05);
-        }
-        
-        .item img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-        }
-        
-        .modal {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.85);
-            display: none;
+            transition: all 0.2s;
+            font-size: 17px;
+            min-height: 52px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
         }
-        
-        .modal-content {
+        .day:hover { background: #334155; transform: scale(1.08); }
+        .day.selected { background: var(--accent); color: black; font-weight: bold; }
+
+        .t-account {
             background: #1e2937;
-            padding: 30px;
+            border-radius: 12px;
+            padding: 16px;
+            border: 2px solid #475569;
+            transition: all 0.3s ease;
+        }
+        .t-account.balanced {
+            border-color: var(--success);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+        }
+        .t-account.unbalanced {
+            border-color: var(--danger);
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.3);
+        }
+        .t-account .balance-badge {
+            display: inline-block;
+            padding: 4px 12px;
             border-radius: 20px;
-            max-width: 500px;
-            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 8px;
         }
-        
-        .customer {
-            font-size: 48px;
-            margin-bottom: 10px;
-            animation: bounce 1s infinite alternate;
+        .t-account .balance-badge.balanced {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
         }
-        
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-15px); }
+        .t-account .balance-badge.unbalanced {
+            background: rgba(231, 76, 60, 0.2);
+            color: var(--danger);
         }
-        
+
+        .transaction {
+            background: #1e2937;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            border-left: 5px solid var(--primary);
+        }
+        .transaction.recorded { border-left-color: var(--success); }
+        .transaction.incorrect { border-left-color: var(--danger); }
+        .entry-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 100px 100px;
+            gap: 12px;
+            align-items: end;
+            width: 100%;
+        }
+        .entry-form select, .entry-form input {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: #0f172a;
+            color: white;
+            font-size: 15px;
+            width: 100%;
+        }
+        .entry-label { font-size: 13px; color: #94a3b8; margin-bottom: 4px; }
+
         .feedback {
             position: fixed;
-            top: 100px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 20px;
-            font-weight: bold;
+            background: #10b981;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 60px;
+            font-weight: 600;
             display: none;
-            z-index: 2000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 999;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #1e2937;
+            padding: 40px;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            border: 2px solid var(--primary);
+        }
+
+        .balance-display {
+            margin-top: 15px;
+            padding: 15px;
+            background: #0f172a;
+            border-radius: 10px;
+            border: 2px solid #475569;
+            transition: all 0.3s ease;
+        }
+
+        .error-highlight {
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .back-to-calendar-btn {
+            background: #64748b;
+            color: white;
+            margin-bottom: 16px;
+        }
+        .back-to-calendar-btn:hover {
+            background: #475569;
+        }
+
+        .mission-info-badge {
+            display: inline-block;
+            background: #0f172a;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #94a3b8;
+            margin-right: 8px;
+            border: 1px solid #334155;
+        }
+        .mission-info-badge strong {
+            color: #e2e8f0;
+        }
+
+        @media (min-width: 768px) {
+            .main { flex-direction: row; height: calc(100vh - 68px); }
+            .sidebar {
+                width: 200px;
+                flex-direction: column;
+                border-top: none;
+                border-right: 3px solid var(--primary);
+                padding: 20px 12px;
+                justify-content: flex-start;
+            }
+            .game-area { padding: 28px; }
+            .entry-form { grid-template-columns: 1fr 1fr 120px 120px; }
+        }
+        @media (max-width: 600px) {
+            .entry-form { grid-template-columns: 1fr 1fr; }
+            .logo { font-size: 16px; }
+            .stats { font-size: 14px; gap: 12px; }
+            .difficulty-btn { min-width: 100px; padding: 14px 20px; }
         }
     </style>
 </head>
@@ -260,422 +341,837 @@
         <div class="stats">
             <div class="stat">Level <span id="level">1</span></div>
             <div class="stat"><span class="coin">🪙</span> <span id="coins">250</span></div>
-            <div class="stat">Bank Health <span id="health">100</span>%</div>
         </div>
     </div>
-    
+
     <div class="main">
-        <!-- Sidebar -->
         <div class="sidebar">
-            <button class="nav-btn active" onclick="showScreen('mission')">📋 Mission</button>
+            <button class="nav-btn active" onclick="showScreen('home')">🏠 Home</button>
+            <button class="nav-btn" onclick="showScreen('mission')">📋 Mission</button>
             <button class="nav-btn" onclick="showScreen('ledger')">📒 Ledger</button>
             <button class="nav-btn" onclick="showScreen('shop')">🛒 Shop</button>
             <button class="nav-btn" onclick="showScreen('stats')">📊 Progress</button>
-            
-            <div style="margin-top: auto; padding-top: 30px; border-top: 2px solid #475569;">
-                <div style="font-size: 14px; opacity: 0.8;">Future Finance Bank</div>
-                <div style="font-size: 13px; margin-top: 5px;">Manager: Alex Chen</div>
-            </div>
         </div>
-        
-        <!-- Game Area -->
+
         <div class="game-area" id="game-area">
-            
-            <!-- MISSION SCREEN -->
-            <div id="mission-screen">
+            <!-- HOME -->
+            <div id="home-screen">
                 <div class="card">
-                    <div class="mission-header">
-                        <div>
-                            <h1>Today's Mission: Payday Rush 🏦</h1>
-                            <p style="color: #94a3b8;">Process these 4 customer transactions correctly!</p>
+                    <h1 style="text-align:center; margin-bottom:20px;">Welcome to Bank Ledger Legends!</h1>
+                    <p style="text-align:center; font-size:18px; color:#94a3b8; margin-bottom:30px;">
+                        Master double-entry bookkeeping through fun daily missions
+                    </p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; text-align:center; margin-bottom:30px;">
+                        <div class="card" style="margin:0; background:rgba(30,41,59,0.7);">
+                            <h3>Current Level</h3>
+                            <h2 id="home-level" style="color:var(--accent);">1</h2>
                         </div>
-                        <div style="text-align: right;">
-                            <div style="font-size: 18px;">Reward: <strong style="color:#f1c40f">120 🪙</strong></div>
-                            <button onclick="submitMission()" style="margin-top:10px;">Submit All Entries</button>
+                        <div class="card" style="margin:0; background:rgba(30,41,59,0.7);">
+                            <h3>Balance</h3>
+                            <h2 id="home-coins" style="color:#f1c40f;">250 🪙</h2>
                         </div>
                     </div>
-                    
-                    <div id="transactions-list"></div>
-                </div>
-                
-                <div class="card">
-                    <h2>Current Journal</h2>
-                    <table style="width:100%; border-collapse: collapse; margin-top:15px;" id="journal-table">
-                        <thead>
-                            <tr style="background:#334155;">
-                                <th style="padding:10px; text-align:left;">Transaction</th>
-                                <th style="padding:10px;">Debit Account</th>
-                                <th style="padding:10px;">Credit Account</th>
-                                <th style="padding:10px;">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody id="journal-body"></tbody>
-                    </table>
+                    <div style="text-align:center;">
+                        <button onclick="showScreen('mission')" class="start-btn">
+                            🚀 START NEW MISSION
+                        </button>
+                    </div>
                 </div>
             </div>
-            
-            <!-- LEDGER SCREEN -->
+
+            <!-- MISSION -->
+            <div id="mission-screen" style="display:none;">
+                <div class="card" id="setup-card">
+                    <h2 style="text-align:center; margin-bottom:20px;">Select Mission Date & Difficulty</h2>
+                    <div style="margin-bottom:25px;">
+                        <h3 style="text-align:center; margin-bottom:10px;">June 2026</h3>
+                        <div id="selected-date" style="text-align:center;color:#94a3b8;margin-top:6px;min-height:20px;">
+                            Select a day
+                        </div>
+                        <div id="calendar" class="calendar"></div>
+                    </div>
+                    <div class="difficulty-select">
+                        <strong style="font-size:18px;">Choose Difficulty:</strong><br><br>
+                        <button class="difficulty-btn easy" onclick="startMission('easy')">EASY</button>
+                        <button class="difficulty-btn medium" onclick="startMission('medium')">MEDIUM</button>
+                        <button class="difficulty-btn hard" onclick="startMission('hard')">HARD</button>
+                    </div>
+                </div>
+
+                <div id="mission-content" style="display:none;">
+                    <button class="back-to-calendar-btn" onclick="backToMissionSelect()" style="margin-bottom:16px;">
+                        ⬅️ Back to Calendar
+                    </button>
+                    <div class="card">
+                        <div class="mission-header" style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+                            <div>
+                                <h1 id="mission-title">Payday Rush 🏦</h1>
+                                <div style="margin-top:8px;">
+                                    <span class="mission-info-badge">📅 <strong id="mission-date-display">June 15, 2026</strong></span>
+                                    <span class="mission-info-badge">⚡ <strong id="mission-difficulty-display">Medium</strong></span>
+                                </div>
+                                <p id="mission-desc" style="color: #94a3b8; margin-top:8px;">Process the transactions correctly!</p>
+                            </div>
+                            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                                <button onclick="showTips()">💡 Tips</button>
+                                <button onclick="submitMission()" style="background:var(--success);">✅ Submit All Entries</button>
+                            </div>
+                        </div>
+                        <div id="transactions-list"></div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Current Journal</h2>
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%; border-collapse: collapse; margin-top:15px;" id="journal-table">
+                                <thead>
+                                    <tr style="background:#334155;">
+                                        <th style="padding:10px; text-align:left;">Transaction</th>
+                                        <th style="padding:10px; text-align:center;">Debit</th>
+                                        <th style="padding:10px; text-align:center;">Credit</th>
+                                        <th style="padding:10px; text-align:right;">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="journal-body"></tbody>
+                            </table>
+                        </div>
+                        <div id="journal-balance"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTS -->
+            <div id="results-screen" style="display:none;">
+                <div class="card">
+                    <h2>Mission Results</h2>
+                    <p style="color:#94a3b8;margin-bottom:18px;">Click explanation buttons below to learn from your mistakes!</p>
+                    <div id="results-list"></div>
+                    <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+                        <button onclick="backToMissionSelect()" style="background:#334155;">⬅️ Back to Calendar</button>
+                        <button onclick="retryMission()" style="background:var(--accent); color:black;">🔄 Retry Mission</button>
+                        <button onclick="viewLedgerFromResults()" style="background:var(--primary);">📒 View Ledger</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LEDGER -->
             <div id="ledger-screen" style="display:none;">
                 <div class="card">
                     <h2>Live T-Accounts</h2>
-                    <div class="ledger" id="t-accounts"></div>
+                    <p id="ledger-mission-info" style="color:#94a3b8;margin-bottom:20px;"></p>
+                    <div id="t-accounts" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;"></div>
                 </div>
             </div>
-            
-            <!-- SHOP SCREEN -->
+
+            <!-- SHOP -->
             <div id="shop-screen" style="display:none;">
                 <div class="card">
-                    <h2>Bank Customization Shop</h2>
-                    <p>Spend your Ledger Coins on upgrades and fun items!</p>
-                    <div class="shop-grid" id="shop-grid"></div>
+                    <h2>🛒 Bank Shop</h2>
+                    <p style="color:#94a3b8;">Spend your coins on useful & fun items!</p>
+                    <div id="shop-items"></div>
                 </div>
             </div>
-            
-            <!-- STATS SCREEN -->
+
+            <!-- STATS -->
             <div id="stats-screen" style="display:none;">
                 <div class="card">
-                    <h2>Your Bank Progress</h2>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-top:30px;">
-                        <div>
-                            <h3>Stats</h3>
-                            <ul style="line-height:2.2; font-size:18px;">
-                                <li>✅ Perfect Missions: <strong>3</strong></li>
-                                <li>📈 Total Transactions: <strong>42</strong></li>
-                                <li>🏆 Highest Balance: <strong>$18,450</strong></li>
-                                <li>🔥 Current Streak: <strong>5 days</strong></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3>Bank Statement Snapshot</h3>
-                            <div style="background:#0f172a; padding:20px; border-radius:12px; margin-top:15px;">
-                                <div style="display:flex; justify-content:space-between; margin:10px 0;">
-                                    <span>Assets</span><span style="color:#4ade80;">$24,850</span>
-                                </div>
-                                <div style="display:flex; justify-content:space-between; margin:10px 0;">
-                                    <span>Liabilities</span><span style="color:#f87171;">$18,200</span>
-                                </div>
-                                <div style="border-top:2px solid #475569; padding-top:10px; display:flex; justify-content:space-between; font-weight:bold;">
-                                    <span>Equity</span><span style="color:#60a5fa;">$6,650</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <h2>📊 Progress</h2>
+                    <div id="stats-content"></div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Feedback Toast -->
+
     <div id="feedback" class="feedback"></div>
-    
-    <!-- Completion Modal -->
+
+    <!-- Modals -->
+    <div id="tips-modal" class="modal">
+        <div class="modal-content">
+            <h2>💡 Accounting Tips</h2>
+            <div style="text-align:left; line-height:1.8; font-size:15.5px;">
+                <strong>Debit Increases:</strong><br>
+                • Assets (Cash, Equipment...)<br>
+                • Expenses (Salary, Rent...)<br><br>
+                <strong>Credit Increases:</strong><br>
+                • Liabilities, Capital & Revenue
+            </div>
+            <button onclick="closeTipsModal()" class="modal-btn">Got it!</button>
+        </div>
+    </div>
+
+    <div id="explain-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="explain-title"></h2>
+            <div id="explain-body" style="text-align:left; line-height:1.7; margin:20px 0;"></div>
+            <button onclick="closeExplainModal()" class="modal-btn">Close</button>
+        </div>
+    </div>
+
     <div id="modal" class="modal">
         <div class="modal-content">
             <div id="modal-emoji" style="font-size:80px;">🎉</div>
-            <h2 id="modal-title">Mission Complete!</h2>
+            <h2 id="modal-title"></h2>
             <p id="modal-text"></p>
-            <button onclick="closeModal()" style="margin-top:20px; padding:12px 40px; font-size:18px;">Continue</button>
+            <button onclick="closeModal()" class="modal-btn">Continue</button>
         </div>
     </div>
-    
+
     <script>
-        // Game State
         let coins = 250;
-        let level = 1;
-        let health = 100;
         let journal = [];
-        
-        // Sample Accounts
-        const accounts = [
-            "Cash", "Customer Deposits", "Loans Receivable", "Salary Expense",
-            "Equipment", "Bank Capital", "Interest Revenue"
-        ];
-        
-        // Sample Transactions for Mission
-        let transactions = [
-            {
-                id: 1,
-                desc: "Customer deposits $800 cash into savings account",
-                correctDebit: "Cash",
-                correctCredit: "Customer Deposits",
-                amount: 800
-            },
-            {
-                id: 2,
-                desc: "Issued a $2,000 personal loan to Mr. Wong",
-                correctDebit: "Loans Receivable",
-                correctCredit: "Cash",
-                amount: 2000
-            },
-            {
-                id: 3,
-                desc: "Bank paid staff salaries of $1,200",
-                correctDebit: "Salary Expense",
-                correctCredit: "Cash",
-                amount: 1200
-            },
-            {
-                id: 4,
-                desc: "Customer repaid $500 of their loan",
-                correctDebit: "Cash",
-                correctCredit: "Loans Receivable",
-                amount: 500
-            }
-        ];
-        
+        let lastMissionJournal = [];
+        let currentDifficulty = null;
+        let selectedDate = null;
+        let transactions = [];
         let playerEntries = {};
-        
-        // Render Transactions
+        let editingId = null;
+        let missionSubmitted = false;
+        let startTime = null;
+        let incorrectAttempts = 0;
+        let totalAttempts = 0;
+        let mistakes = {};
+
+        // All possible account types for the game
+        const ALL_ACCOUNTS = [
+            "Cash", "Accounts Receivable", "Supplies", "Prepaid Insurance", "Equipment", 
+            "Accumulated Depreciation", "Accounts Payable", "Unearned Revenue", "Notes Payable",
+            "Owner's Capital", "Service Revenue", "Salary Expense", "Rent Expense", "Depreciation Expense",
+            "Bad Debt Recovery", "Interest Revenue", "Dividends", "Retained Earnings"
+        ];
+
+        // Generate unique transactions for each day (1-30)
+        function generateDailyTransactions(day, difficulty) {
+            const seed = day * 100 + (difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3);
+            const rand = (min, max) => {
+                const x = Math.sin(seed + min * 7 + max * 13) * 10000;
+                return Math.floor((x - Math.floor(x)) * (max - min + 1)) + min;
+            };
+            
+            const amounts = {
+                easy: [75, 120, 200, 300, 450, 500, 150, 250, 180, 350],
+                medium: [600, 850, 1200, 1500, 2200, 2800, 3500, 4200, 4800, 5500],
+                hard: [700, 1200, 1800, 2500, 3200, 4000, 4800, 5600, 6500, 7800]
+            };
+            
+            const scenarios = {
+                easy: [
+                    { desc: (a) => `Customer deposited $${a} cash into their account`, debit: "Cash", credit: "Accounts Payable" },
+                    { desc: (a) => `Paid $${a} for office supplies`, debit: "Supplies", credit: "Cash" },
+                    { desc: (a) => `Received $${a} cash from a customer for services`, debit: "Cash", credit: "Service Revenue" },
+                    { desc: (a) => `Paid $${a} for rent expense`, debit: "Rent Expense", credit: "Cash" },
+                    { desc: (a) => `Purchased $${a} of equipment with cash`, debit: "Equipment", credit: "Cash" },
+                    { desc: (a) => `Owner invested $${a} into the business`, debit: "Cash", credit: "Owner's Capital" },
+                    { desc: (a) => `Billed customer $${a} for services on credit`, debit: "Accounts Receivable", credit: "Service Revenue" },
+                    { desc: (a) => `Paid $${a} for salary expense`, debit: "Salary Expense", credit: "Cash" }
+                ],
+                medium: [
+                    { desc: (a) => `Received $${a} from customer for services provided on credit last month`, debit: "Cash", credit: "Accounts Receivable" },
+                    { desc: (a) => `Purchased equipment for $${a} by signing a note payable`, debit: "Equipment", credit: "Notes Payable" },
+                    { desc: (a) => `Paid $${a} for a one-year insurance policy in advance`, debit: "Prepaid Insurance", credit: "Cash" },
+                    { desc: (a) => `Earned $${a} in revenue from services, customer will pay next month`, debit: "Accounts Receivable", credit: "Service Revenue" },
+                    { desc: (a) => `Paid $${a} for accounts payable`, debit: "Accounts Payable", credit: "Cash" },
+                    { desc: (a) => `Received $${a} cash from a customer for services performed`, debit: "Cash", credit: "Service Revenue" },
+                    { desc: (a) => `Purchased $${a} of supplies on credit`, debit: "Supplies", credit: "Accounts Payable" },
+                    { desc: (a) => `Paid $${a} salary expense`, debit: "Salary Expense", credit: "Cash" }
+                ],
+                hard: [
+                    { desc: (a) => `Received $${a} from a customer as a deposit for future services (unearned revenue)`, debit: "Cash", credit: "Unearned Revenue",
+                      explanation: "TRICKY: This is a liability, not revenue! Cash increases → Debit Cash, Unearned Revenue increases → Credit Unearned Revenue" },
+                    { desc: (a) => `Paid $${a} to reduce the principal on a bank loan`, debit: "Notes Payable", credit: "Cash",
+                      explanation: "TRICKY: Paying loan principal reduces liability! Notes Payable decreases → Debit Notes Payable, Cash decreases → Credit Cash" },
+                    { desc: (a) => `Owner invested $${a} directly into the business bank account`, debit: "Cash", credit: "Owner's Capital",
+                      explanation: "TRICKY: Owner investment increases equity! Cash increases → Debit Cash, Owner's Capital increases → Credit Owner's Capital" },
+                    { desc: (a) => `Recorded depreciation of $${a} on equipment`, debit: "Depreciation Expense", credit: "Accumulated Depreciation",
+                      explanation: "TRICKY: Depreciation is a non-cash expense! Depreciation Expense increases → Debit, Accumulated Depreciation (contra-asset) increases → Credit" },
+                    { desc: (a) => `Received $${a} from a customer who had been written off (bad debt recovery)`, debit: "Cash", credit: "Bad Debt Recovery",
+                      explanation: "TRICKY: Bad debt recovery is revenue! Cash increases → Debit Cash, Bad Debt Recovery increases → Credit Bad Debt Recovery" },
+                    { desc: (a) => `Billed customer $${a} for services with terms 2/10, n/30`, debit: "Accounts Receivable", credit: "Service Revenue",
+                      explanation: "TRICKY: Revenue is recognized when services are performed! Accounts Receivable increases → Debit, Service Revenue increases → Credit" },
+                    { desc: (a) => `Paid $${a} interest on bank loan`, debit: "Interest Revenue", credit: "Cash",
+                      explanation: "TRICKY: Interest expense is an expense, not revenue! Interest Expense increases → Debit, Cash decreases → Credit" },
+                    { desc: (a) => `Received $${a} dividend from investment`, debit: "Cash", credit: "Dividends",
+                      explanation: "TRICKY: Dividends received are income! Cash increases → Debit Cash, Dividend Revenue increases → Credit" }
+                ]
+            };
+            
+            const diffScenarios = scenarios[difficulty] || scenarios.easy;
+            const numTransactions = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : 5;
+            const availableAmounts = amounts[difficulty] || amounts.easy;
+            
+            // Select unique transactions for this day
+            const selected = [];
+            const usedIndices = [];
+            for (let i = 0; i < numTransactions; i++) {
+                let idx;
+                let attempts = 0;
+                do {
+                    idx = rand(0, diffScenarios.length - 1);
+                    attempts++;
+                } while (usedIndices.includes(idx) && attempts < 50);
+                usedIndices.push(idx);
+                
+                const scenario = diffScenarios[idx];
+                const amountIdx = rand(0, availableAmounts.length - 1);
+                const amount = availableAmounts[amountIdx];
+                const id = day * 10 + i + 1;
+                
+                const transaction = {
+                    id: id,
+                    desc: scenario.desc(amount),
+                    correctDebit: scenario.debit,
+                    correctCredit: scenario.credit,
+                    amount: amount,
+                    explanation: scenario.explanation || `${scenario.debit} (${scenario.debit.includes('Receivable') || scenario.debit.includes('Cash') || scenario.debit.includes('Supplies') || scenario.debit.includes('Equipment') || scenario.debit.includes('Insurance') ? 'Asset' : scenario.debit.includes('Expense') ? 'Expense' : 'Equity'}) increases → Debit ${scenario.debit}<br>${scenario.credit} (${scenario.credit.includes('Payable') || scenario.credit.includes('Revenue') ? 'Liability/Revenue' : scenario.credit.includes('Capital') ? 'Equity' : 'Asset'}) increases → Credit ${scenario.credit}`
+                };
+                selected.push(transaction);
+            }
+            
+            return selected;
+        }
+
+        // Get accounts relevant to current transactions
+        function getRelevantAccounts(transactions) {
+            const accounts = new Set();
+            transactions.forEach(t => {
+                accounts.add(t.correctDebit);
+                accounts.add(t.correctCredit);
+            });
+            // Add some extra accounts to make it interesting
+            const extras = ["Cash", "Accounts Receivable", "Accounts Payable", "Supplies", "Equipment"];
+            extras.forEach(a => accounts.add(a));
+            return Array.from(accounts);
+        }
+
+        const shopItems = [
+            { id: 1, name: "Golden Pen", price: 80, desc: "Cosmetic - Fancy journal look", emoji: "✒️" },
+            { id: 2, name: "Extra Time Boost", price: 120, desc: "Adds 30 seconds on next mission", emoji: "⏳" },
+            { id: 3, name: "Hint Token", price: 60, desc: "One free hint per mission", emoji: "💡" },
+            { id: 4, name: "Lucky Coin Charm", price: 150, desc: "Chance of bonus coins", emoji: "🍀" }
+        ];
+
+        function generateCalendar() {
+            const cal = document.getElementById('calendar');
+            cal.innerHTML = `<div class="calendar-header">Sun</div><div class="calendar-header">Mon</div><div class="calendar-header">Tue</div><div class="calendar-header">Wed</div><div class="calendar-header">Thu</div><div class="calendar-header">Fri</div><div class="calendar-header">Sat</div>`;
+            for (let i = 0; i < 1; i++) cal.innerHTML += `<div></div>`;
+            for (let day = 1; day <= 30; day++) {
+                const d = document.createElement('div');
+                d.className = 'day';
+                d.textContent = day;
+                d.onclick = () => {
+                    document.querySelectorAll('.day').forEach(el => el.classList.remove('selected'));
+                    d.classList.add('selected');
+                    selectedDate = day;
+                    document.getElementById('selected-date').textContent = `Selected: June ${day}, 2026`;
+                };
+                cal.appendChild(d);
+            }
+        }
+
+        function startMission(diff) {
+            if (!selectedDate) return showFeedback("Please select a date first!", "danger");
+            currentDifficulty = diff;
+            
+            // Generate unique transactions for this specific date and difficulty
+            transactions = generateDailyTransactions(selectedDate, diff);
+            
+            document.getElementById('setup-card').style.display = 'none';
+            document.getElementById('mission-content').style.display = 'block';
+            
+            // Update mission info display
+            const dateStr = `June ${selectedDate}, 2026`;
+            document.getElementById('mission-date-display').textContent = dateStr;
+            document.getElementById('mission-difficulty-display').textContent = diff.charAt(0).toUpperCase() + diff.slice(1);
+            
+            resetMission();
+        }
+
+        function resetMission() {
+            journal = [];
+            playerEntries = {};
+            missionSubmitted = false;
+            editingId = null;
+            startTime = Date.now();
+            incorrectAttempts = 0;
+            mistakes = {};
+            renderTransactions();
+            renderJournal();
+            updateJournalBalance();
+        }
+
+        function backToMissionSelect() {
+            document.getElementById('setup-card').style.display = 'block';
+            document.getElementById('mission-content').style.display = 'none';
+            document.getElementById('results-screen').style.display = 'none';
+            showScreen('mission');
+            document.querySelectorAll('.day').forEach(el => el.classList.remove('selected'));
+            selectedDate = null;
+            document.getElementById('selected-date').textContent = 'Select a day';
+        }
+
         function renderTransactions() {
             const container = document.getElementById('transactions-list');
             container.innerHTML = '';
             
+            // Get relevant accounts for this mission's transactions
+            const relevantAccounts = getRelevantAccounts(transactions);
+            // Add common accounts for variety
+            const allAccounts = [...new Set([...relevantAccounts, ...ALL_ACCOUNTS])].sort();
+            
             transactions.forEach(t => {
+                const recorded = journal.find(j => j.id === t.id);
+                const isRecorded = !!recorded;
+                const isEditing = editingId === t.id;
                 const div = document.createElement('div');
-                div.className = 'transaction';
-                div.innerHTML = `
-                    <div style="flex:1;">
-                        <strong>Transaction ${t.id}:</strong><br>
-                        <span style="font-size:15px;">${t.desc}</span>
-                    </div>
-                    <div style="min-width:280px;">
-                        <div class="entry-form">
-                            <select onchange="updateEntry(${t.id}, 'debit', this.value)">
-                                <option value="">Debit Account</option>
-                                ${accounts.map(acc => `<option value="${acc}">${acc}</option>`).join('')}
-                            </select>
-                            <select onchange="updateEntry(${t.id}, 'credit', this.value)">
-                                <option value="">Credit Account</option>
-                                ${accounts.map(acc => `<option value="${acc}">${acc}</option>`).join('')}
-                            </select>
-                            <input type="number" value="${t.amount}" onchange="updateEntry(${t.id}, 'amount', this.value)" style="width:100%;">
-                            <button onclick="recordEntry(${t.id})">Record</button>
-                        </div>
-                    </div>
-                `;
+                let isIncorrect = false;
+                if (recorded && missionSubmitted) {
+                    isIncorrect = !(recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === t.amount);
+                }
+                div.className = `transaction ${isRecorded ? 'recorded' : ''} ${isIncorrect ? 'incorrect' : ''}`;
+                let html = `<div style="flex:1;"><strong>Transaction ${t.id}:</strong><br><span>${t.desc}</span></div>`;
+
+                if (isRecorded && !isEditing) {
+                    html += `<div style="flex:1;"><div style="background:#0f172a;padding:12px;border-radius:8px;">Recorded: ${recorded.debit} (Dr) / ${recorded.credit} (Cr) $${recorded.amount}</div>`;
+                    if (missionSubmitted) {
+                        const correct = recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === t.amount;
+                        html += `<div class="correct-answer" style="margin-top:10px;color:${correct ? '#4ade80' : '#f87171'}">
+                            <strong>${correct ? '✅ Correct' : '❌ Wrong'}</strong>
+                            ${!correct ? `<br><small style="color:#94a3b8;">Correct: Dr ${t.correctDebit} / Cr ${t.correctCredit}</small>` : ''}
+                        </div>`;
+                    } else {
+                        html += `<button onclick="startEdit(${t.id})" class="edit-btn" style="margin-top:10px;">✏️ Edit</button>`;
+                    }
+                    html += `</div>`;
+                } else if (!missionSubmitted) {
+                    const cur = playerEntries[t.id] || {};
+                    // Get unique accounts for select options
+                    const accountOptions = allAccounts.map(a => 
+                        `<option value="${a}" ${cur.debit===a?'selected':''}>${a}</option>`
+                    ).join('');
+                    
+                    html += `
+                        <div style="flex:1;">
+                            <div class="entry-form">
+                                <div><div class="entry-label">Debit Account</div>
+                                    <select onchange="updateEntry(${t.id},this)">
+                                        <option value="">Select</option>
+                                        ${accountOptions}
+                                    </select>
+                                </div>
+                                <div><div class="entry-label">Credit Account</div>
+                                    <select onchange="updateEntry(${t.id},this)">
+                                        <option value="">Select</option>
+                                        ${accountOptions}
+                                    </select>
+                                </div>
+                                <div><div class="entry-label">Amount</div>
+                                    <input type="number" value="${cur.amount||''}" onchange="updateEntry(${t.id},this)" style="width:100%">
+                                </div>
+                                <div style="display:flex;align-items:flex-end;">
+                                    <button onclick="saveEntry(${t.id})">${isEditing ? 'Save Changes' : 'Record'}</button>
+                                </div>
+                            </div>
+                        </div>`;
+                }
+                div.innerHTML = html;
                 container.appendChild(div);
             });
         }
-        
-        function updateEntry(id, type, value) {
+
+        function updateEntry(id, el) {
             if (!playerEntries[id]) playerEntries[id] = {};
-            playerEntries[id][type] = value;
+            if (el.tagName === "SELECT") {
+                const isDebit = el.parentElement.querySelector('.entry-label')?.textContent.includes("Debit");
+                playerEntries[id][isDebit ? 'debit' : 'credit'] = el.value;
+            } else {
+                playerEntries[id].amount = parseFloat(el.value);
+            }
         }
-        
-        function recordEntry(id) {
-            const entry = playerEntries[id];
-            if (!entry || !entry.debit || !entry.credit || !entry.amount) {
-                showFeedback("Please fill all fields!", "danger");
+
+        function saveEntry(id) {
+            if (missionSubmitted) return;
+            const e = playerEntries[id];
+            if (!e || !e.debit || !e.credit || !Number.isFinite(e.amount)) return showFeedback("Please fill all fields!", "danger");
+            if (e.amount <= 0) return showFeedback("Amount must be > 0", "danger");
+            
+            const trans = transactions.find(t => t.id === id);
+            const isCorrect = e.debit === trans.correctDebit && e.credit === trans.correctCredit && e.amount === trans.amount;
+            
+            if (!isCorrect) {
+                incorrectAttempts++;
+                if (!mistakes[id]) mistakes[id] = 0;
+                mistakes[id]++;
+                showFeedback(`⚠️ That's not quite right. Try again!`, "danger");
+                const container = document.getElementById('transactions-list');
+                container.classList.add('error-highlight');
+                setTimeout(() => container.classList.remove('error-highlight'), 500);
                 return;
             }
             
-            const trans = transactions.find(t => t.id === id);
-            
-            journal = journal.filter(j => j.id !== id); // remove old
-            journal.push({
-                id: id,
-                desc: trans.desc,
-                debit: entry.debit,
-                credit: entry.credit,
-                amount: parseFloat(entry.amount)
-            });
-            
+            journal = journal.filter(j => j.id !== id);
+            journal.push({id, desc: trans.desc, debit: e.debit, credit: e.credit, amount: e.amount});
+            editingId = null;
+            renderTransactions();
             renderJournal();
-            showFeedback("✅ Entry recorded!", "success");
+            updateJournalBalance();
+            showFeedback("✅ Entry saved! Great job!", "success");
         }
-        
+
+        function startEdit(id) {
+            if (missionSubmitted) return;
+            const rec = journal.find(j => j.id === id);
+            if (rec) {
+                playerEntries[id] = {debit: rec.debit, credit: rec.credit, amount: rec.amount};
+                editingId = id;
+                renderTransactions();
+            }
+        }
+
         function renderJournal() {
             const tbody = document.getElementById('journal-body');
             tbody.innerHTML = '';
-            
+            if (journal.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="padding:20px;text-align:center;color:#94a3b8;">No entries recorded yet</td></tr>`;
+                return;
+            }
             journal.forEach(j => {
                 const row = document.createElement('tr');
                 row.style.borderBottom = "1px solid #334155";
                 row.innerHTML = `
                     <td style="padding:12px;">${j.desc}</td>
-                    <td style="padding:12px; color:#4ade80; text-align:center;">${j.debit}</td>
-                    <td style="padding:12px; color:#f87171; text-align:center;">${j.credit}</td>
-                    <td style="padding:12px; text-align:right;">$${j.amount}</td>
+                    <td style="padding:12px;color:#4ade80;text-align:center;">${j.debit}</td>
+                    <td style="padding:12px;color:#f87171;text-align:center;">${j.credit}</td>
+                    <td style="padding:12px;text-align:right;">$${j.amount}</td>
                 `;
                 tbody.appendChild(row);
             });
         }
-        
-        function submitMission() {
-            if (journal.length !== transactions.length) {
-                showFeedback("You haven't recorded all transactions!", "danger");
+
+        function updateJournalBalance() {
+            const container = document.getElementById('journal-balance');
+            if (!container) return;
+            
+            if (journal.length === 0) {
+                container.innerHTML = `<div class="balance-display" style="border-color:#475569;">
+                    <span style="color:#94a3b8;">No entries yet — start recording transactions above</span>
+                </div>`;
                 return;
             }
+
+            let totalDebits = 0;
+            let totalCredits = 0;
             
-            let correct = 0;
-            journal.forEach(j => {
-                const trans = transactions.find(t => t.id === j.id);
-                if (trans && 
-                    j.debit === trans.correctDebit && 
-                    j.credit === trans.correctCredit && 
-                    j.amount === trans.amount) {
-                    correct++;
-                }
+            journal.forEach(entry => {
+                totalDebits += entry.amount;
+                totalCredits += entry.amount;
             });
             
-            const score = Math.round((correct / journal.length) * 100);
-            const earnedCoins = Math.floor(120 * (score / 100));
+            const isBalanced = totalDebits === totalCredits;
             
-            coins += earnedCoins;
-            document.getElementById('coins').textContent = coins;
-            
-            if (score === 100) {
-                showModal("🌟 PERFECT DAY!", `All entries correct! +${earnedCoins} Ledger Coins`, "success");
-                health = Math.min(100, health + 5);
-            } else if (score >= 75) {
-                showModal("Great Job! 👍", `You earned ${earnedCoins} coins. Keep practicing!`, "success");
-            } else {
-                showModal("Nice Try", `You got ${correct}/${journal.length} correct. +${earnedCoins} coins`, "normal");
+            container.innerHTML = `
+                <div class="balance-display" style="border-color:#475569;">
+                    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+                        <span>Total Debits: <strong style="color:#4ade80;">$${totalDebits.toFixed(2)}</strong></span>
+                        <span>Total Credits: <strong style="color:#f87171;">$${totalCredits.toFixed(2)}</strong></span>
+                        ${!isBalanced ? '<span style="color:#f87171;font-weight:bold;">❌ NOT BALANCED</span>' : '<span style="color:#4ade80;font-weight:bold;">✅ BALANCED</span>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        function submitMission() {
+            if (journal.length !== transactions.length) {
+                return showFeedback(`Record all ${transactions.length} transactions first!`, "danger");
             }
             
-            document.getElementById('health').textContent = health;
-        }
-        
-        // Render T-Accounts
-        function renderLedger() {
-            const container = document.getElementById('t-accounts');
-            container.innerHTML = '';
-            
-            const accountBalances = {};
-            
+            let totalDebits = 0;
+            let totalCredits = 0;
             journal.forEach(j => {
-                if (!accountBalances[j.debit]) accountBalances[j.debit] = 0;
-                if (!accountBalances[j.credit]) accountBalances[j.credit] = 0;
-                
-                accountBalances[j.debit] += j.amount;
-                accountBalances[j.credit] -= j.amount;
+                totalDebits += j.amount;
+                totalCredits += j.amount;
             });
             
-            Object.keys(accountBalances).forEach(acc => {
-                const bal = accountBalances[acc];
+            if (totalDebits !== totalCredits) {
+                return showFeedback("Journal must balance! Debits ≠ Credits", "danger");
+            }
+            
+            missionSubmitted = true;
+            lastMissionJournal = [...journal];
+
+            const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+            let correct = 0;
+            journal.forEach(j => {
+                const t = transactions.find(tr => tr.id === j.id);
+                if (t && j.debit === t.correctDebit && j.credit === t.correctCredit && j.amount === t.amount) correct++;
+            });
+            const score = Math.round((correct / journal.length) * 100);
+            
+            const penalty = Math.min(incorrectAttempts * 2, 20);
+            const finalScore = Math.max(0, score - penalty);
+            const earned = Math.floor(120 * (finalScore / 100));
+            
+            coins += earned;
+            document.getElementById('coins').textContent = coins;
+            document.getElementById('home-coins').textContent = coins + " 🪙";
+
+            renderResults(timeTaken, score, finalScore, earned);
+            showScreen('results');
+            
+            const message = finalScore === 100 ? "🌟 PERFECT DAY!" : 
+                           finalScore >= 80 ? "👍 Good job!" : 
+                           finalScore >= 60 ? "📚 Keep learning!" : "💪 Practice makes perfect!";
+            
+            showModal(message, `
+                <div style="text-align:left; margin-top:10px;">
+                    <div>Raw Score: ${score}%</div>
+                    <div>Penalty: ${penalty}% (${incorrectAttempts} incorrect attempts)</div>
+                    <div>Final Score: ${finalScore}%</div>
+                    <div>Earned: ${earned} 🪙</div>
+                    <div style="margin-top:10px; color:#94a3b8; font-size:14px;">
+                        ${incorrectAttempts > 0 ? '💡 Learning from mistakes is the best way to improve!' : '🎯 Perfect! No mistakes made!'}
+                    </div>
+                </div>
+            `);
+        }
+
+        function renderResults(timeTaken, score, finalScore, earned) {
+            const container = document.getElementById('results-list');
+            container.innerHTML = '';
+            
+            if (Object.keys(mistakes).length > 0) {
+                const summary = document.createElement('div');
+                summary.style.cssText = 'background:#1e2937;padding:16px;border-radius:12px;margin-bottom:16px;border-left:5px solid var(--accent);';
+                summary.innerHTML = `
+                    <h3 style="color:var(--accent);">📝 Mistakes Made</h3>
+                    <div style="margin-top:10px;">
+                        ${Object.entries(mistakes).map(([id, count]) => {
+                            const t = transactions.find(tr => tr.id === parseInt(id));
+                            return `<div style="padding:8px 0;border-bottom:1px solid #334155;">
+                                <strong>Transaction ${id}:</strong> ${t.desc}<br>
+                                <span style="color:#f87171;">Attempted ${count} time${count > 1 ? 's' : ''} incorrectly</span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                `;
+                container.appendChild(summary);
+            }
+            
+            transactions.forEach(t => {
+                const recorded = journal.find(j => j.id === t.id);
+                const isCorrect = recorded && recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === t.amount;
+                const html = `
+                    <div class="transaction" style="border-left-color: ${isCorrect ? 'var(--success)' : 'var(--danger)'};">
+                        <div style="flex:1;">
+                            <strong>Transaction ${t.id}:</strong><br>${t.desc}
+                            <div class="correct-answer" style="margin-top:10px;color:${isCorrect?'#4ade80':'#f87171'}">
+                                <strong>${isCorrect ? '✅ Correct' : '❌ Wrong'}</strong><br>
+                                Your: Dr ${recorded ? recorded.debit : '—'} / Cr ${recorded ? recorded.credit : '—'}<br>
+                                Correct: Dr ${t.correctDebit} / Cr ${t.correctCredit}
+                            </div>
+                        </div>
+                        <button class="explain-btn" onclick="showExplanation(${t.id}, ${isCorrect})">📖 Explanation</button>
+                    </div>`;
                 const div = document.createElement('div');
-                div.className = 't-account';
+                div.innerHTML = html;
+                container.appendChild(div.firstElementChild);
+            });
+            
+            const statsDiv = document.createElement('div');
+            statsDiv.style.cssText = 'background:#1e2937;padding:16px;border-radius:12px;margin-top:16px;text-align:center;';
+            statsDiv.innerHTML = `
+                <h3>📊 Learning Stats</h3>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:10px;">
+                    <div style="background:#0f172a;padding:12px;border-radius:8px;">
+                        <div style="color:#94a3b8;font-size:14px;">Time</div>
+                        <div style="font-size:20px;font-weight:bold;">${timeTaken}s</div>
+                    </div>
+                    <div style="background:#0f172a;padding:12px;border-radius:8px;">
+                        <div style="color:#94a3b8;font-size:14px;">Incorrect Attempts</div>
+                        <div style="font-size:20px;font-weight:bold;color:#f87171;">${incorrectAttempts}</div>
+                    </div>
+                    <div style="background:#0f172a;padding:12px;border-radius:8px;">
+                        <div style="color:#94a3b8;font-size:14px;">Coins Earned</div>
+                        <div style="font-size:20px;font-weight:bold;color:#f1c40f;">${earned} 🪙</div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(statsDiv);
+        }
+
+        function retryMission() {
+            missionSubmitted = false;
+            document.getElementById('setup-card').style.display = 'none';
+            document.getElementById('mission-content').style.display = 'block';
+            resetMission();
+            showScreen('mission');
+            showFeedback("🔄 Mission reset! Try again!", "success");
+        }
+
+        function viewLedgerFromResults() {
+            showScreen('ledger');
+            renderTAccounts();
+        }
+
+        function renderTAccounts() {
+            const container = document.getElementById('t-accounts');
+            container.innerHTML = '';
+            document.getElementById('ledger-mission-info').textContent = `Mission • June ${selectedDate} • ${currentDifficulty ? currentDifficulty.toUpperCase() : ''}`;
+
+            const balances = {};
+            lastMissionJournal.forEach(entry => {
+                if (!balances[entry.debit]) balances[entry.debit] = 0;
+                if (!balances[entry.credit]) balances[entry.credit] = 0;
+                balances[entry.debit] += entry.amount;
+                balances[entry.credit] -= entry.amount;
+            });
+
+            const allAccounts = new Set();
+            lastMissionJournal.forEach(entry => {
+                allAccounts.add(entry.debit);
+                allAccounts.add(entry.credit);
+            });
+
+            allAccounts.forEach(acc => {
+                if (!balances[acc]) balances[acc] = 0;
+            });
+
+            const sortedAccounts = Object.keys(balances).sort((a, b) => {
+                const balA = balances[a];
+                const balB = balances[b];
+                if (balA > 0 && balB <= 0) return -1;
+                if (balA <= 0 && balB > 0) return 1;
+                return 0;
+            });
+
+            sortedAccounts.forEach(acc => {
+                const bal = balances[acc];
+                const isBalanced = bal === 0;
+                const div = document.createElement('div');
+                div.className = `t-account ${isBalanced ? 'balanced' : 'unbalanced'}`;
+                
+                const hasDebitBalance = bal > 0;
+                const hasCreditBalance = bal < 0;
+                
                 div.innerHTML = `
-                    <div class="t-header">${acc}</div>
-                    <div style="display:flex; justify-content:space-between; font-size:15px; margin:8px 0;">
-                        <span>Debit</span><span style="color:#4ade80;">+$${bal > 0 ? bal : 0}</span>
+                    <h3 style="display:flex;justify-content:space-between;align-items:center;">
+                        <span>${acc}</span>
+                        <span class="balance-badge ${isBalanced ? 'balanced' : 'unbalanced'}">
+                            ${isBalanced ? '⚖️ Balanced' : hasDebitBalance ? '🔴 Debit Balance' : '🔵 Credit Balance'}
+                        </span>
+                    </h3>
+                    <div style="display:flex;justify-content:space-between;margin-top:8px;">
+                        <span>Debit: <strong style="color:#4ade80;">$${bal > 0 ? bal.toFixed(2) : '0.00'}</strong></span>
+                        <span>Credit: <strong style="color:#f87171;">$${bal < 0 ? Math.abs(bal).toFixed(2) : '0.00'}</strong></span>
                     </div>
-                    <div style="display:flex; justify-content:space-between; font-size:15px;">
-                        <span>Credit</span><span style="color:#f87171;">-$${bal < 0 ? Math.abs(bal) : 0}</span>
+                    <div style="margin-top:8px; font-size:14px; color:#94a3b8;">
+                        ${isBalanced ? '✅ Account is in balance' : hasDebitBalance ? '⚠️ Account has a debit balance' : '⚠️ Account has a credit balance'}
                     </div>
-                    <div class="balance">${bal >= 0 ? 'Debit Bal' : 'Credit Bal'} $${Math.abs(bal)}</div>
                 `;
                 container.appendChild(div);
             });
+
+            if (sortedAccounts.length === 0) {
+                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:40px;">No transactions recorded yet</div>`;
+            }
         }
-        
-        // Shop Items
-        const shopItems = [
-            {name: "Golden ATM", price: 80, emoji: "🏧"},
-            {name: "Audit Avenger Cape", price: 120, emoji: "🦸"},
-            {name: "Lucky Owl Desk Pet", price: 65, emoji: "🦉"},
-            {name: "Neon Bank Sign", price: 95, emoji: "✨"},
-            {name: "Error Shield", price: 150, emoji: "🛡️"},
-            {name: "Chill Ka-ching Music", price: 45, emoji: "🎵"}
-        ];
-        
+
+        function showTips() { document.getElementById('tips-modal').style.display = 'flex'; }
+        function closeTipsModal() { document.getElementById('tips-modal').style.display = 'none'; }
+        function showExplanation(id, wasCorrect) {
+            const t = transactions.find(tr => tr.id === id);
+            document.getElementById('explain-title').textContent = `Transaction ${id} - ${wasCorrect ? '✅ Correct' : '❌ Wrong'}`;
+            document.getElementById('explain-body').innerHTML = t.explanation;
+            document.getElementById('explain-modal').style.display = 'flex';
+        }
+        function closeExplainModal() { document.getElementById('explain-modal').style.display = 'none'; }
+
+        function showModal(title, text) {
+            document.getElementById('modal-title').innerHTML = title;
+            document.getElementById('modal-text').innerHTML = text;
+            document.getElementById('modal').style.display = 'flex';
+        }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
         function renderShop() {
-            const grid = document.getElementById('shop-grid');
-            grid.innerHTML = '';
-            
+            const container = document.getElementById('shop-items');
+            container.innerHTML = '';
             shopItems.forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'item';
+                div.className = 'shop-item';
+                div.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:16px;background:#1e2937;border-radius:12px;margin-bottom:12px;border:1px solid #334155;';
                 div.innerHTML = `
-                    <div style="height:140px; background:#334155; display:flex; align-items:center; justify-content:center; font-size:60px;">${item.emoji}</div>
-                    <div style="padding:15px;">
-                        <strong>${item.name}</strong>
-                        <div style="margin:8px 0; color:#f1c40f;">${item.price} 🪙</div>
-                        <button onclick="buyItem(${item.price}, '${item.name}')" style="width:100%;">Buy</button>
-                    </div>
-                `;
-                grid.appendChild(div);
+                    <div><strong>${item.emoji} ${item.name}</strong><br><small style="color:#94a3b8;">${item.desc}</small></div>
+                    <div style="text-align:right;">
+                        <strong>${item.price} 🪙</strong><br>
+                        <button onclick="buyItem(${item.id})">Buy</button>
+                    </div>`;
+                container.appendChild(div);
             });
         }
-        
-        function buyItem(price, name) {
-            if (coins >= price) {
-                coins -= price;
-                document.getElementById('coins').textContent = coins;
-                showFeedback(`🎉 Purchased ${name}!`, "success");
-            } else {
-                showFeedback("Not enough Ledger Coins!", "danger");
-            }
+
+        function buyItem(id) {
+            const item = shopItems.find(i => i.id === id);
+            if (!item || coins < item.price) return showFeedback("Not enough coins!", "danger");
+            coins -= item.price;
+            document.getElementById('coins').textContent = coins;
+            document.getElementById('home-coins').textContent = coins + " 🪙";
+            showFeedback(`✅ Purchased ${item.name}!`, "success");
         }
-        
+
         function showScreen(screen) {
+            document.querySelectorAll('#game-area > div').forEach(div => div.style.display = 'none');
+            document.getElementById(screen + '-screen').style.display = 'block';
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById('mission-screen').style.display = 'none';
-            document.getElementById('ledger-screen').style.display = 'none';
-            document.getElementById('shop-screen').style.display = 'none';
-            document.getElementById('stats-screen').style.display = 'none';
-            
-            if (screen === 'mission') {
-                document.getElementById('mission-screen').style.display = 'block';
-                document.querySelectorAll('.nav-btn')[0].classList.add('active');
-            } else if (screen === 'ledger') {
-                document.getElementById('ledger-screen').style.display = 'block';
-                document.querySelectorAll('.nav-btn')[1].classList.add('active');
-                renderLedger();
-            } else if (screen === 'shop') {
-                document.getElementById('shop-screen').style.display = 'block';
-                document.querySelectorAll('.nav-btn')[2].classList.add('active');
-            } else if (screen === 'stats') {
-                document.getElementById('stats-screen').style.display = 'block';
-                document.querySelectorAll('.nav-btn')[3].classList.add('active');
-            }
+            const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => btn.getAttribute('onclick').includes(`'${screen}'`));
+            if (activeBtn) activeBtn.classList.add('active');
+            if (screen === 'shop') renderShop();
+            if (screen === 'stats') renderStats();
+            if (screen === 'ledger') renderTAccounts();
         }
-        
+
+        function renderStats() {
+            const container = document.getElementById('stats-content');
+            container.innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:20px;">
+                    <div style="background:#1e2937;padding:20px;border-radius:12px;text-align:center;">
+                        <div style="color:#94a3b8;font-size:14px;">Total Coins</div>
+                        <div style="font-size:28px;font-weight:bold;color:#f1c40f;">${coins} 🪙</div>
+                    </div>
+                    <div style="background:#1e2937;padding:20px;border-radius:12px;text-align:center;">
+                        <div style="color:#94a3b8;font-size:14px;">Current Level</div>
+                        <div style="font-size:28px;font-weight:bold;color:var(--accent);">${Math.floor(coins / 100) + 1}</div>
+                    </div>
+                    <div style="background:#1e2937;padding:20px;border-radius:12px;text-align:center;">
+                        <div style="color:#94a3b8;font-size:14px;">Missions Completed</div>
+                        <div style="font-size:28px;font-weight:bold;color:#60a5fa;">${Math.floor(coins / 50)}</div>
+                    </div>
+                </div>
+                <div style="margin-top:20px;padding:20px;background:#1e2937;border-radius:12px;">
+                    <h3 style="margin-bottom:10px;">💡 Learning Tips</h3>
+                    <ul style="list-style:none;text-align:left;line-height:2;">
+                        <li>📝 Remember: Debits go on the LEFT, Credits on the RIGHT</li>
+                        <li>💰 Assets increase with DEBIT, decrease with CREDIT</li>
+                        <li>🏦 Liabilities increase with CREDIT, decrease with DEBIT</li>
+                        <li>📊 Always check that total Debits = total Credits</li>
+                        <li>🔄 Don't be afraid to make mistakes - that's how we learn!</li>
+                    </ul>
+                </div>
+            `;
+        }
+
         function showFeedback(text, type) {
             const fb = document.getElementById('feedback');
             fb.textContent = text;
             fb.style.display = 'block';
             fb.style.background = type === 'success' ? '#10b981' : '#ef4444';
-            
-            setTimeout(() => {
-                fb.style.display = 'none';
-            }, 2500);
+            setTimeout(() => fb.style.display = 'none', 2500);
         }
-        
-        function showModal(title, text, type) {
-            document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-text').innerHTML = text;
-            document.getElementById('modal').style.display = 'flex';
-        }
-        
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-            // Reset for next mission
-            if (Math.random() > 0.6) {
-                journal = [];
-                playerEntries = {};
-                renderJournal();
-                renderTransactions();
-            }
-        }
-        
-        // Initialize
+
         function initGame() {
-            renderTransactions();
-            renderShop();
-            renderJournal();
-            showScreen('mission');
-            
-            // Demo data in journal
-            setTimeout(() => {
-                journal = [
-                    {id:1, desc: transactions[0].desc, debit:"Cash", credit:"Customer Deposits", amount:800}
-                ];
-                renderJournal();
-            }, 800);
+            generateCalendar();
+            document.getElementById('home-coins').textContent = coins + " 🪙";
+            showScreen('home');
         }
-        
+
         window.onload = initGame;
     </script>
 </body>
