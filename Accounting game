@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Ledger Legends</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Press+Start+2P&display=swap');
+        
+        :root {
+            --primary: #4a90e2;
+            --accent: #f39c12;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e2937);
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--primary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        
+        .logo {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 24px;
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent);
+        }
+        
+        .stats {
+            display: flex;
+            gap: 25px;
+            font-size: 18px;
+        }
+        
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .coin {
+            color: #f1c40f;
+            font-size: 22px;
+        }
+        
+        .main {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+        
+        .sidebar {
+            width: 220px;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 20px;
+            border-right: 3px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            padding: 14px 20px;
+            background: #334155;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            transform: translateX(8px);
+        }
+        
+        .game-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        .card {
+            background: rgba(30, 41, 59, 0.95);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            margin-bottom: 25px;
+        }
+        
+        .mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        h1, h2 {
+            color: #60a5fa;
+        }
+        
+        .transaction {
+            background: #1e2937;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 6px solid var(--accent);
+        }
+        
+        .entry-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 120px 80px;
+            gap: 10px;
+            margin: 15px 0;
+            align-items: center;
+        }
+        
+        select, input {
+            padding: 10px;
+            border-radius: 6px;
+            border: 2px solid #475569;
+            background: #0f172a;
+            color: white;
+        }
+        
+        button {
+            padding: 10px 18px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            background: #60a5fa;
+        }
+        
+        .success { background: var(--success); }
+        .danger { background: var(--danger); }
+        
+        .ledger {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .t-account {
+            background: #1e2937;
+            padding: 15px;
+            border-radius: 12px;
+        }
+        
+        .t-header {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #64748b;
+        }
+        
+        .balance {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+            color: #a5f3fc;
+        }
+        
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        
+        .item {
+            background: #1e2937;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .item:hover {
+            transform: scale(1.05);
+        }
+        
+        .item img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: #1e2937;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .customer {
+            font-size: 48px;
+            margin-bottom: 10px;
+            animation: bounce 1s infinite alternate;
+        }
+        
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+        
+        .feedback {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            display: none;
+            z-index: 2000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🏦 BANK LEDGER LEGENDS</div>
+        <div class="stats">
+            <div class="stat">Level <span id="level">1</span></div>
+            <div class="stat"><span class="coin">🪙</span> <span id="coins">250</span></div>
+            <div class="stat">Bank Health <span id="health">100</span>%</div>
+        </div>
+    </div>
+    
+    <div class="main">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <button class="nav-btn active" onclick="showScreen('mission')">📋 Mission</button>
+            <button class="nav-btn" onclick="showScreen('ledger')">📒 Ledger</button>
+            <button class="nav-btn" onclick="showScreen('shop')">🛒 Shop</button>
+            <button class="nav-btn" onclick="showScreen('stats')">📊 Progress</button>
+            
+            <div style="margin-top: auto; padding-top: 30px; border-top: 2px solid #475569;">
+                <div style="font-size: 14px; opacity: 0.8;">Future Finance Bank</div>
+                <div style="font-size: 13px; margin-top: 5px;">Manager: Alex Chen</div>
+            </div>
+        </div>
+        
+        <!-- Game Area -->
+        <div class="game-area" id="game-area">
+            
+            <!-- MISSION SCREEN -->
+            <div id="mission-screen">
+                <div class="card">
+                    <div class="mission-header">
+                        <div>
+                            <h1>Today's Mission: Payday Rush 🏦</h1>
+                            <p style="color: #94a3b8;">Process these 4 customer transactions correctly!</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 18px;">Reward: <strong style="color:#f1c40f">120 🪙</strong></div>
+                            <button onclick="submitMission()" style="margin-top:10px;">Submit All Entries</button>
+                        </div>
+                    </div>
+                    
+                    <div id="transactions-list"></div>
+                </div>
+                
+                <div class="card">
+                    <h2>Current Journal</h2>
+                    <table style="width:100%; border-collapse: collapse; margin-top:15px;" id="journal-table">
+                        <thead>
+                            <tr style="background:#334155;">
+                                <th style="padding:10px; text-align:left;">Transaction</th>
+                                <th style="padding:10px;">Debit Account</th>
+                                <th style="padding:10px;">Credit Account</th>
+                                <th style="padding:10px;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="journal-body"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- LEDGER SCREEN -->
+            <div id="ledger-screen" style="display:none;">
+                <div class="card">
+                    <h2>Live T-Accounts</h2>
+                    <div class="ledger" id="t-accounts"></div>
+                </div>
+            </div>
+            
+            <!-- SHOP SCREEN -->
+            <div id="shop-screen" style="display:none;">
+                <div class="card">
+                    <h2>Bank Customization Shop</h2>
+                    <p>Spend your Ledger Coins on upgrades and fun items!</p>
+                    <div class="shop-grid" id="shop-grid"></div>
+                </div>
+            </div>
+            
+            <!-- STATS SCREEN -->
+            <div id="stats-screen" style="display:none;">
+                <div class="card">
+                    <h2>Your Bank Progress</h2>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-top:30px;">
+                        <div>
+                            <h3>Stats</h3>
+                            <ul style="line-height:2.2; font-size:18px;">
+                                <li>✅ Perfect Missions: <strong>3</strong></li>
+                                <li>📈 Total Transactions: <strong>42</strong></li>
+                                <li>🏆 Highest Balance: <strong>$18,450</strong></li>
+                                <li>🔥 Current Streak: <strong>5 days</strong></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>Bank Statement Snapshot</h3>
+                            <div style="background:#0f172a; padding:20px; border-radius:12px; margin-top:15px;">
+                                <div style="display:flex; justify-content:space-between; margin:10px 0;">
+                                    <span>Assets</span><span style="color:#4ade80;">$24,850</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; margin:10px 0;">
+                                    <span>Liabilities</span><span style="color:#f87171;">$18,200</span>
+                                </div>
+                                <div style="border-top:2px solid #475569; padding-top:10px; display:flex; justify-content:space-between; font-weight:bold;">
+                                    <span>Equity</span><span style="color:#60a5fa;">$6,650</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Feedback Toast -->
+    <div id="feedback" class="feedback"></div>
+    
+    <!-- Completion Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div id="modal-emoji" style="font-size:80px;">🎉</div>
+            <h2 id="modal-title">Mission Complete!</h2>
+            <p id="modal-text"></p>
+            <button onclick="closeModal()" style="margin-top:20px; padding:12px 40px; font-size:18px;">Continue</button>
+        </div>
+    </div>
+    
+    <script>
+        // Game State
+        let coins = 250;
+        let level = 1;
+        let health = 100;
+        let journal = [];
+        
+        // Sample Accounts
+        const accounts = [
+            "Cash", "Customer Deposits", "Loans Receivable", "Salary Expense",
+            "Equipment", "Bank Capital", "Interest Revenue"
+        ];
+        
+        // Sample Transactions for Mission
+        let transactions = [
+            {
+                id: 1,
+                desc: "Customer deposits $800 cash into savings account",
+                correctDebit: "Cash",
+                correctCredit: "Customer Deposits",
+                amount: 800
+            },
+            {
+                id: 2,
+                desc: "Issued a $2,000 personal loan to Mr. Wong",
+                correctDebit: "Loans Receivable",
+                correctCredit: "Cash",
+                amount: 2000
+            },
+            {
+                id: 3,
+                desc: "Bank paid staff salaries of $1,200",
+                correctDebit: "Salary Expense",
+                correctCredit: "Cash",
+                amount: 1200
+            },
+            {
+                id: 4,
+                desc: "Customer repaid $500 of their loan",
+                correctDebit: "Cash",
+                correctCredit: "Loans Receivable",
+                amount: 500
+            }
+        ];
+        
+        let playerEntries = {};
+        
+        // Render Transactions
+        function renderTransactions() {
+            const container = document.getElementById('transactions-list');
+            container.innerHTML = '';
+            
+            transactions.forEach(t => {
+                const div = document.createElement('div');
+                div.className = 'transaction';
+                div.innerHTML = `
+                    <div style="flex:1;">
+                        <strong>Transaction ${t.id}:</strong><br>
+                        <span style="font-size:15px;">${t.desc}</span>
+                    </div>
+                    <div style="min-width:280px;">
+                        <div class="entry-form">
+                            <select onchange="updateEntry(${t.id}, 'debit', this.value)">
+                                <option value="">Debit Account</option>
+                                ${accounts.map(acc => `<option value="${acc}">${acc}</option>`).join('')}
+                            </select>
+                            <select onchange="updateEntry(${t.id}, 'credit', this.value)">
+                                <option value="">Credit Account</option>
+                                ${accounts.map(acc => `<option value="${acc}">${acc}</option>`).join('')}
+                            </select>
+                            <input type="number" value="${t.amount}" onchange="updateEntry(${t.id}, 'amount', this.value)" style="width:100%;">
+                            <button onclick="recordEntry(${t.id})">Record</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        function updateEntry(id, type, value) {
+            if (!playerEntries[id]) playerEntries[id] = {};
+            playerEntries[id][type] = value;
+        }
+        
+        function recordEntry(id) {
+            const entry = playerEntries[id];
+            if (!entry || !entry.debit || !entry.credit || !entry.amount) {
+                showFeedback("Please fill all fields!", "danger");
+                return;
+            }
+            
+            const trans = transactions.find(t => t.id === id);
+            
+            journal = journal.filter(j => j.id !== id); // remove old
+            journal.push({
+                id: id,
+                desc: trans.desc,
+                debit: entry.debit,
+                credit: entry.credit,
+                amount: parseFloat(entry.amount)
+            });
+            
+            renderJournal();
+            showFeedback("✅ Entry recorded!", "success");
+        }
+        
+        function renderJournal() {
+            const tbody = document.getElementById('journal-body');
+            tbody.innerHTML = '';
+            
+            journal.forEach(j => {
+                const row = document.createElement('tr');
+                row.style.borderBottom = "1px solid #334155";
+                row.innerHTML = `
+                    <td style="padding:12px;">${j.desc}</td>
+                    <td style="padding:12px; color:#4ade80; text-align:center;">${j.debit}</td>
+                    <td style="padding:12px; color:#f87171; text-align:center;">${j.credit}</td>
+                    <td style="padding:12px; text-align:right;">$${j.amount}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        function submitMission() {
+            if (journal.length !== transactions.length) {
+                showFeedback("You haven't recorded all transactions!", "danger");
+                return;
+            }
+            
+            let correct = 0;
+            journal.forEach(j => {
+                const trans = transactions.find(t => t.id === j.id);
+                if (trans && 
+                    j.debit === trans.correctDebit && 
+                    j.credit === trans.correctCredit && 
+                    j.amount === trans.amount) {
+                    correct++;
+                }
+            });
+            
+            const score = Math.round((correct / journal.length) * 100);
+            const earnedCoins = Math.floor(120 * (score / 100));
+            
+            coins += earnedCoins;
+            document.getElementById('coins').textContent = coins;
+            
+            if (score === 100) {
+                showModal("🌟 PERFECT DAY!", `All entries correct! +${earnedCoins} Ledger Coins`, "success");
+                health = Math.min(100, health + 5);
+            } else if (score >= 75) {
+                showModal("Great Job! 👍", `You earned ${earnedCoins} coins. Keep practicing!`, "success");
+            } else {
+                showModal("Nice Try", `You got ${correct}/${journal.length} correct. +${earnedCoins} coins`, "normal");
+            }
+            
+            document.getElementById('health').textContent = health;
+        }
+        
+        // Render T-Accounts
+        function renderLedger() {
+            const container = document.getElementById('t-accounts');
+            container.innerHTML = '';
+            
+            const accountBalances = {};
+            
+            journal.forEach(j => {
+                if (!accountBalances[j.debit]) accountBalances[j.debit] = 0;
+                if (!accountBalances[j.credit]) accountBalances[j.credit] = 0;
+                
+                accountBalances[j.debit] += j.amount;
+                accountBalances[j.credit] -= j.amount;
+            });
+            
+            Object.keys(accountBalances).forEach(acc => {
+                const bal = accountBalances[acc];
+                const div = document.createElement('div');
+                div.className = 't-account';
+                div.innerHTML = `
+                    <div class="t-header">${acc}</div>
+                    <div style="display:flex; justify-content:space-between; font-size:15px; margin:8px 0;">
+                        <span>Debit</span><span style="color:#4ade80;">+$${bal > 0 ? bal : 0}</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:15px;">
+                        <span>Credit</span><span style="color:#f87171;">-$${bal < 0 ? Math.abs(bal) : 0}</span>
+                    </div>
+                    <div class="balance">${bal >= 0 ? 'Debit Bal' : 'Credit Bal'} $${Math.abs(bal)}</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        // Shop Items
+        const shopItems = [
+            {name: "Golden ATM", price: 80, emoji: "🏧"},
+            {name: "Audit Avenger Cape", price: 120, emoji: "🦸"},
+            {name: "Lucky Owl Desk Pet", price: 65, emoji: "🦉"},
+            {name: "Neon Bank Sign", price: 95, emoji: "✨"},
+            {name: "Error Shield", price: 150, emoji: "🛡️"},
+            {name: "Chill Ka-ching Music", price: 45, emoji: "🎵"}
+        ];
+        
+        function renderShop() {
+            const grid = document.getElementById('shop-grid');
+            grid.innerHTML = '';
+            
+            shopItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.innerHTML = `
+                    <div style="height:140px; background:#334155; display:flex; align-items:center; justify-content:center; font-size:60px;">${item.emoji}</div>
+                    <div style="padding:15px;">
+                        <strong>${item.name}</strong>
+                        <div style="margin:8px 0; color:#f1c40f;">${item.price} 🪙</div>
+                        <button onclick="buyItem(${item.price}, '${item.name}')" style="width:100%;">Buy</button>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+        
+        function buyItem(price, name) {
+            if (coins >= price) {
+                coins -= price;
+                document.getElementById('coins').textContent = coins;
+                showFeedback(`🎉 Purchased ${name}!`, "success");
+            } else {
+                showFeedback("Not enough Ledger Coins!", "danger");
+            }
+        }
+        
+        function showScreen(screen) {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById('mission-screen').style.display = 'none';
+            document.getElementById('ledger-screen').style.display = 'none';
+            document.getElementById('shop-screen').style.display = 'none';
+            document.getElementById('stats-screen').style.display = 'none';
+            
+            if (screen === 'mission') {
+                document.getElementById('mission-screen').style.display = 'block';
+                document.querySelectorAll('.nav-btn')[0].classList.add('active');
+            } else if (screen === 'ledger') {
+                document.getElementById('ledger-screen').style.display = 'block';
+                document.querySelectorAll('.nav-btn')[1].classList.add('active');
+                renderLedger();
+            } else if (screen === 'shop') {
+                document.getElementById('shop-screen').style.display = 'block';
+                document.querySelectorAll('.nav-btn')[2].classList.add('active');
+            } else if (screen === 'stats') {
+                document.getElementById('stats-screen').style.display = 'block';
+                document.querySelectorAll('.nav-btn')[3].classList.add('active');
+            }
+        }
+        
+        function showFeedback(text, type) {
+            const fb = document.getElementById('feedback');
+            fb.textContent = text;
+            fb.style.display = 'block';
+            fb.style.background = type === 'success' ? '#10b981' : '#ef4444';
+            
+            setTimeout(() => {
+                fb.style.display = 'none';
+            }, 2500);
+        }
+        
+        function showModal(title, text, type) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-text').innerHTML = text;
+            document.getElementById('modal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            // Reset for next mission
+            if (Math.random() > 0.6) {
+                journal = [];
+                playerEntries = {};
+                renderJournal();
+                renderTransactions();
+            }
+        }
+        
+        // Initialize
+        function initGame() {
+            renderTransactions();
+            renderShop();
+            renderJournal();
+            showScreen('mission');
+            
+            // Demo data in journal
+            setTimeout(() => {
+                journal = [
+                    {id:1, desc: transactions[0].desc, debit:"Cash", credit:"Customer Deposits", amount:800}
+                ];
+                renderJournal();
+            }, 800);
+        }
+        
+        window.onload = initGame;
+    </script>
+</body>
+</html>
