@@ -12,6 +12,10 @@
             --success: #22c55e;
             --danger: #e74c3c;
             --exp-color: #8b5cf6;
+            --bg-gradient: linear-gradient(135deg, #0f172a, #1e2937);
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -21,6 +25,175 @@
             min-height: 100vh;
             overflow: hidden;
         }
+        .hidden { display: none !important; }
+
+        /* --- LOGIN / REGISTER VIEWS --- */
+        .auth-view {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            padding: 20px;
+        }
+        .auth-card {
+            background: rgba(30, 41, 59, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            width: min(400px, 100%);
+            border: 2px solid var(--primary);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            text-align: center;
+        }
+        .auth-card h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 20px;
+            color: var(--accent);
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px var(--accent);
+        }
+        .auth-card input {
+            width: 100%;
+            padding: 14px 16px;
+            margin: 8px 0;
+            background: #0f172a;
+            color: #e2e8f0;
+            border: 2px solid #334155;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .auth-card input:focus {
+            border-color: var(--primary);
+        }
+        .auth-card .auth-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            background: linear-gradient(135deg, var(--primary), #2563eb);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+        .auth-card .auth-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.5);
+        }
+        .auth-card .auth-link {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+        .auth-card .auth-link:hover {
+            color: var(--primary);
+        }
+        .auth-card .cancel-link {
+            color: #64748b;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .auth-card .cancel-link:hover {
+            color: #94a3b8;
+        }
+        .auth-card .auth-error {
+            color: var(--danger);
+            font-size: 14px;
+            margin-top: 10px;
+            min-height: 20px;
+        }
+
+        /* --- ADMIN VIEW --- */
+        .admin-view {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            padding: 20px;
+        }
+        .admin-card {
+            background: rgba(30, 41, 59, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            width: min(900px, 100%);
+            border: 2px solid #8b5cf6;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+        .admin-card h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 18px;
+            color: #8b5cf6;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px #8b5cf6;
+            text-align: center;
+        }
+        .admin-card table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        .admin-card th {
+            background: #334155;
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: 700;
+            color: #e2e8f0;
+            border-bottom: 2px solid #475569;
+        }
+        .admin-card td {
+            padding: 8px;
+            border-bottom: 1px solid #334155;
+            color: #cbd5e1;
+        }
+        .admin-card tr:hover td {
+            background: rgba(30, 41, 59, 0.5);
+        }
+        .admin-card .role-badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .role-badge.admin { background: #8b5cf6; color: white; }
+        .role-badge.member { background: #334155; color: #94a3b8; }
+        .admin-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .admin-actions button {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .admin-actions .back-btn { background: #334155; color: white; }
+        .admin-actions .back-btn:hover { background: #475569; transform: translateY(-2px); }
+        .admin-actions .delete-user-btn { background: var(--danger); color: white; }
+        .admin-actions .delete-user-btn:hover { background: #c0392b; transform: translateY(-2px); }
+
+        /* --- GAME HEADER --- */
         .header {
             background: rgba(15, 23, 42, 0.95);
             padding: 15px 20px;
@@ -37,7 +210,7 @@
         }
         .logo {
             font-family: 'Press Start 2P', cursive;
-            font-size: 22px;
+            font-size: 18px;
             color: var(--accent);
             text-shadow: 0 0 10px var(--accent);
         }
@@ -62,6 +235,28 @@
             width: 0%;
         }
 
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .nav-btn {
+            padding: 10px 20px;
+            background: #334155;
+            border: none;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .nav-btn:hover, .nav-btn.active { 
+            background: var(--primary); 
+            transform: translateY(-2px);
+        }
+        .nav-btn.logout-btn { background: var(--danger); }
+        .nav-btn.logout-btn:hover { background: #c0392b; }
+        .nav-btn.admin-btn { background: #8b5cf6; }
+        .nav-btn.admin-btn:hover { background: #7c3aed; }
+
+        /* --- GAME LAYOUT --- */
         .main { display: flex; flex-direction: column; height: calc(100vh - 68px); }
         .sidebar {
             background: rgba(15, 23, 42, 0.95);
@@ -72,23 +267,12 @@
             box-shadow: 0 -4px 15px rgba(0,0,0,0.4);
             flex-wrap: wrap;
         }
-        .nav-btn {
-            padding: 14px 16px;
-            background: #334155;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 12px;
-            transition: all 0.3s;
+        .sidebar .nav-btn {
             flex: 1;
             margin: 0 4px;
-            font-weight: 600;
             min-width: 80px;
-        }
-        .nav-btn:hover, .nav-btn.active { 
-            background: var(--primary); 
-            transform: translateY(-4px);
+            font-size: 16px;
+            padding: 14px 16px;
         }
 
         .game-area { 
@@ -143,14 +327,70 @@
         .difficulty-btn.easy { background: #4ade80; color: #0f172a; }
         .difficulty-btn.medium { background: #facc15; color: #0f172a; }
         .difficulty-btn.hard { background: #f87171; color: white; }
+        .difficulty-btn.ultra { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: white; border-color: #8b5cf6; }
 
         button[onclick="showTips()"] { background: #8b5cf6; color: white; }
-        button[onclick="submitMission()"] { background: var(--success); color: white; font-size: 17px; }
+        .submit-mission-btn { 
+            background: var(--success); 
+            color: white; 
+            font-size: 17px;
+        }
 
         .edit-btn { background: #f39c12; color: black; }
         .explain-btn { background: #8b5cf6; color: white; padding: 10px 18px; font-size: 15px; }
+        .hint-btn { 
+            background: transparent; 
+            color: transparent; 
+            padding: 10px 12px; 
+            font-size: 15px; 
+            border: none;
+            box-shadow: none;
+            width: 40px;
+            cursor: pointer;
+            position: relative;
+            opacity: 0;
+            pointer-events: auto;
+        }
 
-        .shop-item button { background: var(--accent); color: black; }
+        .shop-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #1e2937;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        .shop-item:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+        .shop-item .item-info { flex: 1; }
+        .shop-item .item-name { font-size: 18px; font-weight: 700; }
+        .shop-item .item-desc { font-size: 13px; color: #94a3b8; margin-top: 2px; }
+        .shop-item .item-price { font-size: 16px; color: #f1c40f; font-weight: 700; }
+        .shop-item .item-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+        .item-badge.owned { background: var(--success); color: white; }
+        .item-badge.limited { background: var(--accent); color: black; }
+        .item-badge.exclusive { background: linear-gradient(135deg, var(--gold), #ff8c00); color: black; }
+        .shop-item button { 
+            background: var(--accent); 
+            color: black; 
+            padding: 10px 20px;
+            font-size: 14px;
+            margin-left: 12px;
+        }
+        .shop-item button.owned-btn { background: #334155; color: #94a3b8; cursor: default; }
+        .shop-item button.owned-btn:hover { transform: none; }
 
         .modal-btn {
             background: var(--primary);
@@ -199,6 +439,12 @@
             padding: 16px;
             border: 2px solid #475569;
             transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .t-account:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
         .t-account.balanced {
             border-color: var(--success);
@@ -224,6 +470,23 @@
             background: rgba(231, 76, 60, 0.2);
             color: var(--danger);
         }
+        .t-account .account-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+        }
+        .t-account.expanded .account-detail {
+            max-height: 300px;
+            padding-top: 12px;
+        }
+        .t-account .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 14px;
+            border-bottom: 1px solid #334155;
+        }
+        .t-account .detail-row:last-child { border-bottom: none; }
 
         .transaction {
             background: #1e2937;
@@ -246,15 +509,21 @@
             width: 100%;
         }
         .entry-form select, .entry-form input {
-            padding: 10px;
+            padding: 12px 10px;
             border-radius: 8px;
             border: none;
             background: #0f172a;
             color: white;
-            font-size: 15px;
+            font-size: 16px;
             width: 100%;
+            min-width: 0;
+            appearance: auto;
         }
-        .entry-label { font-size: 13px; color: #94a3b8; margin-bottom: 4px; }
+        .entry-form select option {
+            padding: 8px;
+            font-size: 15px;
+        }
+        .entry-label { font-size: 14px; color: #94a3b8; margin-bottom: 4px; font-weight: 600; }
 
         .feedback {
             position: fixed;
@@ -347,6 +616,127 @@
             50% { box-shadow: 0 0 60px rgba(243, 156, 18, 0.6); }
         }
 
+        .auth-alert {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--danger);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            font-size: 16px;
+        }
+        .auth-alert.show { opacity: 1; transform: translateX(-50%) translateY(5px); }
+
+        .theme-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .theme-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #334155;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+            color: white;
+        }
+        .theme-btn:hover { transform: scale(1.05); }
+        .theme-btn.active-theme { border-color: var(--accent); box-shadow: 0 0 20px rgba(243, 156, 18, 0.3); }
+        .theme-btn.dark { background: #0f172a; }
+        .theme-btn.ocean { background: #0c4a6e; }
+        .theme-btn.forest { background: #14532d; }
+        .theme-btn.sunset { background: #7c2d12; }
+        .theme-btn.neon { background: #1a1a2e; border-color: #e94560; }
+
+        /* Exclusive Themes */
+        .theme-btn.gold { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #1a1a2e; border-color: #ffd700; }
+        .theme-btn.silver { background: linear-gradient(135deg, #c0c0c0, #8a8a8a); color: #1a1a2e; border-color: #c0c0c0; }
+        .theme-btn.bronze { background: linear-gradient(135deg, #cd7f32, #8b5a2b); color: white; border-color: #cd7f32; }
+
+        .time-stat {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #334155;
+            color: #94a3b8;
+        }
+        .time-stat.fast { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .time-stat.medium { background: rgba(250, 204, 21, 0.2); color: #facc15; }
+        .time-stat.slow { background: rgba(231, 76, 60, 0.2); color: #f87171; }
+
+        /* Leaderboard Styles */
+        .leaderboard-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+        .leaderboard-tabs button {
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: 2px solid #334155;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .leaderboard-tabs button:hover { background: #334155; color: white; }
+        .leaderboard-tabs button.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .leaderboard-entry {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: #1e2937;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            border-left: 4px solid #334155;
+            transition: all 0.3s;
+        }
+        .leaderboard-entry:hover { transform: translateX(5px); }
+        .leaderboard-entry .rank {
+            font-size: 24px;
+            font-weight: 700;
+            min-width: 50px;
+            text-align: center;
+        }
+        .leaderboard-entry .rank.gold { color: var(--gold); }
+        .leaderboard-entry .rank.silver { color: var(--silver); }
+        .leaderboard-entry .rank.bronze { color: var(--bronze); }
+        .leaderboard-entry .user-info { flex: 1; padding: 0 16px; }
+        .leaderboard-entry .user-info .username { font-weight: 700; font-size: 16px; }
+        .leaderboard-entry .user-info .detail { font-size: 13px; color: #94a3b8; }
+        .leaderboard-entry .time-display { font-weight: 700; font-size: 18px; color: var(--accent); }
+        .leaderboard-entry .medal { font-size: 28px; margin-right: 8px; }
+        .leaderboard-entry.current-user { border-left-color: var(--accent); background: rgba(243, 156, 18, 0.1); }
+
+        .rank-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+        .rank-badge.champion { background: linear-gradient(135deg, var(--gold), #ff8c00); color: black; }
+        .rank-badge.runner-up { background: linear-gradient(135deg, var(--silver), #8a8a8a); color: black; }
+        .rank-badge.bronze-medal { background: linear-gradient(135deg, var(--bronze), #8b5a2b); color: white; }
+
         @media (min-width: 768px) {
             .main { flex-direction: row; height: calc(100vh - 68px); }
             .sidebar {
@@ -358,180 +748,328 @@
                 justify-content: flex-start;
             }
             .game-area { padding: 28px; }
-            .entry-form { grid-template-columns: 1fr 1fr 120px 120px; }
+            .entry-form { grid-template-columns: 1fr 1fr 120px 100px; }
             .level-progress { width: 150px; }
+            .logo { font-size: 22px; }
+            .admin-card { padding: 40px 50px; }
         }
         @media (max-width: 600px) {
             .entry-form { grid-template-columns: 1fr 1fr; }
-            .logo { font-size: 16px; }
+            .logo { font-size: 14px; }
             .stats { font-size: 14px; gap: 12px; }
             .difficulty-btn { min-width: 100px; padding: 14px 20px; }
             .level-progress { width: 80px; }
+            .header { padding: 10px 12px; }
+            .admin-card { padding: 20px; }
+            .admin-card table { font-size: 11px; }
+            .admin-card th, .admin-card td { padding: 4px 3px; }
+            .shop-item { flex-wrap: wrap; }
+            .shop-item button { margin-left: 0; margin-top: 8px; width: 100%; }
+            .leaderboard-entry { flex-wrap: wrap; gap: 8px; }
+            .leaderboard-entry .rank { min-width: 30px; font-size: 18px; }
+        }
+        @media (min-width: 600px) and (max-width: 1024px) {
+            .entry-form { grid-template-columns: 1fr 1fr 120px 100px; }
+            .entry-form select, .entry-form input { font-size: 17px; padding: 14px 12px; }
+            .transaction { padding: 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">🏦 BANK LEDGER LEGENDS</div>
-        <div class="stats">
-            <div class="stat">⚔️ Lv. <span id="level-display">1</span></div>
-            <div class="stat">
-                <span class="exp">⭐</span> 
-                <span id="exp-display">0</span>
-                <div class="level-progress">
-                    <div class="level-progress-fill" id="exp-progress" style="width:0%"></div>
-                </div>
-            </div>
-            <div class="stat"><span class="coin">🪙</span> <span id="coins">0</span></div>
+
+    <!-- AUTH ALERT -->
+    <div id="authAlert" class="auth-alert">Please login to perform this action!</div>
+
+    <!-- ==================== LOGIN VIEW ==================== -->
+    <div id="loginView" class="auth-view">
+        <div class="auth-card">
+            <h1>🏦 BANK LEDGER</h1>
+            <h1 style="font-size:16px; margin-bottom:25px; color:#94a3b8; font-family:'Fredoka',sans-serif;">Welcome Back</h1>
+            <input type="text" id="loginUser" placeholder="Username">
+            <input type="password" id="loginPass" placeholder="Password">
+            <button class="auth-btn" id="loginSubmit">Sign In</button>
+            <div id="loginError" class="auth-error"></div>
+            <button class="auth-link" onclick="showView('register')">Need an account? Register</button>
+            <button class="cancel-link" onclick="showView('home')">Cancel</button>
         </div>
     </div>
 
-    <div class="main">
-        <div class="sidebar">
-            <button class="nav-btn active" onclick="showScreen('home')">🏠 Home</button>
-            <button class="nav-btn" onclick="showScreen('mission')">📋 Mission</button>
-            <button class="nav-btn" onclick="showScreen('ledger')">📒 Ledger</button>
-            <button class="nav-btn" onclick="showScreen('shop')">🛒 Shop</button>
-            <button class="nav-btn" onclick="showScreen('stats')">📊 Progress</button>
+    <!-- ==================== REGISTER VIEW ==================== -->
+    <div id="registerView" class="auth-view hidden">
+        <div class="auth-card">
+            <h1>🏦 BANK LEDGER</h1>
+            <h1 style="font-size:16px; margin-bottom:25px; color:#94a3b8; font-family:'Fredoka',sans-serif;">Join the Community</h1>
+            <input type="text" id="regUser" placeholder="Choose Username">
+            <input type="password" id="regPass" placeholder="Choose Password">
+            <button class="auth-btn" id="regSubmit">Create Account</button>
+            <div id="regError" class="auth-error"></div>
+            <button class="auth-link" onclick="showView('login')">Back to Login</button>
+        </div>
+    </div>
+
+    <!-- ==================== ADMIN VIEW ==================== -->
+    <div id="adminView" class="admin-view hidden">
+        <div class="admin-card">
+            <h1>👑 Admin Panel</h1>
+            <p style="text-align:center; color:#94a3b8; margin-bottom:20px;">User Management - All registered accounts</p>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Role</th>
+                            <th>Level</th>
+                            <th>Coins</th>
+                            <th>EXP</th>
+                            <th>Missions</th>
+                            <th>Avg Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUserTableBody"></tbody>
+                </table>
+            </div>
+            <div class="admin-actions">
+                <button class="back-btn" onclick="showView('home')">⬅️ Back to Game</button>
+                <button class="delete-user-btn" onclick="deleteSelectedUser()">🗑️ Delete Selected</button>
+            </div>
+            <p style="text-align:center; color:#64748b; font-size:13px; margin-top:15px;">
+                Click the delete button on a user row to remove them
+            </p>
+        </div>
+    </div>
+
+    <!-- ==================== GAME VIEW ==================== -->
+    <div id="gameView" class="hidden">
+        <div class="header">
+            <div class="logo" id="gameLogo">🏦 BANK LEDGER LEGENDS</div>
+            <div class="stats">
+                <div class="stat">⚔️ Lv. <span id="level-display">1</span></div>
+                <div class="stat">
+                    <span class="exp">⭐</span> 
+                    <span id="exp-display">0</span>
+                    <div class="level-progress">
+                        <div class="level-progress-fill" id="exp-progress" style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="stat"><span class="coin">🪙</span> <span id="coins">0</span></div>
+                <div class="stat" style="color:#94a3b8; font-size:14px;">👤 <span id="current-user-display">Guest</span></div>
+                <div class="header-actions">
+                    <button class="nav-btn admin-btn hidden" id="adminPanelBtn">👑 Admin</button>
+                    <button class="nav-btn logout-btn" id="logoutBtn">Logout</button>
+                </div>
+            </div>
         </div>
 
-        <div class="game-area" id="game-area">
-            <!-- HOME -->
-            <div id="home-screen">
-                <div class="card">
-                    <h1 style="text-align:center; margin-bottom:20px;">Welcome to Bank Ledger Legends!</h1>
-                    <p style="text-align:center; font-size:18px; color:#94a3b8; margin-bottom:30px;">
-                        Master double-entry bookkeeping through fun daily missions
-                    </p>
-                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; text-align:center; margin-bottom:30px;">
-                        <div class="card" style="margin:0; background:rgba(30,41,59,0.7);">
-                            <h3>Level</h3>
-                            <h2 id="home-level" style="color:var(--accent);">1</h2>
+        <div class="main">
+            <div class="sidebar">
+                <button class="nav-btn active" onclick="showScreen('home')">🏠 Home</button>
+                <button class="nav-btn" onclick="showScreen('mission')">📋 Mission</button>
+                <button class="nav-btn" onclick="showScreen('ledger')">📒 Ledger</button>
+                <button class="nav-btn" onclick="showScreen('shop')">🛒 Shop</button>
+                <button class="nav-btn" onclick="showScreen('stats')">📊 Progress</button>
+                <button class="nav-btn" onclick="showScreen('leaderboard')">🏆 Leaderboard</button>
+            </div>
+
+            <div class="game-area" id="game-area">
+                <!-- HOME -->
+                <div id="home-screen">
+                    <div class="card">
+                        <h1 style="text-align:center; margin-bottom:20px;">Welcome to Bank Ledger Legends!</h1>
+                        <p style="text-align:center; font-size:18px; color:#94a3b8; margin-bottom:30px;">
+                            Master double-entry bookkeeping through fun daily missions
+                        </p>
+                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; text-align:center; margin-bottom:30px;">
+                            <div class="card" style="margin:0; background:rgba(30,41,59,0.7);">
+                                <h3>Level</h3>
+                                <h2 id="home-level" style="color:var(--accent);">1</h2>
+                            </div>
+                            <div class="card" style="margin:0; background:rgba(30,41,59,0.7);">
+                                <h3>EXP</h3>
+                                <h2 id="home-exp" style="color:var(--exp-color);">0</h2>
+                            </div>
+                            <div class="card" style="margin:0; background:rgba(30,41,59,0.7);">
+                                <h3>Coins</h3>
+                                <h2 id="home-coins" style="color:#f1c40f;">0 🪙</h2>
+                            </div>
                         </div>
-                        <div class="card" style="margin:0; background:rgba(30,41,59,0.7);">
-                            <h3>EXP</h3>
-                            <h2 id="home-exp" style="color:var(--exp-color);">0</h2>
-                        </div>
-                        <div class="card" style="margin:0; background:rgba(30,41,59,0.7);">
-                            <h3>Coins</h3>
-                            <h2 id="home-coins" style="color:#f1c40f;">0 🪙</h2>
+                        <div style="text-align:center;">
+                            <button onclick="startNewMission()" class="start-btn">
+                                🚀 START NEW MISSION
+                            </button>
                         </div>
                     </div>
-                    <div style="text-align:center;">
-                        <button onclick="showScreen('mission')" class="start-btn">
-                            🚀 START NEW MISSION
+                </div>
+
+                <!-- MISSION -->
+                <div id="mission-screen" style="display:none;">
+                    <div class="card" id="setup-card">
+                        <h2 style="text-align:center; margin-bottom:20px;">Select Mission Date & Difficulty</h2>
+                        <div style="margin-bottom:25px;">
+                            <h3 style="text-align:center; margin-bottom:10px;">June 2026</h3>
+                            <div id="selected-date" style="text-align:center;color:#94a3b8;margin-top:6px;min-height:20px;">
+                                Select a day
+                            </div>
+                            <div id="calendar" class="calendar"></div>
+                        </div>
+                        <div class="difficulty-select">
+                            <strong style="font-size:18px;">Choose Difficulty:</strong><br><br>
+                            <button class="difficulty-btn easy" onclick="startMission('easy')">EASY</button>
+                            <button class="difficulty-btn medium" onclick="startMission('medium')">MEDIUM</button>
+                            <button class="difficulty-btn hard" onclick="startMission('hard')">HARD</button>
+                            <button class="difficulty-btn ultra" onclick="startMission('ultra')">🔥 ULTRA</button>
+                        </div>
+                        <div style="text-align:center; margin-top:15px; color:#94a3b8; font-size:14px;">
+                            💡 Ultra difficulty requires an Ultra Challenge Ticket from the shop!
+                        </div>
+                        <div style="text-align:center; margin-top:8px; color:#64748b; font-size:13px;" id="avg-time-display">
+                            ⏱️ Average completion times will be tracked per difficulty
+                        </div>
+                    </div>
+
+                    <div id="mission-content" style="display:none;">
+                        <button class="back-to-calendar-btn" onclick="backToMissionSelect()" style="margin-bottom:16px;">
+                            ⬅️ Back to Calendar
                         </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MISSION -->
-            <div id="mission-screen" style="display:none;">
-                <div class="card" id="setup-card">
-                    <h2 style="text-align:center; margin-bottom:20px;">Select Mission Date & Difficulty</h2>
-                    <div style="margin-bottom:25px;">
-                        <h3 style="text-align:center; margin-bottom:10px;">June 2026</h3>
-                        <div id="selected-date" style="text-align:center;color:#94a3b8;margin-top:6px;min-height:20px;">
-                            Select a day
-                        </div>
-                        <div id="calendar" class="calendar"></div>
-                    </div>
-                    <div class="difficulty-select">
-                        <strong style="font-size:18px;">Choose Difficulty:</strong><br><br>
-                        <button class="difficulty-btn easy" onclick="startMission('easy')">EASY</button>
-                        <button class="difficulty-btn medium" onclick="startMission('medium')">MEDIUM</button>
-                        <button class="difficulty-btn hard" onclick="startMission('hard')">HARD</button>
-                    </div>
-                </div>
-
-                <div id="mission-content" style="display:none;">
-                    <button class="back-to-calendar-btn" onclick="backToMissionSelect()" style="margin-bottom:16px;">
-                        ⬅️ Back to Calendar
-                    </button>
-                    <div class="card">
-                        <div class="mission-header" style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;">
-                            <div>
-                                <h1 id="mission-title">Payday Rush 🏦</h1>
-                                <div style="margin-top:8px;">
-                                    <span class="mission-info-badge">📅 <strong id="mission-date-display">June 15, 2026</strong></span>
-                                    <span class="mission-info-badge">⚡ <strong id="mission-difficulty-display">Medium</strong></span>
-                                    <span class="mission-info-badge version-badge">🎲 <strong id="mission-version-display">v1</strong></span>
+                        <div class="card">
+                            <div class="mission-header" style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+                                <div>
+                                    <h1 id="mission-title">Payday Rush 🏦</h1>
+                                    <div style="margin-top:8px;">
+                                        <span class="mission-info-badge">📅 <strong id="mission-date-display">June 15, 2026</strong></span>
+                                        <span class="mission-info-badge">⚡ <strong id="mission-difficulty-display">Medium</strong></span>
+                                        <span class="mission-info-badge version-badge">🎲 <strong id="mission-version-display">v1</strong></span>
+                                    </div>
+                                    <p id="mission-desc" style="color: #94a3b8; margin-top:8px;">Process the transactions correctly!</p>
                                 </div>
-                                <p id="mission-desc" style="color: #94a3b8; margin-top:8px;">Process the transactions correctly!</p>
+                                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                                    <button onclick="showTips()">💡 Tips</button>
+                                    <button onclick="submitMission()" class="submit-mission-btn">✅ Submit All Entries</button>
+                                </div>
                             </div>
-                            <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                                <button onclick="showTips()">💡 Tips</button>
-                                <button onclick="submitMission()" style="background:var(--success);">✅ Submit All Entries</button>
-                            </div>
+                            <div id="transactions-list"></div>
                         </div>
-                        <div id="transactions-list"></div>
-                    </div>
 
+                        <div class="card">
+                            <h2>Current Journal</h2>
+                            <div style="overflow-x:auto;">
+                                <table style="width:100%; border-collapse: collapse; margin-top:15px;" id="journal-table">
+                                    <thead>
+                                        <tr style="background:#334155;">
+                                            <th style="padding:10px; text-align:left;">Transaction</th>
+                                            <th style="padding:10px; text-align:center;">Debit</th>
+                                            <th style="padding:10px; text-align:center;">Credit</th>
+                                            <th style="padding:10px; text-align:right;">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="journal-body"></tbody>
+                                </table>
+                            </div>
+                            <div id="journal-balance"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESULTS -->
+                <div id="results-screen" style="display:none;">
                     <div class="card">
-                        <h2>Current Journal</h2>
-                        <div style="overflow-x:auto;">
-                            <table style="width:100%; border-collapse: collapse; margin-top:15px;" id="journal-table">
-                                <thead>
-                                    <tr style="background:#334155;">
-                                        <th style="padding:10px; text-align:left;">Transaction</th>
-                                        <th style="padding:10px; text-align:center;">Debit</th>
-                                        <th style="padding:10px; text-align:center;">Credit</th>
-                                        <th style="padding:10px; text-align:right;">Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="journal-body"></tbody>
-                            </table>
+                        <h2>Mission Results</h2>
+                        <p style="color:#94a3b8;margin-bottom:18px;">Click explanation buttons below to learn from your mistakes!</p>
+                        <div id="results-list"></div>
+                        <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+                            <button onclick="backToMissionSelect()" style="background:#334155;">⬅️ Back to Calendar</button>
+                            <button onclick="retryMission()" style="background:var(--accent); color:black;">🔄 Retry Mission</button>
+                            <button onclick="viewLedgerFromResults()" style="background:var(--primary);">📒 View Ledger</button>
                         </div>
-                        <div id="journal-balance"></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- RESULTS -->
-            <div id="results-screen" style="display:none;">
-                <div class="card">
-                    <h2>Mission Results</h2>
-                    <p style="color:#94a3b8;margin-bottom:18px;">Click explanation buttons below to learn from your mistakes!</p>
-                    <div id="results-list"></div>
-                    <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
-                        <button onclick="backToMissionSelect()" style="background:#334155;">⬅️ Back to Calendar</button>
-                        <button onclick="retryMission()" style="background:var(--accent); color:black;">🔄 Retry Mission</button>
-                        <button onclick="viewLedgerFromResults()" style="background:var(--primary);">📒 View Ledger</button>
+                <!-- LEDGER -->
+                <div id="ledger-screen" style="display:none;">
+                    <div class="card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                            <h2>📒 Interactive T-Accounts</h2>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <button onclick="toggleAllAccounts()" style="background:#334155; padding:8px 16px; font-size:14px;">Expand All</button>
+                                <button onclick="collapseAllAccounts()" style="background:#334155; padding:8px 16px; font-size:14px;">Collapse All</button>
+                            </div>
+                        </div>
+                        <p style="color:#94a3b8;margin-bottom:20px; font-size:14px;">👆 Click on any account to see detailed transaction history</p>
+                        <p id="ledger-mission-info" style="color:#94a3b8;margin-bottom:20px;"></p>
+                        <div id="t-accounts" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;"></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- LEDGER -->
-            <div id="ledger-screen" style="display:none;">
-                <div class="card">
-                    <h2>Live T-Accounts</h2>
-                    <p id="ledger-mission-info" style="color:#94a3b8;margin-bottom:20px;"></p>
-                    <div id="t-accounts" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;"></div>
+                <!-- SHOP -->
+                <div id="shop-screen" style="display:none;">
+                    <div class="card">
+                        <h2>🛒 Bank Shop</h2>
+                        <p style="color:#94a3b8;">Spend your coins on useful & fun items!</p>
+                        <div id="shop-items"></div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- SHOP -->
-            <div id="shop-screen" style="display:none;">
-                <div class="card">
-                    <h2>🛒 Bank Shop</h2>
-                    <p style="color:#94a3b8;">Spend your coins on useful & fun items!</p>
-                    <div id="shop-items"></div>
+                <!-- STATS -->
+                <div id="stats-screen" style="display:none;">
+                    <div class="card">
+                        <h2>📊 Progress</h2>
+                        <div id="stats-content"></div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- STATS -->
-            <div id="stats-screen" style="display:none;">
-                <div class="card">
-                    <h2>📊 Progress</h2>
-                    <div id="stats-content"></div>
+                <!-- LEADERBOARD -->
+                <div id="leaderboard-screen" style="display:none;">
+                    <div class="card">
+                        <h2>🏆 Leaderboard</h2>
+                        <p style="color:#94a3b8; margin-bottom:16px;">Compete for the fastest times! Top 3 players earn exclusive rewards.</p>
+                        
+                        <div class="leaderboard-tabs" id="leaderboard-tabs">
+                            <button class="active" data-diff="easy">🟢 Easy</button>
+                            <button data-diff="medium">🟡 Medium</button>
+                            <button data-diff="hard">🔴 Hard</button>
+                            <button data-diff="ultra">🔥 Ultra</button>
+                            <button data-diff="overall">🏆 Overall</button>
+                        </div>
+                        
+                        <div id="leaderboard-content"></div>
+                        <div id="leaderboard-rewards" style="margin-top:16px; padding:16px; background:#1e2937; border-radius:12px; border:1px solid #334155;">
+                            <h3 style="color:var(--accent); margin-bottom:8px;">🎁 Exclusive Rewards</h3>
+                            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px;">
+                                <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center; border:2px solid var(--gold);">
+                                    <div style="font-size:30px;">🥇</div>
+                                    <div style="font-weight:700; color:var(--gold);">#1 Champion</div>
+                                    <div style="font-size:13px; color:#94a3b8;">Gold Theme</div>
+                                    <div style="font-size:13px; color:#94a3b8;">+500 coins</div>
+                                    <div style="font-size:13px; color:#94a3b8;">👑 Champion Badge</div>
+                                </div>
+                                <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center; border:2px solid var(--silver);">
+                                    <div style="font-size:30px;">🥈</div>
+                                    <div style="font-weight:700; color:var(--silver);">#2 Runner-Up</div>
+                                    <div style="font-size:13px; color:#94a3b8;">Silver Theme</div>
+                                    <div style="font-size:13px; color:#94a3b8;">+300 coins</div>
+                                    <div style="font-size:13px; color:#94a3b8;">🏅 Runner-Up Badge</div>
+                                </div>
+                                <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center; border:2px solid var(--bronze);">
+                                    <div style="font-size:30px;">🥉</div>
+                                    <div style="font-weight:700; color:var(--bronze);">#3 Bronze</div>
+                                    <div style="font-size:13px; color:#94a3b8;">Bronze Theme</div>
+                                    <div style="font-size:13px; color:#94a3b8;">+150 coins</div>
+                                    <div style="font-size:13px; color:#94a3b8;">🥉 Bronze Badge</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- FEEDBACK -->
     <div id="feedback" class="feedback"></div>
 
-    <!-- Modals -->
+    <!-- MODALS -->
     <div id="tips-modal" class="modal">
         <div class="modal-content">
             <h2>💡 Accounting Tips</h2>
@@ -572,13 +1110,384 @@
         </div>
     </div>
 
+    <div id="answer-modal" class="modal">
+        <div class="modal-content">
+            <h2>📝 Correct Answer</h2>
+            <div id="answer-body" style="text-align:left; line-height:1.8; margin:20px 0;"></div>
+            <button onclick="document.getElementById('answer-modal').style.display='none'" class="modal-btn">Got it!</button>
+        </div>
+    </div>
+
+    <div id="leaderboard-reward-modal" class="modal">
+        <div class="modal-content" style="border-color: var(--gold);">
+            <div id="reward-emoji" style="font-size:60px;">🏆</div>
+            <h2 id="reward-title" style="color:var(--gold);">Congratulations!</h2>
+            <p id="reward-text" style="margin:15px 0;"></p>
+            <button onclick="document.getElementById('leaderboard-reward-modal').style.display='none'" class="modal-btn" style="background:var(--gold); color:black;">Claim Reward! 🎉</button>
+        </div>
+    </div>
+
     <script>
-        // Player stats
+        // ============================================================
+        // PERSISTENT AUTH SYSTEM - All data saved to localStorage
+        // ============================================================
+        
+        let users = [];
+        try {
+            const storedUsers = localStorage.getItem('bankUsers');
+            if (storedUsers) {
+                users = JSON.parse(storedUsers);
+            } else {
+                users = [{ user: "Admin0427", pass: "Isaac0427", role: "Admin" }];
+                localStorage.setItem('bankUsers', JSON.stringify(users));
+            }
+        } catch(e) {
+            users = [{ user: "Admin0427", pass: "Isaac0427", role: "Admin" }];
+            localStorage.setItem('bankUsers', JSON.stringify(users));
+        }
+
+        let currentUser = localStorage.getItem('bankSessionUser') || "";
+        let selectedUserToDelete = null;
+
+        // User inventory for shop items
+        let userInventory = {};
+
+        function getUserInventory(username) {
+            const key = 'bankInventory_' + username;
+            const data = localStorage.getItem(key);
+            if (data) {
+                try { return JSON.parse(data); }
+                catch(e) { return {}; }
+            }
+            return {};
+        }
+
+        function saveUserInventory(username, inventory) {
+            const key = 'bankInventory_' + username;
+            localStorage.setItem(key, JSON.stringify(inventory));
+        }
+
+        function getUserDataKey(username) {
+            return 'bankGameData_' + username;
+        }
+
+        function getDefaultUserData() {
+            return {
+                coins: 0,
+                exp: 0,
+                level: 1,
+                missionsCompleted: 0,
+                expToNextLevel: 100,
+                currentTheme: 'dark',
+                timeData: {
+                    easy: { totalTime: 0, count: 0, bestTime: 0 },
+                    medium: { totalTime: 0, count: 0, bestTime: 0 },
+                    hard: { totalTime: 0, count: 0, bestTime: 0 },
+                    ultra: { totalTime: 0, count: 0, bestTime: 0 }
+                },
+                leaderboardRewards: {
+                    easy: { claimed: false, rank: 0 },
+                    medium: { claimed: false, rank: 0 },
+                    hard: { claimed: false, rank: 0 },
+                    ultra: { claimed: false, rank: 0 },
+                    overall: { claimed: false, rank: 0 }
+                }
+            };
+        }
+
+        function loadUserGameData(username) {
+            const key = getUserDataKey(username);
+            const data = localStorage.getItem(key);
+            if (data) {
+                try { 
+                    const parsed = JSON.parse(data);
+                    if (!parsed.timeData) {
+                        parsed.timeData = getDefaultUserData().timeData;
+                    }
+                    if (!parsed.leaderboardRewards) {
+                        parsed.leaderboardRewards = getDefaultUserData().leaderboardRewards;
+                    }
+                    return parsed;
+                }
+                catch(e) { return getDefaultUserData(); }
+            }
+            return getDefaultUserData();
+        }
+
+        function saveUserGameData(username, data) {
+            const key = getUserDataKey(username);
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function deleteUserGameData(username) {
+            const key = getUserDataKey(username);
+            localStorage.removeItem(key);
+            localStorage.removeItem('bankInventory_' + username);
+        }
+
+        function getAllUserGameData() {
+            const allData = {};
+            users.forEach(u => {
+                allData[u.user] = loadUserGameData(u.user);
+            });
+            return allData;
+        }
+
+        function saveUsers() {
+            localStorage.setItem('bankUsers', JSON.stringify(users));
+        }
+
+        function setSessionUser(user) {
+            currentUser = user;
+            localStorage.setItem('bankSessionUser', user);
+            userInventory = getUserInventory(user);
+            updateUserDisplay();
+            updateAdminButton();
+            loadGameProgress();
+            applyTheme();
+        }
+
+        function clearSession() {
+            currentUser = "";
+            localStorage.removeItem('bankSessionUser');
+            userInventory = {};
+            updateUserDisplay();
+            updateAdminButton();
+        }
+
+        function updateUserDisplay() {
+            const display = document.getElementById('current-user-display');
+            if (display) {
+                display.textContent = currentUser || 'Guest';
+            }
+        }
+
+        function updateAdminButton() {
+            const btn = document.getElementById('adminPanelBtn');
+            const user = users.find(u => u.user === currentUser);
+            if (user && user.role === 'Admin') {
+                btn.classList.remove('hidden');
+            } else {
+                btn.classList.add('hidden');
+            }
+        }
+
+        function showAuthAlert(msg) {
+            const alert = document.getElementById('authAlert');
+            alert.textContent = msg || 'Please login to perform this action!';
+            alert.classList.add('show');
+            setTimeout(() => alert.classList.remove('show'), 3000);
+        }
+
+        // --- THEME SYSTEM ---
+        const themes = {
+            dark: { bg: 'linear-gradient(135deg, #0f172a, #1e2937)', primary: '#4a90e2' },
+            ocean: { bg: 'linear-gradient(135deg, #0c4a6e, #0f766e)', primary: '#38bdf8' },
+            forest: { bg: 'linear-gradient(135deg, #14532d, #15803d)', primary: '#4ade80' },
+            sunset: { bg: 'linear-gradient(135deg, #7c2d12, #9a3412)', primary: '#fb923c' },
+            neon: { bg: 'linear-gradient(135deg, #1a1a2e, #16213e)', primary: '#e94560' },
+            gold: { bg: 'linear-gradient(135deg, #4a3000, #7a4f00)', primary: '#ffd700' },
+            silver: { bg: 'linear-gradient(135deg, #2d2d2d, #4a4a4a)', primary: '#c0c0c0' },
+            bronze: { bg: 'linear-gradient(135deg, #2d1a0a, #4a2a10)', primary: '#cd7f32' }
+        };
+
+        function applyTheme() {
+            const data = loadUserGameData(currentUser);
+            const theme = data.currentTheme || 'dark';
+            const t = themes[theme] || themes.dark;
+            document.body.style.background = t.bg;
+            document.querySelectorAll('.auth-view, .admin-view').forEach(el => {
+                el.style.background = t.bg;
+            });
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.toggle('active-theme', btn.dataset.theme === theme);
+            });
+        }
+
+        function setTheme(themeName) {
+            if (!currentUser) return showAuthAlert('Login to change themes!');
+            const data = loadUserGameData(currentUser);
+            data.currentTheme = themeName;
+            saveUserGameData(currentUser, data);
+            applyTheme();
+            showFeedback(`🎨 Theme changed to ${themeName}!`, 'success');
+        }
+
+        // --- AUTH VIEWS ---
+        function showView(view) {
+            document.getElementById('loginView').classList.add('hidden');
+            document.getElementById('registerView').classList.add('hidden');
+            document.getElementById('adminView').classList.add('hidden');
+            document.getElementById('gameView').classList.add('hidden');
+            
+            if (view === 'login') {
+                document.getElementById('loginView').classList.remove('hidden');
+                document.getElementById('loginError').textContent = '';
+            } else if (view === 'register') {
+                document.getElementById('registerView').classList.remove('hidden');
+                document.getElementById('regError').textContent = '';
+            } else if (view === 'admin') {
+                document.getElementById('adminView').classList.remove('hidden');
+                renderAdminTable();
+            } else if (view === 'home' || view === 'game') {
+                document.getElementById('gameView').classList.remove('hidden');
+                if (view === 'home') showScreen('home');
+                updateUserDisplay();
+                updateAdminButton();
+                updateDisplay();
+                renderAllGameContent();
+            }
+        }
+
+        // --- ADMIN TABLE ---
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminUserTableBody');
+            tbody.innerHTML = '';
+            const allGameData = getAllUserGameData();
+            
+            users.forEach((u, index) => {
+                const data = allGameData[u.user] || getDefaultUserData();
+                const tr = document.createElement('tr');
+                const isCurrentUser = u.user === currentUser;
+                
+                const timeData = data.timeData || { easy: {totalTime:0, count:0, bestTime:0}, medium: {totalTime:0, count:0, bestTime:0}, hard: {totalTime:0, count:0, bestTime:0}, ultra: {totalTime:0, count:0, bestTime:0} };
+                let totalTime = 0;
+                let totalCount = 0;
+                Object.values(timeData).forEach(d => {
+                    totalTime += d.totalTime;
+                    totalCount += d.count;
+                });
+                const avgTime = totalCount > 0 ? Math.round(totalTime / totalCount) : 0;
+                
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${u.user}</strong> ${isCurrentUser ? '👤' : ''}</td>
+                    <td><span style="font-family:monospace; color:#facc15;">${u.pass}</span></td>
+                    <td><span class="role-badge ${u.role === 'Admin' ? 'admin' : 'member'}">${u.role}</span></td>
+                    <td style="color:var(--accent);">${data.level}</td>
+                    <td style="color:#f1c40f;">${data.coins}</td>
+                    <td style="color:var(--exp-color);">${data.exp}</td>
+                    <td>${data.missionsCompleted}</td>
+                    <td>${avgTime > 0 ? avgTime + 's' : '—'}</td>
+                    <td>
+                        ${u.role !== 'Admin' ? `<button onclick="selectUserToDelete('${u.user}')" style="background:var(--danger); color:white; border:none; padding:4px 12px; border-radius:6px; cursor:pointer; font-weight:600; font-size:12px;">Delete</button>` : '<span style="color:#64748b; font-size:12px;">Protected</span>'}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            selectedUserToDelete = null;
+        }
+
+        function selectUserToDelete(username) {
+            if (confirm(`Are you sure you want to delete user "${username}"? This will also delete all their game data!`)) {
+                const index = users.findIndex(u => u.user === username);
+                if (index !== -1) {
+                    deleteUserGameData(username);
+                    users.splice(index, 1);
+                    saveUsers();
+                    renderAdminTable();
+                    showFeedback(`🗑️ User "${username}" and all their data has been deleted.`, 'success');
+                }
+            }
+        }
+
+        function deleteSelectedUser() {
+            showFeedback('Click the Delete button on a specific user row.', 'success');
+        }
+
+        // --- LOGIN ---
+        document.getElementById('loginSubmit').onclick = () => {
+            const u = document.getElementById('loginUser').value.trim();
+            const p = document.getElementById('loginPass').value.trim();
+            const error = document.getElementById('loginError');
+            
+            if (!u || !p) {
+                error.textContent = 'Please enter both username and password.';
+                return;
+            }
+            
+            const found = users.find(user => user.user === u && user.pass === p);
+            if (found) {
+                setSessionUser(found.user);
+                error.textContent = '';
+                document.getElementById('loginUser').value = '';
+                document.getElementById('loginPass').value = '';
+                showView('home');
+                showFeedback(`Welcome back, ${found.user}! 🎉`, 'success');
+            } else {
+                error.textContent = 'Invalid username or password.';
+            }
+        };
+
+        // --- REGISTER ---
+        document.getElementById('regSubmit').onclick = () => {
+            const u = document.getElementById('regUser').value.trim();
+            const p = document.getElementById('regPass').value.trim();
+            const error = document.getElementById('regError');
+            
+            if (!u || !p) {
+                error.textContent = 'Please fill in all fields.';
+                return;
+            }
+            if (u.length < 3) {
+                error.textContent = 'Username must be at least 3 characters.';
+                return;
+            }
+            if (p.length < 4) {
+                error.textContent = 'Password must be at least 4 characters.';
+                return;
+            }
+            
+            if (users.some(x => x.user === u)) {
+                error.textContent = 'Username already taken!';
+                return;
+            }
+            
+            users.push({ user: u, pass: p, role: "Member" });
+            saveUsers();
+            saveUserGameData(u, getDefaultUserData());
+            saveUserInventory(u, {});
+            setSessionUser(u);
+            error.textContent = '';
+            document.getElementById('regUser').value = '';
+            document.getElementById('regPass').value = '';
+            showView('home');
+            showFeedback(`Account created! Welcome, ${u}! 🎉`, 'success');
+        };
+
+        // --- LOGOUT ---
+        document.getElementById('logoutBtn').onclick = () => {
+            if (confirm('Are you sure you want to logout?')) {
+                if (currentUser) {
+                    saveGameProgress();
+                }
+                clearSession();
+                showView('login');
+                showFeedback('Logged out successfully.', 'success');
+            }
+        };
+
+        document.getElementById('adminPanelBtn').onclick = () => {
+            showView('admin');
+        };
+
+        document.getElementById('loginPass').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('loginSubmit').click();
+        });
+        document.getElementById('regPass').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('regSubmit').click();
+        });
+
+        // ============================================================
+        // GAME SYSTEM
+        // ============================================================
         let coins = 0;
         let exp = 0;
         let level = 1;
         let expToNextLevel = 100;
         let missionsCompleted = 0;
+        let timeData = { easy: {totalTime:0, count:0, bestTime:0}, medium: {totalTime:0, count:0, bestTime:0}, hard: {totalTime:0, count:0, bestTime:0}, ultra: {totalTime:0, count:0, bestTime:0} };
+        let leaderboardRewards = { easy: {claimed: false, rank: 0}, medium: {claimed: false, rank: 0}, hard: {claimed: false, rank: 0}, ultra: {claimed: false, rank: 0}, overall: {claimed: false, rank: 0} };
 
         let journal = [];
         let lastMissionJournal = [];
@@ -596,12 +1505,69 @@
         let currentDiff = null;
         let versionCache = {};
 
+        // Shop items
+        const SHOP_ITEMS = [
+            { id: 'theme_dark', name: 'Dark Theme', price: 0, desc: 'Classic dark mode', emoji: '🌙', type: 'theme', theme: 'dark' },
+            { id: 'theme_ocean', name: 'Ocean Theme', price: 100, desc: 'Calming ocean blues', emoji: '🌊', type: 'theme', theme: 'ocean' },
+            { id: 'theme_forest', name: 'Forest Theme', price: 100, desc: 'Lush green vibes', emoji: '🌲', type: 'theme', theme: 'forest' },
+            { id: 'theme_sunset', name: 'Sunset Theme', price: 150, desc: 'Warm sunset colors', emoji: '🌅', type: 'theme', theme: 'sunset' },
+            { id: 'theme_neon', name: 'Neon Theme', price: 200, desc: 'Cyberpunk neon glow', emoji: '💜', type: 'theme', theme: 'neon' },
+            { id: 'ultra_ticket', name: '🔥 Ultra Challenge Ticket', price: 300, desc: 'Unlock ULTRA difficulty missions', emoji: '🎫', type: 'ultra' },
+            { id: 'xp_boost', name: '⭐ EXP Booster', price: 150, desc: 'Double EXP for your next mission', emoji: '🚀', type: 'xp_boost' },
+            { id: 'coin_magnet', name: '🪙 Coin Magnet', price: 200, desc: '50% more coins from missions', emoji: '🧲', type: 'coin_boost' },
+        ];
+
+        // Exclusive reward items (not in shop, only from leaderboard)
+        const EXCLUSIVE_ITEMS = {
+            gold: { id: 'theme_gold', name: 'Gold Theme', emoji: '👑', desc: '🏆 Champion Exclusive - Fastest time reward', theme: 'gold' },
+            silver: { id: 'theme_silver', name: 'Silver Theme', emoji: '🥈', desc: '🥈 Runner-Up Exclusive - Top 2 reward', theme: 'silver' },
+            bronze: { id: 'theme_bronze', name: 'Bronze Theme', emoji: '🥉', desc: '🥉 Bronze Exclusive - Top 3 reward', theme: 'bronze' },
+        };
+
+        function loadGameProgress() {
+            if (currentUser) {
+                const data = loadUserGameData(currentUser);
+                coins = data.coins || 0;
+                exp = data.exp || 0;
+                level = data.level || 1;
+                missionsCompleted = data.missionsCompleted || 0;
+                expToNextLevel = getExpToNextLevel(level);
+                userInventory = getUserInventory(currentUser);
+                timeData = data.timeData || { easy: {totalTime:0, count:0, bestTime:0}, medium: {totalTime:0, count:0, bestTime:0}, hard: {totalTime:0, count:0, bestTime:0}, ultra: {totalTime:0, count:0, bestTime:0} };
+                leaderboardRewards = data.leaderboardRewards || { easy: {claimed: false, rank: 0}, medium: {claimed: false, rank: 0}, hard: {claimed: false, rank: 0}, ultra: {claimed: false, rank: 0}, overall: {claimed: false, rank: 0} };
+            }
+        }
+
+        function saveGameProgress() {
+            if (currentUser) {
+                const data = {
+                    coins: coins,
+                    exp: exp,
+                    level: level,
+                    missionsCompleted: missionsCompleted,
+                    expToNextLevel: expToNextLevel,
+                    timeData: timeData,
+                    leaderboardRewards: leaderboardRewards
+                };
+                saveUserGameData(currentUser, data);
+                saveUserInventory(currentUser, userInventory);
+            }
+        }
+
         function getExpToNextLevel(lvl) {
             return Math.floor(100 + (lvl - 1) * 25 + (lvl - 1) * (lvl - 1) * 2);
         }
 
         function addExp(amount) {
-            exp += amount;
+            let multiplier = 1;
+            if (userInventory.xp_boost && userInventory.xp_boost > 0) {
+                multiplier = 2;
+                userInventory.xp_boost--;
+                showFeedback('🚀 EXP Booster activated! Double EXP!', 'success');
+            }
+            
+            const finalAmount = Math.floor(amount * multiplier);
+            exp += finalAmount;
             let leveledUp = false;
             let levelUpCount = 0;
             
@@ -614,11 +1580,13 @@
             }
             
             updateDisplay();
+            saveGameProgress();
             
             if (leveledUp) {
                 const bonus = levelUpCount * 25;
                 coins += bonus;
                 updateDisplay();
+                saveGameProgress();
                 showLevelUpModal(levelUpCount, bonus);
             }
             
@@ -632,6 +1600,7 @@
             document.getElementById('home-exp').textContent = exp;
             document.getElementById('coins').textContent = coins;
             document.getElementById('home-coins').textContent = coins + ' 🪙';
+            updateUserDisplay();
             
             const progressPercent = (exp / expToNextLevel) * 100;
             document.getElementById('exp-progress').style.width = Math.min(progressPercent, 100) + '%';
@@ -653,6 +1622,203 @@
             document.getElementById('level-up-modal').style.display = 'none';
         }
 
+        // --- LEADERBOARD SYSTEM ---
+        function getLeaderboard(difficulty) {
+            const allData = getAllUserGameData();
+            const entries = [];
+            
+            Object.keys(allData).forEach(username => {
+                const data = allData[username];
+                const user = users.find(u => u.user === username);
+                if (!user) return;
+                
+                let time = 0;
+                let count = 0;
+                let bestTime = 0;
+                
+                if (difficulty === 'overall') {
+                    // Overall: average of all difficulties
+                    let totalTime = 0;
+                    let totalCount = 0;
+                    Object.values(data.timeData || {}).forEach(d => {
+                        totalTime += d.totalTime || 0;
+                        totalCount += d.count || 0;
+                    });
+                    time = totalCount > 0 ? Math.round(totalTime / totalCount) : 0;
+                    count = totalCount;
+                } else if (data.timeData && data.timeData[difficulty]) {
+                    const d = data.timeData[difficulty];
+                    time = d.count > 0 ? Math.round(d.totalTime / d.count) : 0;
+                    count = d.count;
+                    bestTime = d.bestTime || 0;
+                }
+                
+                // Only include users who have completed at least one mission in this difficulty
+                if (count > 0) {
+                    entries.push({
+                        username: username,
+                        avgTime: time,
+                        count: count,
+                        bestTime: bestTime,
+                        role: user.role,
+                        level: data.level || 1,
+                        coins: data.coins || 0
+                    });
+                }
+            });
+            
+            // Sort by average time (fastest first)
+            entries.sort((a, b) => a.avgTime - b.avgTime);
+            return entries;
+        }
+
+        function renderLeaderboard(difficulty) {
+            const container = document.getElementById('leaderboard-content');
+            const entries = getLeaderboard(difficulty);
+            
+            if (entries.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:40px; color:#94a3b8;">
+                        <div style="font-size:48px; margin-bottom:16px;">📊</div>
+                        <div>No data yet for this difficulty.</div>
+                        <div style="font-size:14px; margin-top:8px;">Complete missions to appear on the leaderboard!</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            const medals = ['🥇', '🥈', '🥉'];
+            const rankClasses = ['gold', 'silver', 'bronze'];
+            const rankBadges = ['Champion 🏆', 'Runner-Up 🥈', 'Bronze 🥉'];
+            
+            // Check if current user is in top 3 and claim rewards
+            const currentUserEntry = entries.find(e => e.username === currentUser);
+            if (currentUserEntry) {
+                const rank = entries.indexOf(currentUserEntry) + 1;
+                if (rank <= 3) {
+                    checkAndClaimLeaderboardReward(difficulty, rank);
+                }
+            }
+            
+            let html = `
+                <div style="margin-bottom:12px; color:#94a3b8; font-size:14px;">
+                    ${entries.length} players • Fastest times win!
+                </div>
+            `;
+            
+            entries.forEach((entry, index) => {
+                const rank = index + 1;
+                const isCurrentUser = entry.username === currentUser;
+                const medal = rank <= 3 ? medals[index] : '';
+                const rankClass = rank <= 3 ? rankClasses[index] : '';
+                const rankBadge = rank <= 3 ? rankBadges[index] : '';
+                
+                // Get best time display
+                const bestDisplay = entry.bestTime > 0 ? `🏆 Best: ${entry.bestTime}s` : '';
+                
+                html += `
+                    <div class="leaderboard-entry ${isCurrentUser ? 'current-user' : ''}">
+                        <div class="rank ${rankClass}">${medal || '#' + rank}</div>
+                        <div class="user-info">
+                            <div class="username">
+                                ${entry.username} ${isCurrentUser ? '👤' : ''}
+                                ${rank <= 3 ? `<span class="rank-badge ${rank === 1 ? 'champion' : rank === 2 ? 'runner-up' : 'bronze-medal'}">${rankBadge}</span>` : ''}
+                                ${entry.role === 'Admin' ? '👑' : ''}
+                            </div>
+                            <div class="detail">Level ${entry.level} • ${entry.count} missions • ${entry.coins} coins ${bestDisplay ? '• ' + bestDisplay : ''}</div>
+                        </div>
+                        <div class="time-display">${entry.avgTime}s</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function checkAndClaimLeaderboardReward(difficulty, rank) {
+            const rewardKey = difficulty;
+            if (!leaderboardRewards[rewardKey]) {
+                leaderboardRewards[rewardKey] = { claimed: false, rank: 0 };
+            }
+            
+            // Only claim if not already claimed and rank is 1, 2, or 3
+            if (!leaderboardRewards[rewardKey].claimed && rank <= 3) {
+                leaderboardRewards[rewardKey].claimed = true;
+                leaderboardRewards[rewardKey].rank = rank;
+                saveGameProgress();
+                
+                // Grant rewards based on rank
+                let rewardEmoji = '';
+                let rewardTitle = '';
+                let rewardDesc = '';
+                let bonusCoins = 0;
+                let themeId = '';
+                
+                if (rank === 1) {
+                    rewardEmoji = '👑';
+                    rewardTitle = '🏆 CHAMPION!';
+                    rewardDesc = 'You are the fastest player in ' + difficulty + ' difficulty!';
+                    bonusCoins = 500;
+                    themeId = 'theme_gold';
+                    // Grant gold theme
+                    if (!userInventory['theme_gold']) {
+                        userInventory['theme_gold'] = 1;
+                    }
+                } else if (rank === 2) {
+                    rewardEmoji = '🥈';
+                    rewardTitle = '🥈 RUNNER-UP!';
+                    rewardDesc = 'You are the 2nd fastest in ' + difficulty + ' difficulty!';
+                    bonusCoins = 300;
+                    themeId = 'theme_silver';
+                    if (!userInventory['theme_silver']) {
+                        userInventory['theme_silver'] = 1;
+                    }
+                } else if (rank === 3) {
+                    rewardEmoji = '🥉';
+                    rewardTitle = '🥉 BRONZE!';
+                    rewardDesc = 'You are the 3rd fastest in ' + difficulty + ' difficulty!';
+                    bonusCoins = 150;
+                    themeId = 'theme_bronze';
+                    if (!userInventory['theme_bronze']) {
+                        userInventory['theme_bronze'] = 1;
+                    }
+                }
+                
+                // Grant coins
+                coins += bonusCoins;
+                updateDisplay();
+                saveGameProgress();
+                
+                // Show reward modal
+                const modal = document.getElementById('leaderboard-reward-modal');
+                document.getElementById('reward-emoji').textContent = rewardEmoji;
+                document.getElementById('reward-title').textContent = rewardTitle;
+                document.getElementById('reward-text').innerHTML = `
+                    ${rewardDesc}<br>
+                    🪙 +${bonusCoins} coins<br>
+                    ${themeId ? `🎨 Unlocked exclusive ${themeId.replace('theme_', '')} theme!` : ''}
+                    <br><span style="font-size:13px; color:#94a3b8;">Check your inventory in the shop!</span>
+                `;
+                modal.style.display = 'flex';
+                
+                showFeedback(`🏆 ${rewardTitle} +${bonusCoins} coins!`, 'success');
+            }
+        }
+
+        // --- Leaderboard tab switching ---
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('#leaderboard-tabs')) {
+                const btn = e.target.closest('button');
+                if (btn) {
+                    document.querySelectorAll('#leaderboard-tabs button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const diff = btn.dataset.diff;
+                    renderLeaderboard(diff);
+                }
+            }
+        });
+
+        // --- Account System ---
         const ALL_ACCOUNTS = [
             "Cash", "Accounts Receivable", "Supplies", "Prepaid Insurance", "Equipment", 
             "Accumulated Depreciation", "Accounts Payable", "Unearned Revenue", "Notes Payable",
@@ -672,6 +1838,31 @@
         const EASY_POOL = [];
         const MEDIUM_POOL = [];
         const HARD_POOL = [];
+        const ULTRA_POOL = [];
+
+        function getAccountType(account) {
+            const assetAccounts = ["Cash", "Accounts Receivable", "Supplies", "Prepaid Insurance", "Equipment", 
+                "Building", "Land", "Inventory", "Prepaid Rent", "Office Supplies", "Prepaid Advertising",
+                "Notes Receivable", "Prepaid Expenses", "Merchandise Inventory", "Allowance for Doubtful Accounts",
+                "Accumulated Depreciation", "Accumulated Amortization", "Treasury Stock"];
+            const liabilityAccounts = ["Accounts Payable", "Unearned Revenue", "Notes Payable", "Accrued Salaries",
+                "Accrued Interest", "Unearned Service Revenue", "Accrued Expenses", "Bonds Payable"];
+            const equityAccounts = ["Owner's Capital", "Dividends", "Retained Earnings"];
+            const revenueAccounts = ["Service Revenue", "Interest Revenue", "Sales Revenue", "Rent Revenue",
+                "Bad Debt Recovery", "Gain on Lawsuit Settlement"];
+            const expenseAccounts = ["Salary Expense", "Rent Expense", "Depreciation Expense", "Utilities Expense",
+                "Interest Expense", "Advertising Expense", "Insurance Expense", "Supplies Expense",
+                "Bad Debt Expense", "Legal Expense", "Research and Development Expense", "Amortization Expense",
+                "Repairs Expense", "Cost of Goods Sold", "Transportation In", "Sales Discounts", "Sales Returns",
+                "Purchase Discounts", "Purchase Returns"];
+            
+            if (assetAccounts.includes(account)) return "Asset";
+            if (liabilityAccounts.includes(account)) return "Liability";
+            if (equityAccounts.includes(account)) return "Equity";
+            if (revenueAccounts.includes(account)) return "Revenue";
+            if (expenseAccounts.includes(account)) return "Expense";
+            return "Account";
+        }
 
         function createVariations(baseDesc, debit, credit, explanation, count) {
             const variations = [];
@@ -700,11 +1891,21 @@
                 const idx = i % words.length;
                 const amount = 50 + (i * 37 + 73) % 750;
                 const desc = words[idx](baseDesc(amount));
+                
+                let detailedExplanation = explanation || '';
+                if (!detailedExplanation) {
+                    const debitType = getAccountType(debit);
+                    const creditType = getAccountType(credit);
+                    detailedExplanation = `• <strong>${debit}</strong> is a ${debitType}. ${debitType === 'Asset' || debitType === 'Expense' ? 'It increases with a DEBIT (left side).' : 'It increases with a CREDIT (right side).'}<br>`;
+                    detailedExplanation += `• <strong>${credit}</strong> is a ${creditType}. ${creditType === 'Asset' || debitType === 'Expense' ? 'It increases with a DEBIT (left side).' : 'It increases with a CREDIT (right side).'}<br>`;
+                    detailedExplanation += `• Since we are ${debitType === 'Asset' || debitType === 'Expense' ? 'INCREASING' : 'DECREASING'} ${debit}, we DEBIT it.<br>`;
+                    detailedExplanation += `• Since we are ${creditType === 'Liability' || creditType === 'Equity' || creditType === 'Revenue' ? 'INCREASING' : 'DECREASING'} ${credit}, we CREDIT it.`;
+                }
                 variations.push({
                     desc: desc,
                     debit: debit,
                     credit: credit,
-                    explanation: explanation || `${debit} increases → Debit ${debit}<br>${credit} increases → Credit ${credit}`
+                    explanation: detailedExplanation
                 });
             }
             return variations;
@@ -720,164 +1921,81 @@
                 { desc: (a) => `Owner invested $${a} into the business`, debit: "Cash", credit: "Owner's Capital" },
                 { desc: (a) => `Billed customer $${a} for services on credit`, debit: "Accounts Receivable", credit: "Service Revenue" },
                 { desc: (a) => `Paid $${a} for salary expense`, debit: "Salary Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of inventory with cash`, debit: "Inventory", credit: "Cash" },
-                { desc: (a) => `Received $${a} cash from accounts receivable`, debit: "Cash", credit: "Accounts Receivable" },
-                { desc: (a) => `Paid $${a} for advertising expense`, debit: "Prepaid Advertising", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of supplies on credit`, debit: "Office Supplies", credit: "Accounts Payable" },
-                { desc: (a) => `Received $${a} cash for services to be performed next month`, debit: "Cash", credit: "Unearned Service Revenue" },
-                { desc: (a) => `Paid $${a} for utilities expense`, debit: "Utilities Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of merchandise inventory for cash`, debit: "Merchandise Inventory", credit: "Cash" },
-                { desc: (a) => `Sold merchandise for $${a} cash`, debit: "Cash", credit: "Sales Revenue" },
-                { desc: (a) => `Paid $${a} for insurance coverage`, debit: "Prepaid Insurance", credit: "Cash" },
-                { desc: (a) => `Received $${a} from a customer for services performed`, debit: "Cash", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} to settle accounts payable`, debit: "Accounts Payable", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of office furniture with cash`, debit: "Equipment", credit: "Cash" },
-                { desc: (a) => `Received $${a} cash from a customer for services rendered`, debit: "Cash", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for maintenance expense`, debit: "Repairs Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of supplies`, debit: "Supplies", credit: "Cash" },
-                { desc: (a) => `Received $${a} cash from a client for consulting services`, debit: "Cash", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for office rent`, debit: "Rent Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of inventory on account`, debit: "Inventory", credit: "Accounts Payable" },
-                { desc: (a) => `Received $${a} cash from a customer for services provided`, debit: "Cash", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for employee salaries`, debit: "Salary Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of equipment on credit`, debit: "Equipment", credit: "Accounts Payable" },
-                { desc: (a) => `Received $${a} cash from a customer as payment for services`, debit: "Cash", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for utility bills`, debit: "Utilities Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of office equipment`, debit: "Equipment", credit: "Cash" },
-                { desc: (a) => `Received $${a} cash from a client for services performed`, debit: "Cash", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for advertising costs`, debit: "Advertising Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of inventory for cash`, debit: "Merchandise Inventory", credit: "Cash" },
-                { desc: (a) => `Received $${a} cash from a customer`, debit: "Cash", credit: "Accounts Receivable" },
-                { desc: (a) => `Paid $${a} for insurance premium`, debit: "Prepaid Insurance", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of supplies on account`, debit: "Office Supplies", credit: "Accounts Payable" },
-                { desc: (a) => `Received $${a} cash from a client for services`, debit: "Cash", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for telephone expense`, debit: "Utilities Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of merchandise`, debit: "Merchandise Inventory", credit: "Cash" }
             ];
-
             templates.forEach(t => {
-                const vars = createVariations(t.desc, t.debit, t.credit, null, 8);
+                const vars = createVariations(t.desc, t.debit, t.credit, null, 6);
                 EASY_POOL.push(...vars);
             });
         }
 
         function buildMediumPool() {
             const templates = [
-                { desc: (a) => `Received $${a} from customer for services provided on credit last month`, debit: "Cash", credit: "Accounts Receivable" },
+                { desc: (a) => `Received $${a} from customer for services provided on credit`, debit: "Cash", credit: "Accounts Receivable" },
                 { desc: (a) => `Purchased equipment for $${a} by signing a note payable`, debit: "Equipment", credit: "Notes Payable" },
                 { desc: (a) => `Paid $${a} for a one-year insurance policy in advance`, debit: "Prepaid Insurance", credit: "Cash" },
                 { desc: (a) => `Earned $${a} in revenue from services, customer will pay next month`, debit: "Accounts Receivable", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for accounts payable`, debit: "Accounts Payable", credit: "Cash" },
-                { desc: (a) => `Received $${a} cash from a customer for services performed`, debit: "Cash", credit: "Service Revenue" },
-                { desc: (a) => `Purchased $${a} of supplies on credit`, debit: "Supplies", credit: "Accounts Payable" },
-                { desc: (a) => `Paid $${a} salary expense`, debit: "Salary Expense", credit: "Cash" },
-                { desc: (a) => `Billed customer $${a} for consulting services`, debit: "Accounts Receivable", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for utilities expense`, debit: "Utilities Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of inventory on credit`, debit: "Inventory", credit: "Accounts Payable" },
-                { desc: (a) => `Received $${a} advance payment for future services`, debit: "Cash", credit: "Unearned Revenue" },
-                { desc: (a) => `Recorded $${a} of accrued interest expense`, debit: "Interest Expense", credit: "Accrued Interest" },
-                { desc: (a) => `Sold merchandise on credit for $${a}`, debit: "Accounts Receivable", credit: "Sales Revenue" },
-                { desc: (a) => `Recorded $${a} of depreciation on equipment`, debit: "Depreciation Expense", credit: "Accumulated Depreciation" },
-                { desc: (a) => `Paid $${a} for advertising expense`, debit: "Advertising Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of merchandise inventory on account`, debit: "Merchandise Inventory", credit: "Accounts Payable" },
-                { desc: (a) => `Received $${a} from customer for sales on account`, debit: "Cash", credit: "Accounts Receivable" },
-                { desc: (a) => `Paid $${a} for transportation-in on inventory purchase`, debit: "Transportation In", credit: "Cash" },
-                { desc: (a) => `Recorded $${a} of cost of goods sold`, debit: "Cost of Goods Sold", credit: "Merchandise Inventory" },
-                { desc: (a) => `Issued $${a} of common stock for cash`, debit: "Cash", credit: "Owner's Capital" },
-                { desc: (a) => `Paid $${a} for repairs and maintenance`, debit: "Repairs Expense", credit: "Cash" },
-                { desc: (a) => `Received $${a} from a tenant for rent`, debit: "Cash", credit: "Rent Revenue" },
-                { desc: (a) => `Paid $${a} for office rent`, debit: "Rent Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of supplies on account`, debit: "Office Supplies", credit: "Accounts Payable" },
-                { desc: (a) => `Received $${a} from customer for services on account`, debit: "Cash", credit: "Accounts Receivable" },
-                { desc: (a) => `Paid $${a} for interest on loan`, debit: "Interest Expense", credit: "Cash" },
-                { desc: (a) => `Recorded $${a} of accrued salaries`, debit: "Salary Expense", credit: "Accrued Salaries" },
-                { desc: (a) => `Sold equipment for $${a} cash`, debit: "Cash", credit: "Equipment" },
-                { desc: (a) => `Purchased $${a} of land`, debit: "Land", credit: "Cash" },
-                { desc: (a) => `Received $${a} from customer for services`, debit: "Cash", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for legal fees`, debit: "Legal Expense", credit: "Cash" },
-                { desc: (a) => `Purchased $${a} of inventory with cash`, debit: "Merchandise Inventory", credit: "Cash" },
-                { desc: (a) => `Received $${a} from customer for services provided`, debit: "Cash", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for utilities`, debit: "Utilities Expense", credit: "Cash" },
-                { desc: (a) => `Recorded $${a} of bad debt expense`, debit: "Bad Debt Expense", credit: "Allowance for Doubtful Accounts" },
-                { desc: (a) => `Purchased $${a} of equipment with a note`, debit: "Equipment", credit: "Notes Payable" },
-                { desc: (a) => `Received $${a} from customer for sales on account`, debit: "Cash", credit: "Accounts Receivable" },
-                { desc: (a) => `Paid $${a} for advertising`, debit: "Advertising Expense", credit: "Cash" },
-                { desc: (a) => `Recorded $${a} of amortization expense`, debit: "Amortization Expense", credit: "Accumulated Amortization" },
-                { desc: (a) => `Purchased $${a} of treasury stock`, debit: "Treasury Stock", credit: "Cash" }
             ];
-
             templates.forEach(t => {
-                const vars = createVariations(t.desc, t.debit, t.credit, null, 10);
+                const vars = createVariations(t.desc, t.debit, t.credit, null, 8);
                 MEDIUM_POOL.push(...vars);
             });
         }
 
         function buildHardPool() {
             const templates = [
-                { desc: (a) => `Received $${a} from a customer as a deposit for future services`, debit: "Cash", credit: "Unearned Revenue",
-                  explanation: "TRICKY: This is a liability, not revenue! Cash increases → Debit Cash, Unearned Revenue increases → Credit Unearned Revenue" },
-                { desc: (a) => `Paid $${a} to reduce the principal on a bank loan`, debit: "Notes Payable", credit: "Cash",
-                  explanation: "TRICKY: Paying loan principal reduces liability! Notes Payable decreases → Debit Notes Payable, Cash decreases → Credit Cash" },
-                { desc: (a) => `Owner invested $${a} directly into the business bank account`, debit: "Cash", credit: "Owner's Capital",
-                  explanation: "TRICKY: Owner investment increases equity! Cash increases → Debit Cash, Owner's Capital increases → Credit Owner's Capital" },
-                { desc: (a) => `Recorded depreciation of $${a} on equipment`, debit: "Depreciation Expense", credit: "Accumulated Depreciation",
-                  explanation: "TRICKY: Depreciation is a non-cash expense! Depreciation Expense increases → Debit, Accumulated Depreciation (contra-asset) increases → Credit" },
-                { desc: (a) => `Received $${a} from a customer who had been written off`, debit: "Cash", credit: "Bad Debt Recovery",
-                  explanation: "TRICKY: Bad debt recovery is revenue! Cash increases → Debit Cash, Bad Debt Recovery increases → Credit Bad Debt Recovery" },
-                { desc: (a) => `Billed customer $${a} for services with terms 2/10, n/30`, debit: "Accounts Receivable", credit: "Service Revenue",
-                  explanation: "TRICKY: Revenue is recognized when services are performed! Accounts Receivable increases → Debit, Service Revenue increases → Credit" },
-                { desc: (a) => `Paid $${a} interest on bank loan`, debit: "Interest Expense", credit: "Cash",
-                  explanation: "TRICKY: Interest expense is an expense! Interest Expense increases → Debit, Cash decreases → Credit" },
-                { desc: (a) => `Received $${a} dividend from investment`, debit: "Cash", credit: "Dividends",
-                  explanation: "TRICKY: Dividends received are income! Cash increases → Debit Cash, Dividend Revenue increases → Credit" },
-                { desc: (a) => `Purchased $${a} of land with cash`, debit: "Land", credit: "Cash",
-                  explanation: "TRICKY: Land is a long-term asset! Land increases → Debit Land, Cash decreases → Credit Cash" },
-                { desc: (a) => `Paid $${a} for prepaid rent`, debit: "Prepaid Rent", credit: "Cash",
-                  explanation: "TRICKY: Prepaid rent is an asset! Prepaid Rent increases → Debit Prepaid Rent, Cash decreases → Credit Cash" },
-                { desc: (a) => `Accrued $${a} of salaries payable`, debit: "Salary Expense", credit: "Accrued Salaries",
-                  explanation: "TRICKY: Accrued expenses are liabilities! Salary Expense increases → Debit, Accrued Salaries increases → Credit" },
-                { desc: (a) => `Received $${a} from a customer for services performed, but customer paid with a note`, debit: "Notes Receivable", credit: "Service Revenue",
-                  explanation: "TRICKY: Notes receivable is an asset! Notes Receivable increases → Debit Notes Receivable, Service Revenue increases → Credit" },
-                { desc: (a) => `Paid $${a} for dividends to shareholders`, debit: "Dividends", credit: "Cash",
-                  explanation: "TRICKY: Dividends are distributions of earnings! Dividends increases → Debit Dividends, Cash decreases → Credit Cash" },
-                { desc: (a) => `Recorded $${a} of allowance for doubtful accounts`, debit: "Bad Debt Expense", credit: "Allowance for Doubtful Accounts",
-                  explanation: "TRICKY: Allowance for doubtful accounts is a contra-asset! Bad Debt Expense increases → Debit, Allowance for Doubtful Accounts increases → Credit" },
-                { desc: (a) => `Purchased $${a} of treasury stock`, debit: "Treasury Stock", credit: "Cash",
-                  explanation: "TRICKY: Treasury stock is a contra-equity account! Treasury Stock increases → Debit Treasury Stock, Cash decreases → Credit Cash" },
-                { desc: (a) => `Issued $${a} of bonds payable`, debit: "Cash", credit: "Bonds Payable",
-                  explanation: "TRICKY: Bonds payable is a liability! Cash increases → Debit Cash, Bonds Payable increases → Credit Bonds Payable" },
-                { desc: (a) => `Paid $${a} for legal fees to defend a lawsuit`, debit: "Legal Expense", credit: "Cash",
-                  explanation: "TRICKY: Legal fees for defending a lawsuit are expenses! Legal Expense increases → Debit Legal Expense, Cash decreases → Credit Cash" },
-                { desc: (a) => `Received $${a} from a customer as settlement of a lawsuit`, debit: "Cash", credit: "Gain on Lawsuit Settlement",
-                  explanation: "TRICKY: Lawsuit settlements are gains! Cash increases → Debit Cash, Gain on Lawsuit Settlement increases → Credit" },
-                { desc: (a) => `Paid $${a} for research and development costs`, debit: "Research and Development Expense", credit: "Cash",
-                  explanation: "TRICKY: R&D costs are expensed as incurred! Research and Development Expense increases → Debit, Cash decreases → Credit" },
-                { desc: (a) => `Recorded $${a} of amortization on patent`, debit: "Amortization Expense", credit: "Accumulated Amortization",
-                  explanation: "TRICKY: Amortization is like depreciation for intangible assets! Amortization Expense increases → Debit, Accumulated Amortization increases → Credit" },
-                { desc: (a) => `Paid $${a} for a building with a mortgage`, debit: "Building", credit: "Notes Payable",
-                  explanation: "TRICKY: A mortgage is a long-term liability! Building increases → Debit Building, Notes Payable increases → Credit Notes Payable" },
-                { desc: (a) => `Recorded $${a} of inventory write-down`, debit: "Cost of Goods Sold", credit: "Merchandise Inventory",
-                  explanation: "TRICKY: Inventory write-downs are expenses! Cost of Goods Sold increases → Debit, Merchandise Inventory decreases → Credit" },
-                { desc: (a) => `Received $${a} from a customer for a sale with a discount`, debit: "Cash", credit: "Sales Discounts",
-                  explanation: "TRICKY: Sales discounts reduce revenue! Cash increases → Debit Cash, Sales Discounts increases → Debit (contra-revenue)" },
-                { desc: (a) => `Paid $${a} for a purchase discount`, debit: "Purchase Discounts", credit: "Cash",
-                  explanation: "TRICKY: Purchase discounts are contra-expense accounts! Purchase Discounts increases → Credit (contra-expense), Cash decreases → Credit" },
-                { desc: (a) => `Returned $${a} of merchandise to supplier`, debit: "Accounts Payable", credit: "Purchase Returns",
-                  explanation: "TRICKY: Purchase returns reduce liability and are contra-expense! Accounts Payable decreases → Debit, Purchase Returns increases → Credit" }
+                { desc: (a) => `Received $${a} from a customer as a deposit for future services`, debit: "Cash", credit: "Unearned Revenue" },
+                { desc: (a) => `Paid $${a} to reduce the principal on a bank loan`, debit: "Notes Payable", credit: "Cash" },
+                { desc: (a) => `Owner invested $${a} directly into the business`, debit: "Cash", credit: "Owner's Capital" },
+                { desc: (a) => `Recorded depreciation of $${a} on equipment`, debit: "Depreciation Expense", credit: "Accumulated Depreciation" },
+                { desc: (a) => `Accrued $${a} of salaries payable`, debit: "Salary Expense", credit: "Accrued Salaries" },
             ];
-
             templates.forEach(t => {
-                const vars = createVariations(t.desc, t.debit, t.credit, t.explanation || null, 20);
+                const vars = createVariations(t.desc, t.debit, t.credit, null, 10);
                 HARD_POOL.push(...vars);
+            });
+        }
+
+        function buildUltraPool() {
+            const templates = [
+                { desc: (a) => `Received $${a} from a customer as a deposit for future services`, debit: "Cash", credit: "Unearned Revenue",
+                  explanation: "TRICKY: This is a liability, not revenue!" },
+                { desc: (a) => `Paid $${a} to reduce the principal on a bank loan`, debit: "Notes Payable", credit: "Cash",
+                  explanation: "TRICKY: Paying loan principal reduces liability!" },
+                { desc: (a) => `Owner invested $${a} directly into the business bank account`, debit: "Cash", credit: "Owner's Capital",
+                  explanation: "TRICKY: Owner investment increases equity!" },
+                { desc: (a) => `Recorded depreciation of $${a} on equipment`, debit: "Depreciation Expense", credit: "Accumulated Depreciation",
+                  explanation: "TRICKY: Depreciation is a non-cash expense!" },
+                { desc: (a) => `Received $${a} from a customer who had been written off`, debit: "Cash", credit: "Bad Debt Recovery",
+                  explanation: "TRICKY: Bad debt recovery is revenue!" },
+                { desc: (a) => `Paid $${a} interest on bank loan`, debit: "Interest Expense", credit: "Cash",
+                  explanation: "TRICKY: Interest expense is an expense!" },
+                { desc: (a) => `Accrued $${a} of salaries payable`, debit: "Salary Expense", credit: "Accrued Salaries",
+                  explanation: "TRICKY: Accrued expenses are liabilities!" },
+                { desc: (a) => `Paid $${a} for dividends to shareholders`, debit: "Dividends", credit: "Cash",
+                  explanation: "TRICKY: Dividends are distributions of earnings!" },
+                { desc: (a) => `Recorded $${a} of allowance for doubtful accounts`, debit: "Bad Debt Expense", credit: "Allowance for Doubtful Accounts",
+                  explanation: "TRICKY: Allowance for doubtful accounts is a contra-asset!" },
+                { desc: (a) => `Purchased $${a} of treasury stock`, debit: "Treasury Stock", credit: "Cash",
+                  explanation: "TRICKY: Treasury stock is a contra-equity account!" },
+            ];
+            templates.forEach(t => {
+                const vars = createVariations(t.desc, t.debit, t.credit, t.explanation, 15);
+                ULTRA_POOL.push(...vars);
             });
         }
 
         buildEasyPool();
         buildMediumPool();
         buildHardPool();
+        buildUltraPool();
+
+        function extractAmountFromDesc(desc) {
+            const match = desc.match(/\$(\d+)/);
+            return match ? parseInt(match[1]) : null;
+        }
 
         function generateDailyTransactions(day, difficulty, version) {
-            const diffCode = difficulty === 'easy' ? 7 : difficulty === 'medium' ? 13 : 23;
+            const diffCode = difficulty === 'easy' ? 7 : difficulty === 'medium' ? 13 : difficulty === 'hard' ? 23 : 31;
             const seed = day * 7919 + version * 6271 + diffCode * 5437;
             
             function seededRandom(seedVal) {
@@ -900,22 +2018,21 @@
             }
             
             const amounts = {
-                easy: [75, 120, 200, 300, 450, 500, 150, 250, 180, 350, 90, 275, 420, 380, 160, 210, 320, 280, 400, 550, 125, 225, 375, 425, 175, 310, 340, 460, 490, 215],
-                medium: [600, 850, 1200, 1500, 2200, 2800, 3500, 4200, 4800, 5500, 1800, 2500, 3200, 4000, 5000, 2100, 2900, 3800, 4500, 5200, 1600, 2600, 3400, 4600, 5400, 1900, 2700, 3600, 4900, 5300],
-                hard: [700, 1200, 1800, 2500, 3200, 4000, 4800, 5600, 6500, 7800, 2200, 3500, 4200, 5800, 7200, 2800, 3900, 5100, 6200, 7500, 1900, 3100, 4300, 5700, 6900, 2400, 3700, 4900, 6100, 7300]
+                easy: [75, 120, 200, 300, 450, 500, 150, 250, 180, 350],
+                medium: [600, 850, 1200, 1500, 2200, 2800, 3500, 4200, 4800, 5500],
+                hard: [700, 1200, 1800, 2500, 3200, 4000, 4800, 5600, 6500, 7800],
+                ultra: [1500, 2500, 4000, 5500, 7000, 9000, 11000, 13000, 16000, 20000]
             };
             
             let pool;
             if (difficulty === 'easy') pool = EASY_POOL;
             else if (difficulty === 'medium') pool = MEDIUM_POOL;
-            else pool = HARD_POOL;
+            else if (difficulty === 'hard') pool = HARD_POOL;
+            else pool = ULTRA_POOL;
             
-            if (pool.length === 0) {
-                console.error(`Pool for ${difficulty} is empty!`);
-                return [];
-            }
+            if (pool.length === 0) return [];
             
-            const numTransactions = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : 5;
+            const numTransactions = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : difficulty === 'hard' ? 5 : 6;
             const availableAmounts = amounts[difficulty] || amounts.easy;
             
             const shuffledPool = shuffleArray(pool, version * 97 + day * 83);
@@ -937,19 +2054,20 @@
                 
                 const scenario = shuffledPool[scenarioIdx];
                 const amountIdx = (i * (version % 7 + 1) + day * 5 + version * 2) % shuffledAmounts.length;
-                const amount = shuffledAmounts[amountIdx];
+                let amount = shuffledAmounts[amountIdx];
                 
-                const transaction = {
-                    id: day * 100000 + (difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3) * 10000 + version * 1000 + i + 1,
+                const descAmount = extractAmountFromDesc(scenario.desc);
+                if (descAmount !== null) amount = descAmount;
+                
+                selected.push({
+                    id: day * 100000 + (difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : difficulty === 'hard' ? 3 : 4) * 10000 + version * 1000 + i + 1,
                     desc: scenario.desc,
                     correctDebit: scenario.debit,
                     correctCredit: scenario.credit,
                     amount: amount,
-                    explanation: scenario.explanation || `${scenario.debit} increases → Debit ${scenario.debit}<br>${scenario.credit} increases → Credit ${scenario.credit}`
-                };
-                selected.push(transaction);
+                    explanation: scenario.explanation
+                });
             }
-            
             return selected;
         }
 
@@ -959,17 +2077,10 @@
                 accounts.add(t.correctDebit);
                 accounts.add(t.correctCredit);
             });
-            const extras = ["Cash", "Accounts Receivable", "Accounts Payable", "Supplies", "Equipment", "Inventory", "Prepaid Insurance", "Service Revenue", "Salary Expense", "Rent Expense"];
+            const extras = ["Cash", "Accounts Receivable", "Accounts Payable", "Supplies", "Equipment", "Inventory", "Prepaid Insurance", "Service Revenue", "Salary Expense", "Rent Expense", "Utilities Expense", "Interest Expense", "Depreciation Expense"];
             extras.forEach(a => accounts.add(a));
             return Array.from(accounts);
         }
-
-        const shopItems = [
-            { id: 1, name: "Golden Pen", price: 80, desc: "Cosmetic - Fancy journal look", emoji: "✒️" },
-            { id: 2, name: "Extra Time Boost", price: 120, desc: "Adds 30 seconds on next mission", emoji: "⏳" },
-            { id: 3, name: "Hint Token", price: 60, desc: "One free hint per mission", emoji: "💡" },
-            { id: 4, name: "Lucky Coin Charm", price: 150, desc: "Chance of bonus coins", emoji: "🍀" }
-        ];
 
         function generateCalendar() {
             const cal = document.getElementById('calendar');
@@ -985,12 +2096,54 @@
                     selectedDate = day;
                     document.getElementById('selected-date').textContent = `Selected: June ${day}, 2026`;
                     versionCache = {};
+                    updateAvgTimeDisplay();
                 };
                 cal.appendChild(d);
             }
         }
 
+        function updateAvgTimeDisplay() {
+            const display = document.getElementById('avg-time-display');
+            if (!display) return;
+            
+            const diff = currentDifficulty || 'easy';
+            const data = timeData[diff] || { totalTime: 0, count: 0, bestTime: 0 };
+            const avgTime = data.count > 0 ? Math.round(data.totalTime / data.count) : 0;
+            const bestTime = data.bestTime || 0;
+            
+            const diffNames = { easy: 'Easy', medium: 'Medium', hard: 'Hard', ultra: 'Ultra' };
+            display.innerHTML = `⏱️ Average: ${avgTime > 0 ? avgTime + 's' : 'Not yet tracked'} ${bestTime > 0 ? '• 🏆 Best: ' + bestTime + 's' : ''}`;
+        }
+
+        function startNewMission() {
+            if (!currentUser) {
+                showAuthAlert('Please login to start a mission!');
+                return;
+            }
+            missionSubmitted = false;
+            journal = [];
+            playerEntries = {};
+            transactions = [];
+            showScreen('mission');
+            document.querySelectorAll('.day').forEach(el => el.classList.remove('selected'));
+            selectedDate = null;
+            document.getElementById('selected-date').textContent = 'Select a day';
+            document.getElementById('setup-card').style.display = 'block';
+            document.getElementById('mission-content').style.display = 'none';
+            updateAvgTimeDisplay();
+        }
+
         function startMission(diff) {
+            if (!currentUser) {
+                showAuthAlert('Please login to start a mission!');
+                return;
+            }
+            
+            if (diff === 'ultra' && (!userInventory.ultra_ticket || userInventory.ultra_ticket < 1)) {
+                showFeedback('🔥 You need an Ultra Challenge Ticket from the shop to play Ultra difficulty!', 'danger');
+                return;
+            }
+            
             if (!selectedDate) {
                 showFeedback("Please select a date first!", "danger");
                 return;
@@ -1015,6 +2168,11 @@
             if (!transactions || transactions.length === 0) {
                 showFeedback("Error generating transactions. Please try again.", "danger");
                 return;
+            }
+            
+            if (diff === 'ultra' && userInventory.ultra_ticket) {
+                userInventory.ultra_ticket--;
+                saveUserInventory(currentUser, userInventory);
             }
             
             document.getElementById('setup-card').style.display = 'none';
@@ -1051,6 +2209,7 @@
             selectedDate = null;
             document.getElementById('selected-date').textContent = 'Select a day';
             versionCache = {};
+            updateAvgTimeDisplay();
         }
 
         function renderTransactions() {
@@ -1071,10 +2230,10 @@
                 }
                 div.className = `transaction ${isRecorded ? 'recorded' : ''} ${isIncorrect ? 'incorrect' : ''}`;
                 
-                let html = `<div style="flex:1;"><strong>Transaction ${index + 1}:</strong><br><span>${t.desc}</span></div>`;
+                let html = `<div style="flex:1;min-width:180px;"><strong>Transaction ${index + 1}:</strong><br><span>${t.desc}</span></div>`;
 
                 if (isRecorded && !isEditing) {
-                    html += `<div style="flex:1;"><div style="background:#0f172a;padding:12px;border-radius:8px;">Recorded: ${recorded.debit} (Dr) / ${recorded.credit} (Cr) $${recorded.amount}</div>`;
+                    html += `<div style="flex:1;min-width:200px;"><div style="background:#0f172a;padding:12px;border-radius:8px;">Recorded: ${recorded.debit} (Dr) / ${recorded.credit} (Cr) $${recorded.amount}</div>`;
                     if (missionSubmitted) {
                         const correct = recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === t.amount;
                         html += `<div class="correct-answer" style="margin-top:10px;color:${correct ? '#4ade80' : '#f87171'}">
@@ -1092,7 +2251,7 @@
                     ).join('');
                     
                     html += `
-                        <div style="flex:1;">
+                        <div style="flex:1;min-width:280px;">
                             <div class="entry-form">
                                 <div><div class="entry-label">Debit Account</div>
                                     <select onchange="updateEntry(${t.id},this)">
@@ -1109,8 +2268,9 @@
                                 <div><div class="entry-label">Amount</div>
                                     <input type="number" value="${cur.amount||''}" onchange="updateEntry(${t.id},this)" style="width:100%">
                                 </div>
-                                <div style="display:flex;align-items:flex-end;">
-                                    <button onclick="saveEntry(${t.id})">${isEditing ? 'Save Changes' : 'Record'}</button>
+                                <div style="display:flex;align-items:flex-end;gap:6px;">
+                                    <button onclick="saveEntry(${t.id})" style="white-space:nowrap;">${isEditing ? 'Save' : 'Record'}</button>
+                                    <button class="hint-btn" onclick="showAnswer(${t.id})" aria-label="Show answer"></button>
                                 </div>
                             </div>
                         </div>`;
@@ -1120,6 +2280,24 @@
             });
         }
 
+        function showAnswer(id) {
+            const t = transactions.find(tr => tr.id === id);
+            if (!t) return;
+            const descAmount = extractAmountFromDesc(t.desc);
+            const displayAmount = descAmount !== null ? descAmount : t.amount;
+            document.getElementById('answer-body').innerHTML = `
+                <p><strong>Transaction:</strong> ${t.desc}</p>
+                <p><strong>Correct Debit:</strong> ${t.correctDebit}</p>
+                <p><strong>Correct Credit:</strong> ${t.correctCredit}</p>
+                <p><strong>Amount:</strong> $${displayAmount}</p>
+                <div style="margin-top:15px;padding-top:15px;border-top:1px solid #334155;text-align:left;">
+                    <h4 style="color:var(--accent);">📚 Explanation</h4>
+                    <p style="color:#94a3b8;line-height:1.6;">${t.explanation || 'No detailed explanation available.'}</p>
+                </div>
+            `;
+            document.getElementById('answer-modal').style.display = 'flex';
+        }
+
         function updateEntry(id, el) {
             if (!playerEntries[id]) playerEntries[id] = {};
             if (el.tagName === "SELECT") {
@@ -1127,11 +2305,16 @@
                 const isDebit = label ? label.textContent.includes("Debit") : false;
                 playerEntries[id][isDebit ? 'debit' : 'credit'] = el.value;
             } else {
-                playerEntries[id].amount = parseFloat(el.value);
+                const val = parseFloat(el.value);
+                playerEntries[id].amount = isNaN(val) ? '' : val;
             }
         }
 
         function saveEntry(id) {
+            if (!currentUser) {
+                showAuthAlert('Please login to save entries!');
+                return;
+            }
             if (missionSubmitted) {
                 showFeedback("Mission already submitted!", "danger");
                 return;
@@ -1143,13 +2326,18 @@
                 return;
             }
             
-            if (!e.debit || !e.credit || !Number.isFinite(e.amount)) {
-                showFeedback("Please fill all fields!", "danger");
+            if (!e.debit || !e.credit) {
+                showFeedback("Please select both debit and credit accounts!", "danger");
+                return;
+            }
+            
+            if (e.amount === '' || e.amount === undefined || e.amount === null || !Number.isFinite(e.amount)) {
+                showFeedback("Please enter a valid amount!", "danger");
                 return;
             }
             
             if (e.amount <= 0) {
-                showFeedback("Amount must be > 0", "danger");
+                showFeedback("Amount must be greater than 0", "danger");
                 return;
             }
             
@@ -1159,7 +2347,10 @@
                 return;
             }
             
-            const isCorrect = e.debit === trans.correctDebit && e.credit === trans.correctCredit && e.amount === trans.amount;
+            const descAmount = extractAmountFromDesc(trans.desc);
+            const correctAmount = descAmount !== null ? descAmount : trans.amount;
+            
+            const isCorrect = e.debit === trans.correctDebit && e.credit === trans.correctCredit && e.amount === correctAmount;
             
             if (!isCorrect) {
                 incorrectAttempts++;
@@ -1178,7 +2369,7 @@
                 desc: trans.desc,
                 debit: e.debit,
                 credit: e.credit,
-                amount: e.amount
+                amount: correctAmount
             });
             
             editingId = null;
@@ -1250,7 +2441,36 @@
             `;
         }
 
+        // --- Interactive Ledger ---
+        function toggleAccount(id) {
+            const el = document.getElementById('account-' + id);
+            if (el) {
+                el.classList.toggle('expanded');
+            }
+        }
+
+        function toggleAllAccounts() {
+            document.querySelectorAll('.t-account').forEach(el => {
+                el.classList.add('expanded');
+            });
+        }
+
+        function collapseAllAccounts() {
+            document.querySelectorAll('.t-account').forEach(el => {
+                el.classList.remove('expanded');
+            });
+        }
+
         function submitMission() {
+            if (!currentUser) {
+                showAuthAlert('Please login to submit!');
+                return;
+            }
+            if (missionSubmitted) {
+                showFeedback("Mission already submitted!", "danger");
+                return;
+            }
+            
             if (journal.length !== transactions.length) {
                 return showFeedback(`Record all ${transactions.length} transactions first!`, "danger");
             }
@@ -1270,55 +2490,88 @@
             lastMissionJournal = [...journal];
 
             const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+            
+            // Track time for this difficulty
+            if (currentDifficulty && timeData[currentDifficulty]) {
+                timeData[currentDifficulty].totalTime += timeTaken;
+                timeData[currentDifficulty].count++;
+                // Track best time
+                if (timeData[currentDifficulty].bestTime === 0 || timeTaken < timeData[currentDifficulty].bestTime) {
+                    timeData[currentDifficulty].bestTime = timeTaken;
+                }
+                saveGameProgress();
+            }
+            
             let correct = 0;
             journal.forEach(j => {
                 const t = transactions.find(tr => tr.id === j.id);
-                if (t && j.debit === t.correctDebit && j.credit === t.correctCredit && j.amount === t.amount) correct++;
+                if (t) {
+                    const descAmount = extractAmountFromDesc(t.desc);
+                    const correctAmount = descAmount !== null ? descAmount : t.amount;
+                    if (j.debit === t.correctDebit && j.credit === t.correctCredit && j.amount === correctAmount) {
+                        correct++;
+                    }
+                }
             });
             const score = Math.round((correct / journal.length) * 100);
             
             const penalty = Math.min(incorrectAttempts * 2, 20);
             const finalScore = Math.max(0, score - penalty);
             
-            // Diminishing returns on coin rewards based on missions completed
-            // Each completed mission reduces coin reward by 5%, down to a minimum of 20% of base
-            const coinDiminishFactor = Math.max(0.2, 1 - (missionsCompleted * 0.05));
-            const expDiminishFactor = Math.max(0.5, 1 - (missionsCompleted * 0.02));
+            // Coin magnet boost
+            let coinMultiplier = 1;
+            if (userInventory.coin_boost && userInventory.coin_boost > 0) {
+                coinMultiplier = 1.5;
+                userInventory.coin_boost--;
+                showFeedback('🧲 Coin Magnet activated! 50% more coins!', 'success');
+            }
             
-            const diffMultiplier = currentDifficulty === 'easy' ? 1 : currentDifficulty === 'medium' ? 2 : 3;
+            const diffMultiplier = currentDifficulty === 'easy' ? 1 : currentDifficulty === 'medium' ? 2 : currentDifficulty === 'hard' ? 3 : 5;
             const baseExp = Math.floor((5 + diffMultiplier * 3) * (finalScore / 100));
             const baseCoins = Math.floor((30 + diffMultiplier * 20) * (finalScore / 100));
             
-            const expEarned = Math.max(1, Math.floor(baseExp * expDiminishFactor));
-            const coinEarned = Math.max(1, Math.floor(baseCoins * coinDiminishFactor));
+            const expEarned = Math.max(1, Math.floor(baseExp));
+            const coinEarned = Math.max(1, Math.floor(baseCoins * coinMultiplier));
             
             missionsCompleted++;
             coins += coinEarned;
             const leveledUp = addExp(expEarned);
+            saveGameProgress();
 
-            renderResults(timeTaken, score, finalScore, expEarned, coinEarned, leveledUp, coinDiminishFactor);
+            // Get avg time for this difficulty
+            const avgTime = timeData[currentDifficulty] && timeData[currentDifficulty].count > 0 
+                ? Math.round(timeData[currentDifficulty].totalTime / timeData[currentDifficulty].count) 
+                : 0;
+            const bestTime = timeData[currentDifficulty] ? timeData[currentDifficulty].bestTime || 0 : 0;
+
+            renderResults(timeTaken, score, finalScore, expEarned, coinEarned, leveledUp, avgTime, bestTime);
             showScreen('results');
             
             const message = finalScore === 100 ? "🌟 PERFECT DAY!" : 
                            finalScore >= 80 ? "👍 Good job!" : 
                            finalScore >= 60 ? "📚 Keep learning!" : "💪 Practice makes perfect!";
             
+            const diffNames = { easy: 'Easy', medium: 'Medium', hard: 'Hard', ultra: 'Ultra' };
             showModal(message, `
                 <div style="text-align:left; margin-top:10px;">
                     <div>Raw Score: ${score}%</div>
                     <div>Penalty: ${penalty}% (${incorrectAttempts} incorrect attempts)</div>
                     <div>Final Score: ${finalScore}%</div>
                     <div>⭐ EXP Earned: ${expEarned}</div>
-                    <div>🪙 Coins Earned: ${coinEarned} (${Math.round(coinDiminishFactor * 100)}% of base)</div>
+                    <div>🪙 Coins Earned: ${coinEarned}</div>
+                    <div>⏱️ Time: ${timeTaken}s</div>
+                    <div style="color:#94a3b8; font-size:14px; margin-top:8px;">
+                        📊 Avg time for ${diffNames[currentDifficulty]}: ${avgTime > 0 ? avgTime + 's' : 'N/A'}
+                        ${bestTime > 0 ? '• 🏆 Best: ' + bestTime + 's' : ''}
+                    </div>
                     <div style="margin-top:10px; color:#94a3b8; font-size:14px;">
-                        ${missionsCompleted > 5 ? '📉 Coin rewards decrease as you complete more missions to encourage variety!' : ''}
                         ${incorrectAttempts > 0 ? '💡 Learning from mistakes is the best way to improve!' : '🎯 Perfect! No mistakes made!'}
                     </div>
                 </div>
             `);
         }
 
-        function renderResults(timeTaken, score, finalScore, expEarned, coinEarned, leveledUp, coinDiminishFactor) {
+        function renderResults(timeTaken, score, finalScore, expEarned, coinEarned, leveledUp, avgTime, bestTime) {
             const container = document.getElementById('results-list');
             container.innerHTML = '';
             
@@ -1340,25 +2593,30 @@
                 container.appendChild(summary);
             }
             
-            // Show rewards summary with diminishing returns info
+            const diffNames = { easy: 'Easy', medium: 'Medium', hard: 'Hard', ultra: 'Ultra' };
+            const diffLabel = currentDifficulty ? diffNames[currentDifficulty] : 'Unknown';
+            
             const rewardDiv = document.createElement('div');
             rewardDiv.style.cssText = 'background:#1e2937;padding:16px;border-radius:12px;margin-bottom:16px;border-left:5px solid var(--exp-color);';
             rewardDiv.innerHTML = `
                 <h3 style="color:var(--exp-color);">🎁 Rewards</h3>
                 <div style="display:flex; gap:20px; margin-top:10px; flex-wrap:wrap;">
                     <div><span style="color:var(--exp-color);">⭐</span> EXP: <strong>+${expEarned}</strong></div>
-                    <div><span style="color:#f1c40f;">🪙</span> Coins: <strong>+${coinEarned}</strong> <span style="color:#94a3b8;font-size:12px;">(${Math.round(coinDiminishFactor * 100)}% of base)</span></div>
+                    <div><span style="color:#f1c40f;">🪙</span> Coins: <strong>+${coinEarned}</strong></div>
                     ${leveledUp ? '<div style="color:var(--accent);">⬆️ <strong>LEVEL UP!</strong></div>' : ''}
                     <div>Score: <strong>${finalScore}%</strong></div>
                     <div style="color:#94a3b8;font-size:12px;">Missions completed: ${missionsCompleted}</div>
+                    <div style="color:#94a3b8;font-size:12px;">⏱️ Time: ${timeTaken}s (Avg ${diffLabel}: ${avgTime > 0 ? avgTime + 's' : 'N/A'})</div>
+                    ${bestTime > 0 ? `<div style="color:var(--gold);font-size:12px;">🏆 Best Time: ${bestTime}s</div>` : ''}
                 </div>
-                ${coinDiminishFactor < 0.8 ? `<div style="margin-top:8px;color:#94a3b8;font-size:13px;">📉 Coin rewards decrease as you complete more missions. Try different difficulties or dates!</div>` : ''}
             `;
             container.appendChild(rewardDiv);
             
             transactions.forEach((t, index) => {
                 const recorded = journal.find(j => j.id === t.id);
-                const isCorrect = recorded && recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === t.amount;
+                const descAmount = extractAmountFromDesc(t.desc);
+                const correctAmount = descAmount !== null ? descAmount : t.amount;
+                const isCorrect = recorded && recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === correctAmount;
                 const html = `
                     <div class="transaction" style="border-left-color: ${isCorrect ? 'var(--success)' : 'var(--danger)'};">
                         <div style="flex:1;">
@@ -1393,6 +2651,10 @@
                         <div style="color:#94a3b8;font-size:14px;">Final Score</div>
                         <div style="font-size:20px;font-weight:bold;color:${finalScore >= 80 ? '#4ade80' : finalScore >= 60 ? '#facc15' : '#f87171'};">${finalScore}%</div>
                     </div>
+                    <div style="background:#0f172a;padding:12px;border-radius:8px;">
+                        <div style="color:#94a3b8;font-size:14px;">Best Time (${diffLabel})</div>
+                        <div style="font-size:20px;font-weight:bold;color:${bestTime > 0 && bestTime < 30 ? '#4ade80' : bestTime > 0 && bestTime < 60 ? '#facc15' : '#e2e8f0'};">${bestTime > 0 ? bestTime + 's' : '—'}</div>
+                    </div>
                 </div>
             `;
             container.appendChild(statsDiv);
@@ -1418,7 +2680,29 @@
             document.getElementById('ledger-mission-info').textContent = `Mission • June ${currentDay} • ${currentDifficulty ? currentDifficulty.toUpperCase() : ''} • Version ${currentVersion}`;
 
             const balances = {};
-            lastMissionJournal.forEach(entry => {
+            const transactions = lastMissionJournal.length > 0 ? lastMissionJournal : journal;
+            
+            if (transactions.length === 0) {
+                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:40px;">Complete a mission first to see T-Accounts!</div>`;
+                return;
+            }
+
+            const accountTransactions = {};
+            transactions.forEach(entry => {
+                if (!accountTransactions[entry.debit]) accountTransactions[entry.debit] = [];
+                if (!accountTransactions[entry.credit]) accountTransactions[entry.credit] = [];
+                
+                accountTransactions[entry.debit].push({
+                    type: 'debit',
+                    amount: entry.amount,
+                    desc: entry.desc
+                });
+                accountTransactions[entry.credit].push({
+                    type: 'credit',
+                    amount: entry.amount,
+                    desc: entry.desc
+                });
+                
                 if (!balances[entry.debit]) balances[entry.debit] = 0;
                 if (!balances[entry.credit]) balances[entry.credit] = 0;
                 balances[entry.debit] += entry.amount;
@@ -1426,13 +2710,14 @@
             });
 
             const allAccounts = new Set();
-            lastMissionJournal.forEach(entry => {
+            transactions.forEach(entry => {
                 allAccounts.add(entry.debit);
                 allAccounts.add(entry.credit);
             });
 
             allAccounts.forEach(acc => {
                 if (!balances[acc]) balances[acc] = 0;
+                if (!accountTransactions[acc]) accountTransactions[acc] = [];
             });
 
             const sortedAccounts = Object.keys(balances).sort((a, b) => {
@@ -1443,17 +2728,25 @@
                 return 0;
             });
 
+            let accountIndex = 0;
             sortedAccounts.forEach(acc => {
                 const bal = balances[acc];
                 const isBalanced = bal === 0;
                 const div = document.createElement('div');
                 div.className = `t-account ${isBalanced ? 'balanced' : 'unbalanced'}`;
+                div.id = 'account-' + accountIndex;
+                div.onclick = () => toggleAccount(accountIndex);
                 
                 const hasDebitBalance = bal > 0;
                 const hasCreditBalance = bal < 0;
+                const absBal = Math.abs(bal);
+                
+                const txs = accountTransactions[acc] || [];
+                const debitTxs = txs.filter(t => t.type === 'debit');
+                const creditTxs = txs.filter(t => t.type === 'credit');
                 
                 div.innerHTML = `
-                    <h3 style="display:flex;justify-content:space-between;align-items:center;">
+                    <h3 style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;">
                         <span>${acc}</span>
                         <span class="balance-badge ${isBalanced ? 'balanced' : 'unbalanced'}">
                             ${isBalanced ? '⚖️ Balanced' : hasDebitBalance ? '🔴 Debit Balance' : '🔵 Credit Balance'}
@@ -1463,27 +2756,36 @@
                         <span>Debit: <strong style="color:#4ade80;">$${bal > 0 ? bal.toFixed(2) : '0.00'}</strong></span>
                         <span>Credit: <strong style="color:#f87171;">$${bal < 0 ? Math.abs(bal).toFixed(2) : '0.00'}</strong></span>
                     </div>
-                    <div style="margin-top:8px; font-size:14px; color:#94a3b8;">
-                        ${isBalanced ? '✅ Account is in balance' : hasDebitBalance ? '⚠️ Account has a debit balance' : '⚠️ Account has a credit balance'}
+                    <div class="account-detail">
+                        <div style="font-size:13px; color:#94a3b8; margin-bottom:6px;">📋 Transaction History:</div>
+                        ${debitTxs.map(t => `<div class="detail-row"><span style="color:#4ade80;">Dr</span> <span>${t.desc.substring(0, 30)}${t.desc.length > 30 ? '...' : ''}</span> <span style="color:#4ade80;">+$${t.amount}</span></div>`).join('')}
+                        ${creditTxs.map(t => `<div class="detail-row"><span style="color:#f87171;">Cr</span> <span>${t.desc.substring(0, 30)}${t.desc.length > 30 ? '...' : ''}</span> <span style="color:#f87171;">-$${t.amount}</span></div>`).join('')}
+                        ${debitTxs.length === 0 && creditTxs.length === 0 ? '<div class="detail-row" style="color:#64748b;">No transactions</div>' : ''}
+                        <div class="detail-row" style="font-weight:bold; border-top:2px solid #475569; margin-top:4px; padding-top:6px;">
+                            <span>Net Balance</span>
+                            <span style="color:${isBalanced ? '#4ade80' : hasDebitBalance ? '#4ade80' : '#f87171'};">$${absBal.toFixed(2)} ${isBalanced ? '⚖️' : hasDebitBalance ? 'Dr' : 'Cr'}</span>
+                        </div>
+                    </div>
+                    <div style="margin-top:8px; font-size:12px; color:#64748b; text-align:center;">
+                        👆 Click to expand/collapse
                     </div>
                 `;
                 container.appendChild(div);
+                accountIndex++;
             });
-
-            if (sortedAccounts.length === 0) {
-                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:40px;">No transactions recorded yet</div>`;
-            }
         }
 
         function showTips() { document.getElementById('tips-modal').style.display = 'flex'; }
         function closeTipsModal() { document.getElementById('tips-modal').style.display = 'none'; }
+        
         function showExplanation(id, wasCorrect) {
             const t = transactions.find(tr => tr.id === id);
             if (!t) return;
             document.getElementById('explain-title').textContent = `Transaction - ${wasCorrect ? '✅ Correct' : '❌ Wrong'}`;
-            document.getElementById('explain-body').innerHTML = t.explanation;
+            document.getElementById('explain-body').innerHTML = t.explanation || 'No detailed explanation available.';
             document.getElementById('explain-modal').style.display = 'flex';
         }
+        
         function closeExplainModal() { document.getElementById('explain-modal').style.display = 'none'; }
 
         function showModal(title, text) {
@@ -1493,86 +2795,262 @@
         }
         function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
+        // --- SHOP ---
         function renderShop() {
             const container = document.getElementById('shop-items');
             container.innerHTML = '';
-            shopItems.forEach(item => {
+            
+            // Check for exclusive themes from leaderboard
+            const exclusiveThemes = [
+                { id: 'theme_gold', name: '👑 Gold Theme', desc: '🏆 Champion Exclusive', theme: 'gold', price: 0 },
+                { id: 'theme_silver', name: '🥈 Silver Theme', desc: '🥈 Runner-Up Exclusive', theme: 'silver', price: 0 },
+                { id: 'theme_bronze', name: '🥉 Bronze Theme', desc: '🥉 Bronze Exclusive', theme: 'bronze', price: 0 }
+            ];
+            
+            // Show exclusive themes if owned
+            const ownedExclusives = exclusiveThemes.filter(item => userInventory[item.id]);
+            if (ownedExclusives.length > 0) {
+                const exclusiveSection = document.createElement('div');
+                exclusiveSection.style.cssText = 'margin-bottom:20px; padding:16px; background:rgba(255,215,0,0.05); border-radius:12px; border:1px solid var(--gold);';
+                exclusiveSection.innerHTML = `
+                    <h3 style="color:var(--gold); margin-bottom:12px;">🏆 Exclusive Rewards</h3>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                        ${ownedExclusives.map(item => `
+                            <button class="theme-btn ${item.theme}" onclick="setTheme('${item.theme}')" style="border-color: var(--accent);">
+                                ${item.emoji || '👑'} ${item.name}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div style="margin-top:8px; font-size:12px; color:#94a3b8;">Earned from leaderboard top 3 rankings!</div>
+                `;
+                container.appendChild(exclusiveSection);
+            }
+            
+            const themeSection = document.createElement('div');
+            themeSection.style.cssText = 'margin-bottom:20px;';
+            themeSection.innerHTML = `<h3 style="color:var(--accent); margin-bottom:12px;">🎨 Themes</h3>
+                <div class="theme-selector">
+                    ${SHOP_ITEMS.filter(item => item.type === 'theme').map(item => {
+                        const owned = userInventory[item.id] || (item.price === 0);
+                        const isActive = loadUserGameData(currentUser).currentTheme === item.theme;
+                        return `<button class="theme-btn ${item.theme} ${isActive ? 'active-theme' : ''}" 
+                                    onclick="buyTheme('${item.id}', '${item.theme}')" 
+                                    style="border-color: ${isActive ? 'var(--accent)' : '#334155'};">
+                                    ${item.emoji} ${item.name}
+                                    ${owned ? (isActive ? ' ✅' : ' ✓') : ` ${item.price}🪙`}
+                                </button>`;
+                    }).join('')}
+                </div>
+            `;
+            container.appendChild(themeSection);
+            
+            const itemsSection = document.createElement('div');
+            itemsSection.innerHTML = `<h3 style="color:var(--accent); margin-bottom:12px;">🛍️ Items</h3>`;
+            container.appendChild(itemsSection);
+            
+            SHOP_ITEMS.filter(item => item.type !== 'theme').forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'shop-item';
-                div.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:16px;background:#1e2937;border-radius:12px;margin-bottom:12px;border:1px solid #334155;';
+                const owned = userInventory[item.id] && userInventory[item.id] > 0;
+                const count = userInventory[item.id] || 0;
+                const canAfford = coins >= item.price;
+                
                 div.innerHTML = `
-                    <div><strong>${item.emoji} ${item.name}</strong><br><small style="color:#94a3b8;">${item.desc}</small></div>
-                    <div style="text-align:right;">
-                        <strong>${item.price} 🪙</strong><br>
-                        <button onclick="buyItem(${item.id})">Buy</button>
-                    </div>`;
-                container.appendChild(div);
+                    <div class="item-info">
+                        <div class="item-name">${item.emoji} ${item.name}
+                            ${owned ? `<span class="item-badge owned">Owned x${count}</span>` : ''}
+                            ${item.id === 'ultra_ticket' ? `<span class="item-badge limited">🔥 Limited</span>` : ''}
+                        </div>
+                        <div class="item-desc">${item.desc}</div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div class="item-price">${item.price === 0 ? 'FREE' : item.price + ' 🪙'}</div>
+                        <button onclick="buyItem('${item.id}')" ${!canAfford ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+                            ${owned ? 'Buy More' : 'Buy'}
+                        </button>
+                    </div>
+                `;
+                itemsSection.appendChild(div);
             });
         }
 
-        function buyItem(id) {
-            const item = shopItems.find(i => i.id === id);
-            if (!item || coins < item.price) return showFeedback("Not enough coins!", "danger");
+        function buyTheme(itemId, themeName) {
+            if (!currentUser) {
+                showAuthAlert('Please login to buy themes!');
+                return;
+            }
+            const item = SHOP_ITEMS.find(i => i.id === itemId);
+            if (!item) return;
+            
+            if (userInventory[itemId] || item.price === 0) {
+                setTheme(themeName);
+                return;
+            }
+            
+            if (coins < item.price) {
+                showFeedback(`Not enough coins! Need ${item.price} 🪙`, 'danger');
+                return;
+            }
+            
             coins -= item.price;
+            userInventory[itemId] = 1;
+            saveGameProgress();
+            renderShop();
             updateDisplay();
-            showFeedback(`✅ Purchased ${item.name}!`, "success");
+            setTheme(themeName);
+            showFeedback(`✅ Purchased ${item.name} theme!`, 'success');
+        }
+
+        function buyItem(itemId) {
+            if (!currentUser) {
+                showAuthAlert('Please login to shop!');
+                return;
+            }
+            const item = SHOP_ITEMS.find(i => i.id === itemId);
+            if (!item) return;
+            
+            if (coins < item.price) {
+                showFeedback(`Not enough coins! Need ${item.price} 🪙`, 'danger');
+                return;
+            }
+            
+            coins -= item.price;
+            if (!userInventory[itemId]) userInventory[itemId] = 0;
+            userInventory[itemId]++;
+            saveGameProgress();
+            renderShop();
+            updateDisplay();
+            showFeedback(`✅ Purchased ${item.name}!`, 'success');
         }
 
         function showScreen(screen) {
             document.querySelectorAll('#game-area > div').forEach(div => div.style.display = 'none');
             document.getElementById(screen + '-screen').style.display = 'block';
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => btn.getAttribute('onclick').includes(`'${screen}'`));
+            document.querySelectorAll('.sidebar .nav-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = Array.from(document.querySelectorAll('.sidebar .nav-btn')).find(btn => btn.getAttribute('onclick').includes(`'${screen}'`));
             if (activeBtn) activeBtn.classList.add('active');
             if (screen === 'shop') renderShop();
             if (screen === 'stats') renderStats();
             if (screen === 'ledger') renderTAccounts();
+            if (screen === 'mission') updateAvgTimeDisplay();
+            if (screen === 'leaderboard') {
+                // Default to overall view
+                const tabs = document.querySelectorAll('#leaderboard-tabs button');
+                tabs.forEach(b => b.classList.remove('active'));
+                const overallTab = document.querySelector('#leaderboard-tabs button[data-diff="overall"]');
+                if (overallTab) overallTab.classList.add('active');
+                renderLeaderboard('overall');
+            }
         }
 
         function renderStats() {
-            const totalCorrect = Math.floor(exp / 5) + 1;
             const container = document.getElementById('stats-content');
+            
+            const diffNames = { easy: 'Easy', medium: 'Medium', hard: 'Hard', ultra: 'Ultra' };
+            const diffEmojis = { easy: '🟢', medium: '🟡', hard: '🔴', ultra: '🔥' };
+            let timeRows = '';
+            let totalTime = 0;
+            let totalCount = 0;
+            
+            Object.keys(timeData).forEach(key => {
+                const data = timeData[key];
+                const avg = data.count > 0 ? Math.round(data.totalTime / data.count) : 0;
+                const best = data.bestTime || 0;
+                totalTime += data.totalTime;
+                totalCount += data.count;
+                
+                let statusClass = 'time-stat';
+                if (avg > 0 && avg < 30) statusClass += ' fast';
+                else if (avg > 0 && avg < 60) statusClass += ' medium';
+                else if (avg > 0) statusClass += ' slow';
+                
+                timeRows += `
+                    <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
+                        <div style="font-size:20px;">${diffEmojis[key]}</div>
+                        <div style="font-size:14px; color:#94a3b8;">${diffNames[key]}</div>
+                        <div style="font-size:18px; font-weight:bold; color:${avg > 0 ? '#e2e8f0' : '#64748b'};">${avg > 0 ? avg + 's' : '—'}</div>
+                        <div style="font-size:11px; color:#64748b;">${data.count} missions</div>
+                        ${best > 0 ? `<div style="font-size:12px; color:var(--gold);">🏆 Best: ${best}s</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            const overallAvg = totalCount > 0 ? Math.round(totalTime / totalCount) : 0;
+            
             container.innerHTML = `
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:20px;">
-                    <div style="background:#1e2937;padding:20px;border-radius:12px;text-align:center;">
-                        <div style="color:#94a3b8;font-size:14px;">Level</div>
-                        <div style="font-size:28px;font-weight:bold;color:var(--accent);">${level}</div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-top:20px;">
+                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                        <div style="color:#94a3b8; font-size:14px;">Level</div>
+                        <div style="font-size:28px; font-weight:bold; color:var(--accent);">${level}</div>
                     </div>
-                    <div style="background:#1e2937;padding:20px;border-radius:12px;text-align:center;">
-                        <div style="color:#94a3b8;font-size:14px;">Total EXP</div>
-                        <div style="font-size:28px;font-weight:bold;color:var(--exp-color);">${exp}</div>
+                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                        <div style="color:#94a3b8; font-size:14px;">Total EXP</div>
+                        <div style="font-size:28px; font-weight:bold; color:var(--exp-color);">${exp}</div>
                     </div>
-                    <div style="background:#1e2937;padding:20px;border-radius:12px;text-align:center;">
-                        <div style="color:#94a3b8;font-size:14px;">Next Level</div>
-                        <div style="font-size:28px;font-weight:bold;color:#60a5fa;">${expToNextLevel} EXP</div>
+                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                        <div style="color:#94a3b8; font-size:14px;">Next Level</div>
+                        <div style="font-size:28px; font-weight:bold; color:#60a5fa;">${expToNextLevel} EXP</div>
                     </div>
-                    <div style="background:#1e2937;padding:20px;border-radius:12px;text-align:center;">
-                        <div style="color:#94a3b8;font-size:14px;">Total Coins</div>
-                        <div style="font-size:28px;font-weight:bold;color:#f1c40f;">${coins} 🪙</div>
+                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                        <div style="color:#94a3b8; font-size:14px;">Total Coins</div>
+                        <div style="font-size:28px; font-weight:bold; color:#f1c40f;">${coins} 🪙</div>
                     </div>
-                    <div style="background:#1e2937;padding:20px;border-radius:12px;text-align:center;">
-                        <div style="color:#94a3b8;font-size:14px;">Missions Completed</div>
-                        <div style="font-size:28px;font-weight:bold;color:#60a5fa;">${missionsCompleted}</div>
+                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                        <div style="color:#94a3b8; font-size:14px;">Missions Completed</div>
+                        <div style="font-size:28px; font-weight:bold; color:#60a5fa;">${missionsCompleted}</div>
                     </div>
-                    <div style="background:#1e2937;padding:20px;border-radius:12px;text-align:center;">
-                        <div style="color:#94a3b8;font-size:14px;">Coin Multiplier</div>
-                        <div style="font-size:28px;font-weight:bold;color:#f1c40f;">${Math.max(20, Math.round((1 - (missionsCompleted * 0.05)) * 100))}%</div>
+                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                        <div style="color:#94a3b8; font-size:14px;">Avg Time (Overall)</div>
+                        <div style="font-size:28px; font-weight:bold; color:${overallAvg > 0 && overallAvg < 30 ? '#4ade80' : overallAvg > 0 && overallAvg < 60 ? '#facc15' : '#e2e8f0'};">${overallAvg > 0 ? overallAvg + 's' : '—'}</div>
+                    </div>
+                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                        <div style="color:#94a3b8; font-size:14px;">Player</div>
+                        <div style="font-size:22px; font-weight:bold; color:var(--primary);">${currentUser || 'Guest'}</div>
                     </div>
                 </div>
-                <div style="margin-top:20px;padding:20px;background:#1e2937;border-radius:12px;">
-                    <h3 style="margin-bottom:10px;">📉 Diminishing Returns Info</h3>
-                    <p style="color:#94a3b8;">Each mission completed reduces coin rewards by 5% (minimum 20% of base). 
-                    This encourages you to try different difficulties and dates for maximum rewards!</p>
-                    <p style="color:#94a3b8;margin-top:8px;">Current multiplier: <strong style="color:#f1c40f;">${Math.max(20, Math.round((1 - (missionsCompleted * 0.05)) * 100))}%</strong></p>
+                
+                <div style="margin-top:20px; padding:20px; background:#1e2937; border-radius:12px;">
+                    <h3 style="margin-bottom:12px;">⏱️ Average Time by Difficulty</h3>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;">
+                        ${timeRows}
+                    </div>
+                    <div style="margin-top:12px; font-size:13px; color:#64748b; text-align:center;">
+                        💡 Faster times indicate better mastery of the material! 🏆 Top 3 get exclusive rewards!
+                    </div>
                 </div>
-                <div style="margin-top:20px;padding:20px;background:#1e2937;border-radius:12px;">
+                
+                <div style="margin-top:20px; padding:20px; background:#1e2937; border-radius:12px;">
+                    <h3 style="margin-bottom:10px;">📊 Reward System</h3>
+                    <p style="color:#94a3b8;">Your rewards are based on your accuracy score. Higher accuracy = more coins and EXP!</p>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px; margin-top:12px;">
+                        <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
+                            <div style="color:#4ade80; font-size:20px;">🎯</div>
+                            <div style="font-size:14px; color:#94a3b8;">Accuracy</div>
+                            <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round((missionsCompleted / (missionsCompleted + incorrectAttempts)) * 100) : 0}%</div>
+                        </div>
+                        <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
+                            <div style="color:#f1c40f; font-size:20px;">🪙</div>
+                            <div style="font-size:14px; color:#94a3b8;">Avg Coins/Mission</div>
+                            <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round(coins / missionsCompleted) : 0}</div>
+                        </div>
+                        <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
+                            <div style="color:var(--exp-color); font-size:20px;">⭐</div>
+                            <div style="font-size:14px; color:#94a3b8;">Avg EXP/Mission</div>
+                            <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round(exp / missionsCompleted) : 0}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top:20px; padding:20px; background:#1e2937; border-radius:12px;">
                     <h3 style="margin-bottom:10px;">💡 Learning Tips</h3>
-                    <ul style="list-style:none;text-align:left;line-height:2;">
+                    <ul style="list-style:none; text-align:left; line-height:2;">
                         <li>📝 Remember: Debits go on the LEFT, Credits on the RIGHT</li>
                         <li>💰 Assets increase with DEBIT, decrease with CREDIT</li>
                         <li>🏦 Liabilities increase with CREDIT, decrease with DEBIT</li>
                         <li>📊 Always check that total Debits = total Credits</li>
                         <li>🔄 Don't be afraid to make mistakes - that's how we learn!</li>
+                        <li>⏱️ Track your times to see your improvement over time!</li>
+                        <li>🏆 Compete for top 3 on the leaderboard for exclusive rewards!</li>
                     </ul>
                 </div>
             `;
@@ -1586,10 +3064,29 @@
             setTimeout(() => fb.style.display = 'none', 2500);
         }
 
-        function initGame() {
+        function renderAllGameContent() {
             generateCalendar();
             updateDisplay();
-            showScreen('home');
+            renderShop();
+            renderStats();
+            renderTAccounts();
+            applyTheme();
+            updateAvgTimeDisplay();
+            renderLeaderboard('overall');
+        }
+
+        // ============================================================
+        // INITIALIZATION
+        // ============================================================
+        function initGame() {
+            if (currentUser) {
+                loadGameProgress();
+                showView('home');
+                renderAllGameContent();
+                updateAdminButton();
+            } else {
+                showView('login');
+            }
         }
 
         window.onload = initGame;
