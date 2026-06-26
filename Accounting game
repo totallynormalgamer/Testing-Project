@@ -6,13 +6,19 @@
     <title>Bank Ledger Legends</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Press+Start+2P&display=swap');
+        /* CSS variables – will be overridden by theme */
         :root {
             --primary: #4a90e2;
+            --primary-dark: #2563eb;
             --accent: #f39c12;
             --success: #22c55e;
             --danger: #e74c3c;
             --exp-color: #8b5cf6;
             --bg-gradient: linear-gradient(135deg, #0f172a, #1e2937);
+            --card-bg: rgba(30, 41, 59, 0.95);
+            --border-color: #334155;
+            --text-color: #e2e8f0;
+            --text-secondary: #94a3b8;
             --gold: #ffd700;
             --silver: #c0c0c0;
             --bronze: #cd7f32;
@@ -20,10 +26,11 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Fredoka', sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e2937);
-            color: #e2e8f0;
+            background: var(--bg-gradient);
+            color: var(--text-color);
             min-height: 100vh;
             overflow: hidden;
+            transition: background 0.4s ease, color 0.3s ease;
         }
         .hidden { display: none !important; }
 
@@ -35,15 +42,17 @@
             min-height: 100vh;
             background: var(--bg-gradient);
             padding: 20px;
+            transition: background 0.4s ease;
         }
         .auth-card {
-            background: rgba(30, 41, 59, 0.95);
+            background: var(--card-bg);
             padding: 40px;
             border-radius: 20px;
             width: min(400px, 100%);
             border: 2px solid var(--primary);
             box-shadow: 0 20px 60px rgba(0,0,0,0.6);
             text-align: center;
+            transition: border-color 0.3s ease, background 0.3s ease;
         }
         .auth-card h1 {
             font-family: 'Press Start 2P', cursive;
@@ -57,8 +66,8 @@
             padding: 14px 16px;
             margin: 8px 0;
             background: #0f172a;
-            color: #e2e8f0;
-            border: 2px solid #334155;
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
             border-radius: 10px;
             font-size: 16px;
             outline: none;
@@ -71,7 +80,7 @@
             width: 100%;
             padding: 14px;
             margin-top: 15px;
-            background: linear-gradient(135deg, var(--primary), #2563eb);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
             border-radius: 10px;
@@ -88,7 +97,7 @@
         .auth-card .auth-link {
             background: none;
             border: none;
-            color: #94a3b8;
+            color: var(--text-secondary);
             cursor: pointer;
             margin-top: 15px;
             font-size: 15px;
@@ -97,24 +106,13 @@
         .auth-card .auth-link:hover {
             color: var(--primary);
         }
-        .auth-card .cancel-link {
-            color: #64748b;
-            background: none;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-        .auth-card .cancel-link:hover {
-            color: #94a3b8;
-        }
         .auth-card .auth-error {
             color: var(--danger);
             font-size: 14px;
             margin-top: 10px;
             min-height: 20px;
         }
+        /* Removed .cancel-link styles */
 
         /* --- ADMIN VIEW --- */
         .admin-view {
@@ -124,14 +122,16 @@
             min-height: 100vh;
             background: var(--bg-gradient);
             padding: 20px;
+            transition: background 0.4s ease;
         }
         .admin-card {
-            background: rgba(30, 41, 59, 0.95);
+            background: var(--card-bg);
             padding: 40px;
             border-radius: 20px;
             width: min(900px, 100%);
             border: 2px solid #8b5cf6;
             box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .admin-card h1 {
             font-family: 'Press Start 2P', cursive;
@@ -148,17 +148,17 @@
             font-size: 13px;
         }
         .admin-card th {
-            background: #334155;
+            background: var(--border-color);
             padding: 10px 8px;
             text-align: left;
             font-weight: 700;
-            color: #e2e8f0;
+            color: var(--text-color);
             border-bottom: 2px solid #475569;
         }
         .admin-card td {
             padding: 8px;
-            border-bottom: 1px solid #334155;
-            color: #cbd5e1;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
         }
         .admin-card tr:hover td {
             background: rgba(30, 41, 59, 0.5);
@@ -171,7 +171,7 @@
             font-weight: 700;
         }
         .role-badge.admin { background: #8b5cf6; color: white; }
-        .role-badge.member { background: #334155; color: #94a3b8; }
+        .role-badge.member { background: var(--border-color); color: var(--text-secondary); }
         .admin-actions {
             display: flex;
             gap: 12px;
@@ -188,14 +188,14 @@
             font-size: 16px;
             transition: all 0.3s;
         }
-        .admin-actions .back-btn { background: #334155; color: white; }
+        .admin-actions .back-btn { background: var(--border-color); color: white; }
         .admin-actions .back-btn:hover { background: #475569; transform: translateY(-2px); }
         .admin-actions .delete-user-btn { background: var(--danger); color: white; }
         .admin-actions .delete-user-btn:hover { background: #c0392b; transform: translateY(-2px); }
 
         /* --- GAME HEADER --- */
         .header {
-            background: rgba(15, 23, 42, 0.95);
+            background: var(--card-bg);
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
@@ -207,6 +207,7 @@
             z-index: 100;
             flex-wrap: wrap;
             gap: 8px;
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .logo {
             font-family: 'Press Start 2P', cursive;
@@ -225,7 +226,7 @@
             background: #1e2937;
             border-radius: 4px;
             overflow: hidden;
-            border: 1px solid #334155;
+            border: 1px solid var(--border-color);
         }
         .level-progress-fill {
             height: 100%;
@@ -238,7 +239,7 @@
         .header-actions { display: flex; gap: 10px; align-items: center; }
         .nav-btn {
             padding: 10px 20px;
-            background: #334155;
+            background: var(--border-color);
             border: none;
             color: white;
             font-size: 14px;
@@ -259,13 +260,14 @@
         /* --- GAME LAYOUT --- */
         .main { display: flex; flex-direction: column; height: calc(100vh - 68px); }
         .sidebar {
-            background: rgba(15, 23, 42, 0.95);
+            background: var(--card-bg);
             padding: 12px 8px;
             border-top: 3px solid var(--primary);
             display: flex;
             justify-content: space-around;
             box-shadow: 0 -4px 15px rgba(0,0,0,0.4);
             flex-wrap: wrap;
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .sidebar .nav-btn {
             flex: 1;
@@ -283,11 +285,12 @@
         }
 
         .card {
-            background: rgba(30, 41, 59, 0.95);
+            background: var(--card-bg);
             border-radius: 16px;
             padding: 24px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             margin-bottom: 24px;
+            transition: background 0.3s ease;
         }
 
         button {
@@ -360,7 +363,7 @@
             background: #1e2937;
             border-radius: 12px;
             margin-bottom: 12px;
-            border: 1px solid #334155;
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
         .shop-item:hover {
@@ -369,7 +372,7 @@
         }
         .shop-item .item-info { flex: 1; }
         .shop-item .item-name { font-size: 18px; font-weight: 700; }
-        .shop-item .item-desc { font-size: 13px; color: #94a3b8; margin-top: 2px; }
+        .shop-item .item-desc { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
         .shop-item .item-price { font-size: 16px; color: #f1c40f; font-weight: 700; }
         .shop-item .item-badge {
             display: inline-block;
@@ -389,7 +392,7 @@
             font-size: 14px;
             margin-left: 12px;
         }
-        .shop-item button.owned-btn { background: #334155; color: #94a3b8; cursor: default; }
+        .shop-item button.owned-btn { background: var(--border-color); color: var(--text-secondary); cursor: default; }
         .shop-item button.owned-btn:hover { transform: none; }
 
         .modal-btn {
@@ -430,7 +433,7 @@
             align-items: center;
             justify-content: center;
         }
-        .day:hover { background: #334155; transform: scale(1.08); }
+        .day:hover { background: var(--border-color); transform: scale(1.08); }
         .day.selected { background: var(--accent); color: black; font-weight: bold; }
 
         .t-account {
@@ -484,7 +487,7 @@
             justify-content: space-between;
             padding: 4px 0;
             font-size: 14px;
-            border-bottom: 1px solid #334155;
+            border-bottom: 1px solid var(--border-color);
         }
         .t-account .detail-row:last-child { border-bottom: none; }
 
@@ -523,7 +526,7 @@
             padding: 8px;
             font-size: 15px;
         }
-        .entry-label { font-size: 14px; color: #94a3b8; margin-bottom: 4px; font-weight: 600; }
+        .entry-label { font-size: 14px; color: var(--text-secondary); margin-bottom: 4px; font-weight: 600; }
 
         .feedback {
             position: fixed;
@@ -550,7 +553,7 @@
             z-index: 1000;
         }
         .modal-content {
-            background: #1e2937;
+            background: var(--card-bg);
             padding: 40px;
             border-radius: 24px;
             max-width: 500px;
@@ -558,6 +561,7 @@
             text-align: center;
             box-shadow: 0 20px 60px rgba(0,0,0,0.8);
             border: 2px solid var(--primary);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
 
         .balance-display {
@@ -593,12 +597,12 @@
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 14px;
-            color: #94a3b8;
+            color: var(--text-secondary);
             margin-right: 8px;
-            border: 1px solid #334155;
+            border: 1px solid var(--border-color);
         }
         .mission-info-badge strong {
-            color: #e2e8f0;
+            color: var(--text-color);
         }
 
         .version-badge {
@@ -645,7 +649,7 @@
         .theme-btn {
             padding: 10px 20px;
             border-radius: 10px;
-            border: 2px solid #334155;
+            border: 2px solid var(--border-color);
             cursor: pointer;
             font-weight: 700;
             transition: all 0.3s;
@@ -658,8 +662,6 @@
         .theme-btn.forest { background: #14532d; }
         .theme-btn.sunset { background: #7c2d12; }
         .theme-btn.neon { background: #1a1a2e; border-color: #e94560; }
-
-        /* Exclusive Themes */
         .theme-btn.gold { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #1a1a2e; border-color: #ffd700; }
         .theme-btn.silver { background: linear-gradient(135deg, #c0c0c0, #8a8a8a); color: #1a1a2e; border-color: #c0c0c0; }
         .theme-btn.bronze { background: linear-gradient(135deg, #cd7f32, #8b5a2b); color: white; border-color: #cd7f32; }
@@ -670,8 +672,8 @@
             border-radius: 12px;
             font-size: 12px;
             font-weight: 600;
-            background: #334155;
-            color: #94a3b8;
+            background: var(--border-color);
+            color: var(--text-secondary);
         }
         .time-stat.fast { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
         .time-stat.medium { background: rgba(250, 204, 21, 0.2); color: #facc15; }
@@ -688,14 +690,14 @@
         .leaderboard-tabs button {
             padding: 10px 24px;
             border-radius: 10px;
-            border: 2px solid #334155;
+            border: 2px solid var(--border-color);
             background: transparent;
-            color: #94a3b8;
+            color: var(--text-secondary);
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
         }
-        .leaderboard-tabs button:hover { background: #334155; color: white; }
+        .leaderboard-tabs button:hover { background: var(--border-color); color: white; }
         .leaderboard-tabs button.active { background: var(--primary); color: white; border-color: var(--primary); }
 
         .leaderboard-entry {
@@ -705,7 +707,7 @@
             background: #1e2937;
             border-radius: 10px;
             margin-bottom: 8px;
-            border-left: 4px solid #334155;
+            border-left: 4px solid var(--border-color);
             transition: all 0.3s;
         }
         .leaderboard-entry:hover { transform: translateX(5px); }
@@ -720,7 +722,7 @@
         .leaderboard-entry .rank.bronze { color: var(--bronze); }
         .leaderboard-entry .user-info { flex: 1; padding: 0 16px; }
         .leaderboard-entry .user-info .username { font-weight: 700; font-size: 16px; }
-        .leaderboard-entry .user-info .detail { font-size: 13px; color: #94a3b8; }
+        .leaderboard-entry .user-info .detail { font-size: 13px; color: var(--text-secondary); }
         .leaderboard-entry .time-display { font-weight: 700; font-size: 18px; color: var(--accent); }
         .leaderboard-entry .medal { font-size: 28px; margin-right: 8px; }
         .leaderboard-entry.current-user { border-left-color: var(--accent); background: rgba(243, 156, 18, 0.1); }
@@ -736,6 +738,74 @@
         .rank-badge.champion { background: linear-gradient(135deg, var(--gold), #ff8c00); color: black; }
         .rank-badge.runner-up { background: linear-gradient(135deg, var(--silver), #8a8a8a); color: black; }
         .rank-badge.bronze-medal { background: linear-gradient(135deg, var(--bronze), #8b5a2b); color: white; }
+
+        /* Inventory styles */
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .inventory-item {
+            background: #1e2937;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .inventory-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .inventory-item .item-emoji { font-size: 32px; }
+        .inventory-item .item-name { font-weight: 700; margin-top: 6px; }
+        .inventory-item .item-count { font-size: 14px; color: var(--text-secondary); }
+        .inventory-item .item-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+        /* Username change styles */
+        .username-change-area {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .username-change-area input {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background: #0f172a;
+            color: var(--text-color);
+            font-size: 16px;
+            flex: 1;
+            min-width: 150px;
+        }
+        .username-change-area input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        .username-change-area button {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .username-change-area button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+        }
+        .username-change-area .cancel-change {
+            background: var(--border-color);
+        }
+        .username-change-area .cancel-change:hover {
+            background: #475569;
+        }
 
         @media (min-width: 768px) {
             .main { flex-direction: row; height: calc(100vh - 68px); }
@@ -784,13 +854,13 @@
     <div id="loginView" class="auth-view">
         <div class="auth-card">
             <h1>🏦 BANK LEDGER</h1>
-            <h1 style="font-size:16px; margin-bottom:25px; color:#94a3b8; font-family:'Fredoka',sans-serif;">Welcome Back</h1>
+            <h1 style="font-size:16px; margin-bottom:25px; color:var(--text-secondary); font-family:'Fredoka',sans-serif;">Welcome Back</h1>
             <input type="text" id="loginUser" placeholder="Username">
             <input type="password" id="loginPass" placeholder="Password">
             <button class="auth-btn" id="loginSubmit">Sign In</button>
             <div id="loginError" class="auth-error"></div>
             <button class="auth-link" onclick="showView('register')">Need an account? Register</button>
-            <button class="cancel-link" onclick="showView('home')">Cancel</button>
+            <!-- Cancel button removed -->
         </div>
     </div>
 
@@ -798,7 +868,7 @@
     <div id="registerView" class="auth-view hidden">
         <div class="auth-card">
             <h1>🏦 BANK LEDGER</h1>
-            <h1 style="font-size:16px; margin-bottom:25px; color:#94a3b8; font-family:'Fredoka',sans-serif;">Join the Community</h1>
+            <h1 style="font-size:16px; margin-bottom:25px; color:var(--text-secondary); font-family:'Fredoka',sans-serif;">Join the Community</h1>
             <input type="text" id="regUser" placeholder="Choose Username">
             <input type="password" id="regPass" placeholder="Choose Password">
             <button class="auth-btn" id="regSubmit">Create Account</button>
@@ -811,7 +881,7 @@
     <div id="adminView" class="admin-view hidden">
         <div class="admin-card">
             <h1>👑 Admin Panel</h1>
-            <p style="text-align:center; color:#94a3b8; margin-bottom:20px;">User Management - All registered accounts</p>
+            <p style="text-align:center; color:var(--text-secondary); margin-bottom:20px;">User Management - All registered accounts</p>
             <div style="overflow-x:auto;">
                 <table>
                     <thead>
@@ -855,7 +925,7 @@
                     </div>
                 </div>
                 <div class="stat"><span class="coin">🪙</span> <span id="coins">0</span></div>
-                <div class="stat" style="color:#94a3b8; font-size:14px;">👤 <span id="current-user-display">Guest</span></div>
+                <div class="stat" style="color:var(--text-secondary); font-size:14px;">👤 <span id="current-user-display">Guest</span></div>
                 <div class="header-actions">
                     <button class="nav-btn admin-btn hidden" id="adminPanelBtn">👑 Admin</button>
                     <button class="nav-btn logout-btn" id="logoutBtn">Logout</button>
@@ -866,9 +936,9 @@
         <div class="main">
             <div class="sidebar">
                 <button class="nav-btn active" onclick="showScreen('home')">🏠 Home</button>
-                <button class="nav-btn" onclick="showScreen('mission')">📋 Mission</button>
-                <button class="nav-btn" onclick="showScreen('ledger')">📒 Ledger</button>
                 <button class="nav-btn" onclick="showScreen('shop')">🛒 Shop</button>
+                <button class="nav-btn" onclick="showScreen('inventory')">📦 Inventory</button>
+                <button class="nav-btn" onclick="showScreen('ledger')">📒 Ledger</button>
                 <button class="nav-btn" onclick="showScreen('stats')">📊 Progress</button>
                 <button class="nav-btn" onclick="showScreen('leaderboard')">🏆 Leaderboard</button>
             </div>
@@ -878,7 +948,7 @@
                 <div id="home-screen">
                     <div class="card">
                         <h1 style="text-align:center; margin-bottom:20px;">Welcome to Bank Ledger Legends!</h1>
-                        <p style="text-align:center; font-size:18px; color:#94a3b8; margin-bottom:30px;">
+                        <p style="text-align:center; font-size:18px; color:var(--text-secondary); margin-bottom:30px;">
                             Master double-entry bookkeeping through fun daily missions
                         </p>
                         <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; text-align:center; margin-bottom:30px;">
@@ -900,6 +970,15 @@
                                 🚀 START NEW MISSION
                             </button>
                         </div>
+                        <!-- Username Change Section -->
+                        <div style="margin-top:30px; padding-top:20px; border-top:2px solid var(--border-color);">
+                            <h3 style="color:var(--text-secondary); margin-bottom:10px;">👤 Account Settings</h3>
+                            <div class="username-change-area">
+                                <input type="text" id="newUsernameInput" placeholder="New username" style="flex:2;">
+                                <button onclick="changeUsername()">Change Username</button>
+                            </div>
+                            <div id="usernameChangeError" style="color:var(--danger); font-size:14px; margin-top:8px; min-height:20px;"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -909,7 +988,7 @@
                         <h2 style="text-align:center; margin-bottom:20px;">Select Mission Date & Difficulty</h2>
                         <div style="margin-bottom:25px;">
                             <h3 style="text-align:center; margin-bottom:10px;">June 2026</h3>
-                            <div id="selected-date" style="text-align:center;color:#94a3b8;margin-top:6px;min-height:20px;">
+                            <div id="selected-date" style="text-align:center;color:var(--text-secondary);margin-top:6px;min-height:20px;">
                                 Select a day
                             </div>
                             <div id="calendar" class="calendar"></div>
@@ -921,7 +1000,7 @@
                             <button class="difficulty-btn hard" onclick="startMission('hard')">HARD</button>
                             <button class="difficulty-btn ultra" onclick="startMission('ultra')">🔥 ULTRA</button>
                         </div>
-                        <div style="text-align:center; margin-top:15px; color:#94a3b8; font-size:14px;">
+                        <div style="text-align:center; margin-top:15px; color:var(--text-secondary); font-size:14px;">
                             💡 Ultra difficulty requires an Ultra Challenge Ticket from the shop!
                         </div>
                         <div style="text-align:center; margin-top:8px; color:#64748b; font-size:13px;" id="avg-time-display">
@@ -942,7 +1021,7 @@
                                         <span class="mission-info-badge">⚡ <strong id="mission-difficulty-display">Medium</strong></span>
                                         <span class="mission-info-badge version-badge">🎲 <strong id="mission-version-display">v1</strong></span>
                                     </div>
-                                    <p id="mission-desc" style="color: #94a3b8; margin-top:8px;">Process the transactions correctly!</p>
+                                    <p id="mission-desc" style="color: var(--text-secondary); margin-top:8px;">Process the transactions correctly!</p>
                                 </div>
                                 <div style="display:flex;gap:12px;flex-wrap:wrap;">
                                     <button onclick="showTips()">💡 Tips</button>
@@ -957,7 +1036,7 @@
                             <div style="overflow-x:auto;">
                                 <table style="width:100%; border-collapse: collapse; margin-top:15px;" id="journal-table">
                                     <thead>
-                                        <tr style="background:#334155;">
+                                        <tr style="background:var(--border-color);">
                                             <th style="padding:10px; text-align:left;">Transaction</th>
                                             <th style="padding:10px; text-align:center;">Debit</th>
                                             <th style="padding:10px; text-align:center;">Credit</th>
@@ -976,10 +1055,10 @@
                 <div id="results-screen" style="display:none;">
                     <div class="card">
                         <h2>Mission Results</h2>
-                        <p style="color:#94a3b8;margin-bottom:18px;">Click explanation buttons below to learn from your mistakes!</p>
+                        <p style="color:var(--text-secondary);margin-bottom:18px;">Click explanation buttons below to learn from your mistakes!</p>
                         <div id="results-list"></div>
                         <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
-                            <button onclick="backToMissionSelect()" style="background:#334155;">⬅️ Back to Calendar</button>
+                            <button onclick="backToMissionSelect()" style="background:var(--border-color);">⬅️ Back to Calendar</button>
                             <button onclick="retryMission()" style="background:var(--accent); color:black;">🔄 Retry Mission</button>
                             <button onclick="viewLedgerFromResults()" style="background:var(--primary);">📒 View Ledger</button>
                         </div>
@@ -992,12 +1071,12 @@
                         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
                             <h2>📒 Interactive T-Accounts</h2>
                             <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                                <button onclick="toggleAllAccounts()" style="background:#334155; padding:8px 16px; font-size:14px;">Expand All</button>
-                                <button onclick="collapseAllAccounts()" style="background:#334155; padding:8px 16px; font-size:14px;">Collapse All</button>
+                                <button onclick="toggleAllAccounts()" style="background:var(--border-color); padding:8px 16px; font-size:14px;">Expand All</button>
+                                <button onclick="collapseAllAccounts()" style="background:var(--border-color); padding:8px 16px; font-size:14px;">Collapse All</button>
                             </div>
                         </div>
-                        <p style="color:#94a3b8;margin-bottom:20px; font-size:14px;">👆 Click on any account to see detailed transaction history</p>
-                        <p id="ledger-mission-info" style="color:#94a3b8;margin-bottom:20px;"></p>
+                        <p style="color:var(--text-secondary);margin-bottom:20px; font-size:14px;">👆 Click on any account to see detailed transaction history</p>
+                        <p id="ledger-mission-info" style="color:var(--text-secondary);margin-bottom:20px;"></p>
                         <div id="t-accounts" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;"></div>
                     </div>
                 </div>
@@ -1006,8 +1085,17 @@
                 <div id="shop-screen" style="display:none;">
                     <div class="card">
                         <h2>🛒 Bank Shop</h2>
-                        <p style="color:#94a3b8;">Spend your coins on useful & fun items!</p>
+                        <p style="color:var(--text-secondary);">Spend your coins on useful & fun items!</p>
                         <div id="shop-items"></div>
+                    </div>
+                </div>
+
+                <!-- INVENTORY -->
+                <div id="inventory-screen" style="display:none;">
+                    <div class="card">
+                        <h2>📦 Your Inventory</h2>
+                        <p style="color:var(--text-secondary);">All the items you've collected!</p>
+                        <div id="inventory-content"></div>
                     </div>
                 </div>
 
@@ -1023,7 +1111,7 @@
                 <div id="leaderboard-screen" style="display:none;">
                     <div class="card">
                         <h2>🏆 Leaderboard</h2>
-                        <p style="color:#94a3b8; margin-bottom:16px;">Compete for the fastest times! Top 3 players earn exclusive rewards.</p>
+                        <p style="color:var(--text-secondary); margin-bottom:16px;">Compete for the fastest times! Top 3 players earn exclusive rewards.</p>
                         
                         <div class="leaderboard-tabs" id="leaderboard-tabs">
                             <button class="active" data-diff="easy">🟢 Easy</button>
@@ -1034,29 +1122,29 @@
                         </div>
                         
                         <div id="leaderboard-content"></div>
-                        <div id="leaderboard-rewards" style="margin-top:16px; padding:16px; background:#1e2937; border-radius:12px; border:1px solid #334155;">
+                        <div id="leaderboard-rewards" style="margin-top:16px; padding:16px; background:#1e2937; border-radius:12px; border:1px solid var(--border-color);">
                             <h3 style="color:var(--accent); margin-bottom:8px;">🎁 Exclusive Rewards</h3>
                             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px;">
                                 <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center; border:2px solid var(--gold);">
                                     <div style="font-size:30px;">🥇</div>
                                     <div style="font-weight:700; color:var(--gold);">#1 Champion</div>
-                                    <div style="font-size:13px; color:#94a3b8;">Gold Theme</div>
-                                    <div style="font-size:13px; color:#94a3b8;">+500 coins</div>
-                                    <div style="font-size:13px; color:#94a3b8;">👑 Champion Badge</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">Gold Theme</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">+500 coins</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">👑 Champion Badge</div>
                                 </div>
                                 <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center; border:2px solid var(--silver);">
                                     <div style="font-size:30px;">🥈</div>
                                     <div style="font-weight:700; color:var(--silver);">#2 Runner-Up</div>
-                                    <div style="font-size:13px; color:#94a3b8;">Silver Theme</div>
-                                    <div style="font-size:13px; color:#94a3b8;">+300 coins</div>
-                                    <div style="font-size:13px; color:#94a3b8;">🏅 Runner-Up Badge</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">Silver Theme</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">+300 coins</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">🏅 Runner-Up Badge</div>
                                 </div>
                                 <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center; border:2px solid var(--bronze);">
                                     <div style="font-size:30px;">🥉</div>
                                     <div style="font-weight:700; color:var(--bronze);">#3 Bronze</div>
-                                    <div style="font-size:13px; color:#94a3b8;">Bronze Theme</div>
-                                    <div style="font-size:13px; color:#94a3b8;">+150 coins</div>
-                                    <div style="font-size:13px; color:#94a3b8;">🥉 Bronze Badge</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">Bronze Theme</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">+150 coins</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">🥉 Bronze Badge</div>
                                 </div>
                             </div>
                         </div>
@@ -1191,7 +1279,9 @@
                     hard: { claimed: false, rank: 0 },
                     ultra: { claimed: false, rank: 0 },
                     overall: { claimed: false, rank: 0 }
-                }
+                },
+                // Account-specific transaction history
+                transactionHistory: []
             };
         }
 
@@ -1206,6 +1296,9 @@
                     }
                     if (!parsed.leaderboardRewards) {
                         parsed.leaderboardRewards = getDefaultUserData().leaderboardRewards;
+                    }
+                    if (!parsed.transactionHistory) {
+                        parsed.transactionHistory = [];
                     }
                     return parsed;
                 }
@@ -1279,26 +1372,112 @@
             setTimeout(() => alert.classList.remove('show'), 3000);
         }
 
-        // --- THEME SYSTEM ---
+        // --- THEME SYSTEM (Improved with full CSS variable override) ---
         const themes = {
-            dark: { bg: 'linear-gradient(135deg, #0f172a, #1e2937)', primary: '#4a90e2' },
-            ocean: { bg: 'linear-gradient(135deg, #0c4a6e, #0f766e)', primary: '#38bdf8' },
-            forest: { bg: 'linear-gradient(135deg, #14532d, #15803d)', primary: '#4ade80' },
-            sunset: { bg: 'linear-gradient(135deg, #7c2d12, #9a3412)', primary: '#fb923c' },
-            neon: { bg: 'linear-gradient(135deg, #1a1a2e, #16213e)', primary: '#e94560' },
-            gold: { bg: 'linear-gradient(135deg, #4a3000, #7a4f00)', primary: '#ffd700' },
-            silver: { bg: 'linear-gradient(135deg, #2d2d2d, #4a4a4a)', primary: '#c0c0c0' },
-            bronze: { bg: 'linear-gradient(135deg, #2d1a0a, #4a2a10)', primary: '#cd7f32' }
+            dark: { 
+                bg: 'linear-gradient(135deg, #0f172a, #1e2937)', 
+                primary: '#4a90e2', 
+                primaryDark: '#2563eb',
+                accent: '#f39c12',
+                cardBg: 'rgba(30, 41, 59, 0.95)',
+                border: '#334155',
+                text: '#e2e8f0',
+                textSecondary: '#94a3b8'
+            },
+            ocean: { 
+                bg: 'linear-gradient(135deg, #0c4a6e, #0f766e)', 
+                primary: '#38bdf8', 
+                primaryDark: '#0ea5e9',
+                accent: '#fcd34d',
+                cardBg: 'rgba(15, 23, 42, 0.85)',
+                border: '#1e6b7a',
+                text: '#e0f2fe',
+                textSecondary: '#a5d8e6'
+            },
+            forest: { 
+                bg: 'linear-gradient(135deg, #14532d, #15803d)', 
+                primary: '#4ade80', 
+                primaryDark: '#22c55e',
+                accent: '#fbbf24',
+                cardBg: 'rgba(15, 23, 42, 0.85)',
+                border: '#2d6a4f',
+                text: '#dcfce7',
+                textSecondary: '#86efac'
+            },
+            sunset: { 
+                bg: 'linear-gradient(135deg, #7c2d12, #9a3412)', 
+                primary: '#fb923c', 
+                primaryDark: '#f97316',
+                accent: '#fde047',
+                cardBg: 'rgba(30, 20, 20, 0.92)',
+                border: '#a85a32',
+                text: '#fff7ed',
+                textSecondary: '#fdba74'
+            },
+            neon: { 
+                bg: 'linear-gradient(135deg, #1a1a2e, #16213e)', 
+                primary: '#e94560', 
+                primaryDark: '#c23152',
+                accent: '#0f3460',
+                cardBg: 'rgba(20, 20, 40, 0.95)',
+                border: '#533483',
+                text: '#e0e0ff',
+                textSecondary: '#a78bfa'
+            },
+            gold: { 
+                bg: 'linear-gradient(135deg, #4a3000, #7a4f00)', 
+                primary: '#ffd700', 
+                primaryDark: '#f0c000',
+                accent: '#ffb700',
+                cardBg: 'rgba(30, 20, 0, 0.92)',
+                border: '#b8860b',
+                text: '#fff8dc',
+                textSecondary: '#ffd700'
+            },
+            silver: { 
+                bg: 'linear-gradient(135deg, #2d2d2d, #4a4a4a)', 
+                primary: '#c0c0c0', 
+                primaryDark: '#a0a0a0',
+                accent: '#e0e0e0',
+                cardBg: 'rgba(30, 30, 30, 0.95)',
+                border: '#6b6b6b',
+                text: '#f5f5f5',
+                textSecondary: '#b0b0b0'
+            },
+            bronze: { 
+                bg: 'linear-gradient(135deg, #2d1a0a, #4a2a10)', 
+                primary: '#cd7f32', 
+                primaryDark: '#b8692a',
+                accent: '#e8a85c',
+                cardBg: 'rgba(30, 20, 10, 0.95)',
+                border: '#8b5a2b',
+                text: '#f5e6d3',
+                textSecondary: '#d4a373'
+            }
         };
 
         function applyTheme() {
             const data = loadUserGameData(currentUser);
             const theme = data.currentTheme || 'dark';
             const t = themes[theme] || themes.dark;
+            
+            // Set CSS variables
+            document.documentElement.style.setProperty('--primary', t.primary);
+            document.documentElement.style.setProperty('--primary-dark', t.primaryDark);
+            document.documentElement.style.setProperty('--accent', t.accent);
+            document.documentElement.style.setProperty('--bg-gradient', t.bg);
+            document.documentElement.style.setProperty('--card-bg', t.cardBg);
+            document.documentElement.style.setProperty('--border-color', t.border);
+            document.documentElement.style.setProperty('--text-color', t.text);
+            document.documentElement.style.setProperty('--text-secondary', t.textSecondary);
+            
+            // Apply background to body and views
             document.body.style.background = t.bg;
             document.querySelectorAll('.auth-view, .admin-view').forEach(el => {
                 el.style.background = t.bg;
             });
+            
+            // Update theme buttons
             document.querySelectorAll('.theme-btn').forEach(btn => {
                 btn.classList.toggle('active-theme', btn.dataset.theme === theme);
             });
@@ -1443,10 +1622,15 @@
                 return;
             }
             
+            // Create new user account - THIS SAVES TO THE PERSISTENT USERS ARRAY
             users.push({ user: u, pass: p, role: "Member" });
-            saveUsers();
+            saveUsers(); // Immediately save to localStorage
+            
+            // Initialize game data and inventory for the new user
             saveUserGameData(u, getDefaultUserData());
             saveUserInventory(u, {});
+            
+            // Log the user in
             setSessionUser(u);
             error.textContent = '';
             document.getElementById('regUser').value = '';
@@ -1478,6 +1662,68 @@
             if (e.key === 'Enter') document.getElementById('regSubmit').click();
         });
 
+        // --- USERNAME CHANGE ---
+        function changeUsername() {
+            if (!currentUser) {
+                showAuthAlert('Please login to change your username!');
+                return;
+            }
+            
+            const input = document.getElementById('newUsernameInput');
+            const newUsername = input.value.trim();
+            const errorEl = document.getElementById('usernameChangeError');
+            
+            if (!newUsername) {
+                errorEl.textContent = 'Please enter a new username.';
+                return;
+            }
+            
+            if (newUsername.length < 3) {
+                errorEl.textContent = 'Username must be at least 3 characters.';
+                return;
+            }
+            
+            // Check if username is taken (by someone else)
+            if (users.some(u => u.user === newUsername && u.user !== currentUser)) {
+                errorEl.textContent = 'Username already taken!';
+                return;
+            }
+            
+            // Find the user
+            const userIndex = users.findIndex(u => u.user === currentUser);
+            if (userIndex === -1) {
+                errorEl.textContent = 'User not found!';
+                return;
+            }
+            
+            // Get the user's data
+            const oldUsername = currentUser;
+            const userData = users[userIndex];
+            const gameData = loadUserGameData(oldUsername);
+            const inventory = getUserInventory(oldUsername);
+            
+            // Delete old data
+            deleteUserGameData(oldUsername);
+            
+            // Update user entry
+            userData.user = newUsername;
+            saveUsers();
+            
+            // Save data under new username
+            saveUserGameData(newUsername, gameData);
+            saveUserInventory(newUsername, inventory);
+            
+            // Update session
+            setSessionUser(newUsername);
+            
+            // Clear input and error
+            input.value = '';
+            errorEl.textContent = '';
+            
+            showFeedback(`✅ Username changed to "${newUsername}"!`, 'success');
+            renderAllGameContent();
+        }
+
         // ============================================================
         // GAME SYSTEM
         // ============================================================
@@ -1488,6 +1734,7 @@
         let missionsCompleted = 0;
         let timeData = { easy: {totalTime:0, count:0, bestTime:0}, medium: {totalTime:0, count:0, bestTime:0}, hard: {totalTime:0, count:0, bestTime:0}, ultra: {totalTime:0, count:0, bestTime:0} };
         let leaderboardRewards = { easy: {claimed: false, rank: 0}, medium: {claimed: false, rank: 0}, hard: {claimed: false, rank: 0}, ultra: {claimed: false, rank: 0}, overall: {claimed: false, rank: 0} };
+        let transactionHistory = [];
 
         let journal = [];
         let lastMissionJournal = [];
@@ -1535,6 +1782,7 @@
                 userInventory = getUserInventory(currentUser);
                 timeData = data.timeData || { easy: {totalTime:0, count:0, bestTime:0}, medium: {totalTime:0, count:0, bestTime:0}, hard: {totalTime:0, count:0, bestTime:0}, ultra: {totalTime:0, count:0, bestTime:0} };
                 leaderboardRewards = data.leaderboardRewards || { easy: {claimed: false, rank: 0}, medium: {claimed: false, rank: 0}, hard: {claimed: false, rank: 0}, ultra: {claimed: false, rank: 0}, overall: {claimed: false, rank: 0} };
+                transactionHistory = data.transactionHistory || [];
             }
         }
 
@@ -1547,7 +1795,8 @@
                     missionsCompleted: missionsCompleted,
                     expToNextLevel: expToNextLevel,
                     timeData: timeData,
-                    leaderboardRewards: leaderboardRewards
+                    leaderboardRewards: leaderboardRewards,
+                    transactionHistory: transactionHistory
                 };
                 saveUserGameData(currentUser, data);
                 saveUserInventory(currentUser, userInventory);
@@ -1637,7 +1886,6 @@
                 let bestTime = 0;
                 
                 if (difficulty === 'overall') {
-                    // Overall: average of all difficulties
                     let totalTime = 0;
                     let totalCount = 0;
                     Object.values(data.timeData || {}).forEach(d => {
@@ -1653,7 +1901,6 @@
                     bestTime = d.bestTime || 0;
                 }
                 
-                // Only include users who have completed at least one mission in this difficulty
                 if (count > 0) {
                     entries.push({
                         username: username,
@@ -1661,13 +1908,11 @@
                         count: count,
                         bestTime: bestTime,
                         role: user.role,
-                        level: data.level || 1,
-                        coins: data.coins || 0
+                        level: data.level || 1
                     });
                 }
             });
             
-            // Sort by average time (fastest first)
             entries.sort((a, b) => a.avgTime - b.avgTime);
             return entries;
         }
@@ -1678,7 +1923,7 @@
             
             if (entries.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align:center; padding:40px; color:#94a3b8;">
+                    <div style="text-align:center; padding:40px; color:var(--text-secondary);">
                         <div style="font-size:48px; margin-bottom:16px;">📊</div>
                         <div>No data yet for this difficulty.</div>
                         <div style="font-size:14px; margin-top:8px;">Complete missions to appear on the leaderboard!</div>
@@ -1701,7 +1946,7 @@
             }
             
             let html = `
-                <div style="margin-bottom:12px; color:#94a3b8; font-size:14px;">
+                <div style="margin-bottom:12px; color:var(--text-secondary); font-size:14px;">
                     ${entries.length} players • Fastest times win!
                 </div>
             `;
@@ -1713,7 +1958,6 @@
                 const rankClass = rank <= 3 ? rankClasses[index] : '';
                 const rankBadge = rank <= 3 ? rankBadges[index] : '';
                 
-                // Get best time display
                 const bestDisplay = entry.bestTime > 0 ? `🏆 Best: ${entry.bestTime}s` : '';
                 
                 html += `
@@ -1725,7 +1969,7 @@
                                 ${rank <= 3 ? `<span class="rank-badge ${rank === 1 ? 'champion' : rank === 2 ? 'runner-up' : 'bronze-medal'}">${rankBadge}</span>` : ''}
                                 ${entry.role === 'Admin' ? '👑' : ''}
                             </div>
-                            <div class="detail">Level ${entry.level} • ${entry.count} missions • ${entry.coins} coins ${bestDisplay ? '• ' + bestDisplay : ''}</div>
+                            <div class="detail">Level ${entry.level} • ${entry.count} missions ${bestDisplay ? '• ' + bestDisplay : ''}</div>
                         </div>
                         <div class="time-display">${entry.avgTime}s</div>
                     </div>
@@ -1747,7 +1991,6 @@
                 leaderboardRewards[rewardKey].rank = rank;
                 saveGameProgress();
                 
-                // Grant rewards based on rank
                 let rewardEmoji = '';
                 let rewardTitle = '';
                 let rewardDesc = '';
@@ -1760,7 +2003,6 @@
                     rewardDesc = 'You are the fastest player in ' + difficulty + ' difficulty!';
                     bonusCoins = 500;
                     themeId = 'theme_gold';
-                    // Grant gold theme
                     if (!userInventory['theme_gold']) {
                         userInventory['theme_gold'] = 1;
                     }
@@ -1788,6 +2030,7 @@
                 coins += bonusCoins;
                 updateDisplay();
                 saveGameProgress();
+                saveUserInventory(currentUser, userInventory);
                 
                 // Show reward modal
                 const modal = document.getElementById('leaderboard-reward-modal');
@@ -1797,7 +2040,7 @@
                     ${rewardDesc}<br>
                     🪙 +${bonusCoins} coins<br>
                     ${themeId ? `🎨 Unlocked exclusive ${themeId.replace('theme_', '')} theme!` : ''}
-                    <br><span style="font-size:13px; color:#94a3b8;">Check your inventory in the shop!</span>
+                    <br><span style="font-size:13px; color:var(--text-secondary);">Check your inventory in the shop!</span>
                 `;
                 modal.style.display = 'flex';
                 
@@ -1864,6 +2107,9 @@
             return "Account";
         }
 
+        // Used to track which scenario types have been used for a specific version/difficulty
+        let usedScenarioTracker = {};
+
         function createVariations(baseDesc, debit, credit, explanation, count) {
             const variations = [];
             const words = [
@@ -1887,9 +2133,19 @@
                 (s) => s.replace(/revenue/g, 'earnings')
             ];
             
+            // Use larger amounts: 3-5 digit numbers
+            const amountRanges = [
+                [100, 999],    // 3 digit
+                [1000, 9999],  // 4 digit
+                [10000, 50000] // 5 digit
+            ];
+            
             for (let i = 0; i < count; i++) {
                 const idx = i % words.length;
-                const amount = 50 + (i * 37 + 73) % 750;
+                // Pick a random amount range
+                const rangeIdx = i % amountRanges.length;
+                const [min, max] = amountRanges[rangeIdx];
+                const amount = min + (i * 137 + 73) % (max - min + 1);
                 const desc = words[idx](baseDesc(amount));
                 
                 let detailedExplanation = explanation || '';
@@ -2017,13 +2273,6 @@
                 return result;
             }
             
-            const amounts = {
-                easy: [75, 120, 200, 300, 450, 500, 150, 250, 180, 350],
-                medium: [600, 850, 1200, 1500, 2200, 2800, 3500, 4200, 4800, 5500],
-                hard: [700, 1200, 1800, 2500, 3200, 4000, 4800, 5600, 6500, 7800],
-                ultra: [1500, 2500, 4000, 5500, 7000, 9000, 11000, 13000, 16000, 20000]
-            };
-            
             let pool;
             if (difficulty === 'easy') pool = EASY_POOL;
             else if (difficulty === 'medium') pool = MEDIUM_POOL;
@@ -2033,31 +2282,60 @@
             if (pool.length === 0) return [];
             
             const numTransactions = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : difficulty === 'hard' ? 5 : 6;
-            const availableAmounts = amounts[difficulty] || amounts.easy;
             
-            const shuffledPool = shuffleArray(pool, version * 97 + day * 83);
-            const shuffledAmounts = shuffleArray(availableAmounts, version * 73 + day * 61);
+            // Track used scenarios for this version/difficulty to avoid duplicates
+            const trackerKey = `${difficulty}_${version}`;
+            if (!usedScenarioTracker[trackerKey]) {
+                usedScenarioTracker[trackerKey] = new Set();
+            }
+            const usedSet = usedScenarioTracker[trackerKey];
             
-            const startIdx = (version * 53 + day * 47) % shuffledPool.length;
+            // Get unique scenarios by their debit/credit pair
+            const uniqueScenarios = [];
+            const seenPairs = new Set();
+            for (const scenario of pool) {
+                const pair = `${scenario.debit}|${scenario.credit}`;
+                if (!seenPairs.has(pair)) {
+                    seenPairs.add(pair);
+                    uniqueScenarios.push(scenario);
+                }
+            }
+            
+            // Shuffle unique scenarios
+            const shuffledPool = shuffleArray(uniqueScenarios, version * 97 + day * 83);
+            
+            // Filter out already used scenarios for this version
+            const availableScenarios = shuffledPool.filter(s => {
+                const key = `${s.debit}|${s.credit}`;
+                return !usedSet.has(key);
+            });
+            
+            // If we don't have enough unique scenarios, reset the tracker for this version
+            let selectedScenarios;
+            if (availableScenarios.length < numTransactions) {
+                // Reset and use all scenarios
+                usedScenarioTracker[trackerKey] = new Set();
+                const resetAvailable = shuffledPool.filter(s => {
+                    const key = `${s.debit}|${s.credit}`;
+                    return !usedSet.has(key);
+                });
+                selectedScenarios = resetAvailable.slice(0, numTransactions);
+                // Mark them as used
+                selectedScenarios.forEach(s => {
+                    usedScenarioTracker[trackerKey].add(`${s.debit}|${s.credit}`);
+                });
+            } else {
+                selectedScenarios = availableScenarios.slice(0, numTransactions);
+                // Mark them as used
+                selectedScenarios.forEach(s => {
+                    usedScenarioTracker[trackerKey].add(`${s.debit}|${s.credit}`);
+                });
+            }
             
             const selected = [];
-            const usedIndices = new Set();
-            
-            for (let i = 0; i < numTransactions; i++) {
-                let scenarioIdx;
-                let attempts = 0;
-                do {
-                    scenarioIdx = (startIdx + i * (version % 5 + 1) + day * 3 + attempts * 7) % shuffledPool.length;
-                    attempts++;
-                } while (usedIndices.has(scenarioIdx) && attempts < shuffledPool.length);
-                usedIndices.add(scenarioIdx);
-                
-                const scenario = shuffledPool[scenarioIdx];
-                const amountIdx = (i * (version % 7 + 1) + day * 5 + version * 2) % shuffledAmounts.length;
-                let amount = shuffledAmounts[amountIdx];
-                
+            selectedScenarios.forEach((scenario, i) => {
                 const descAmount = extractAmountFromDesc(scenario.desc);
-                if (descAmount !== null) amount = descAmount;
+                const amount = descAmount !== null ? descAmount : 100 + (i * 137 + 73) % 9900;
                 
                 selected.push({
                     id: day * 100000 + (difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : difficulty === 'hard' ? 3 : 4) * 10000 + version * 1000 + i + 1,
@@ -2067,7 +2345,8 @@
                     amount: amount,
                     explanation: scenario.explanation
                 });
-            }
+            });
+            
             return selected;
         }
 
@@ -2096,6 +2375,7 @@
                     selectedDate = day;
                     document.getElementById('selected-date').textContent = `Selected: June ${day}, 2026`;
                     versionCache = {};
+                    usedScenarioTracker = {};
                     updateAvgTimeDisplay();
                 };
                 cal.appendChild(d);
@@ -2131,6 +2411,8 @@
             document.getElementById('setup-card').style.display = 'block';
             document.getElementById('mission-content').style.display = 'none';
             updateAvgTimeDisplay();
+            // Reset used scenario tracker when starting a new mission
+            usedScenarioTracker = {};
         }
 
         function startMission(diff) {
@@ -2209,6 +2491,7 @@
             selectedDate = null;
             document.getElementById('selected-date').textContent = 'Select a day';
             versionCache = {};
+            usedScenarioTracker = {};
             updateAvgTimeDisplay();
         }
 
@@ -2238,7 +2521,7 @@
                         const correct = recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === t.amount;
                         html += `<div class="correct-answer" style="margin-top:10px;color:${correct ? '#4ade80' : '#f87171'}">
                             <strong>${correct ? '✅ Correct' : '❌ Wrong'}</strong>
-                            ${!correct ? `<br><small style="color:#94a3b8;">Correct: Dr ${t.correctDebit} / Cr ${t.correctCredit}</small>` : ''}
+                            ${!correct ? `<br><small style="color:var(--text-secondary);">Correct: Dr ${t.correctDebit} / Cr ${t.correctCredit}</small>` : ''}
                         </div>`;
                     } else {
                         html += `<button onclick="startEdit(${t.id})" class="edit-btn" style="margin-top:10px;">✏️ Edit</button>`;
@@ -2290,9 +2573,9 @@
                 <p><strong>Correct Debit:</strong> ${t.correctDebit}</p>
                 <p><strong>Correct Credit:</strong> ${t.correctCredit}</p>
                 <p><strong>Amount:</strong> $${displayAmount}</p>
-                <div style="margin-top:15px;padding-top:15px;border-top:1px solid #334155;text-align:left;">
+                <div style="margin-top:15px;padding-top:15px;border-top:1px solid var(--border-color);text-align:left;">
                     <h4 style="color:var(--accent);">📚 Explanation</h4>
-                    <p style="color:#94a3b8;line-height:1.6;">${t.explanation || 'No detailed explanation available.'}</p>
+                    <p style="color:var(--text-secondary);line-height:1.6;">${t.explanation || 'No detailed explanation available.'}</p>
                 </div>
             `;
             document.getElementById('answer-modal').style.display = 'flex';
@@ -2393,12 +2676,12 @@
             const tbody = document.getElementById('journal-body');
             tbody.innerHTML = '';
             if (journal.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="padding:20px;text-align:center;color:#94a3b8;">No entries recorded yet</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="padding:20px;text-align:center;color:var(--text-secondary);">No entries recorded yet</td></tr>`;
                 return;
             }
             journal.forEach((j) => {
                 const row = document.createElement('tr');
-                row.style.borderBottom = "1px solid #334155";
+                row.style.borderBottom = "1px solid var(--border-color)";
                 row.innerHTML = `
                     <td style="padding:12px;">${j.desc}</td>
                     <td style="padding:12px;color:#4ade80;text-align:center;">${j.debit}</td>
@@ -2415,7 +2698,7 @@
             
             if (journal.length === 0) {
                 container.innerHTML = `<div class="balance-display" style="border-color:#475569;">
-                    <span style="color:#94a3b8;">No entries yet — start recording transactions above</span>
+                    <span style="color:var(--text-secondary);">No entries yet — start recording transactions above</span>
                 </div>`;
                 return;
             }
@@ -2488,6 +2771,21 @@
             
             missionSubmitted = true;
             lastMissionJournal = [...journal];
+            
+            // Save to account-specific transaction history
+            const missionRecord = {
+                date: new Date().toISOString(),
+                difficulty: currentDifficulty,
+                version: currentVersion,
+                transactions: journal.map(j => ({
+                    desc: j.desc,
+                    debit: j.debit,
+                    credit: j.credit,
+                    amount: j.amount
+                }))
+            };
+            transactionHistory.push(missionRecord);
+            saveGameProgress();
 
             const timeTaken = Math.floor((Date.now() - startTime) / 1000);
             
@@ -2560,11 +2858,11 @@
                     <div>⭐ EXP Earned: ${expEarned}</div>
                     <div>🪙 Coins Earned: ${coinEarned}</div>
                     <div>⏱️ Time: ${timeTaken}s</div>
-                    <div style="color:#94a3b8; font-size:14px; margin-top:8px;">
+                    <div style="color:var(--text-secondary); font-size:14px; margin-top:8px;">
                         📊 Avg time for ${diffNames[currentDifficulty]}: ${avgTime > 0 ? avgTime + 's' : 'N/A'}
                         ${bestTime > 0 ? '• 🏆 Best: ' + bestTime + 's' : ''}
                     </div>
-                    <div style="margin-top:10px; color:#94a3b8; font-size:14px;">
+                    <div style="margin-top:10px; color:var(--text-secondary); font-size:14px;">
                         ${incorrectAttempts > 0 ? '💡 Learning from mistakes is the best way to improve!' : '🎯 Perfect! No mistakes made!'}
                     </div>
                 </div>
@@ -2583,7 +2881,7 @@
                     <div style="margin-top:10px;">
                         ${Object.entries(mistakes).map(([id, count]) => {
                             const t = transactions.find(tr => tr.id === parseInt(id));
-                            return `<div style="padding:8px 0;border-bottom:1px solid #334155;">
+                            return `<div style="padding:8px 0;border-bottom:1px solid var(--border-color);">
                                 <strong>Transaction:</strong> ${t ? t.desc : 'Unknown'}<br>
                                 <span style="color:#f87171;">Attempted ${count} time${count > 1 ? 's' : ''} incorrectly</span>
                             </div>`;
@@ -2605,8 +2903,8 @@
                     <div><span style="color:#f1c40f;">🪙</span> Coins: <strong>+${coinEarned}</strong></div>
                     ${leveledUp ? '<div style="color:var(--accent);">⬆️ <strong>LEVEL UP!</strong></div>' : ''}
                     <div>Score: <strong>${finalScore}%</strong></div>
-                    <div style="color:#94a3b8;font-size:12px;">Missions completed: ${missionsCompleted}</div>
-                    <div style="color:#94a3b8;font-size:12px;">⏱️ Time: ${timeTaken}s (Avg ${diffLabel}: ${avgTime > 0 ? avgTime + 's' : 'N/A'})</div>
+                    <div style="color:var(--text-secondary);font-size:12px;">Missions completed: ${missionsCompleted}</div>
+                    <div style="color:var(--text-secondary);font-size:12px;">⏱️ Time: ${timeTaken}s (Avg ${diffLabel}: ${avgTime > 0 ? avgTime + 's' : 'N/A'})</div>
                     ${bestTime > 0 ? `<div style="color:var(--gold);font-size:12px;">🏆 Best Time: ${bestTime}s</div>` : ''}
                 </div>
             `;
@@ -2640,19 +2938,19 @@
                 <h3>📊 Learning Stats</h3>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:10px;">
                     <div style="background:#0f172a;padding:12px;border-radius:8px;">
-                        <div style="color:#94a3b8;font-size:14px;">Time</div>
+                        <div style="color:var(--text-secondary);font-size:14px;">Time</div>
                         <div style="font-size:20px;font-weight:bold;">${timeTaken}s</div>
                     </div>
                     <div style="background:#0f172a;padding:12px;border-radius:8px;">
-                        <div style="color:#94a3b8;font-size:14px;">Incorrect Attempts</div>
+                        <div style="color:var(--text-secondary);font-size:14px;">Incorrect Attempts</div>
                         <div style="font-size:20px;font-weight:bold;color:#f87171;">${incorrectAttempts}</div>
                     </div>
                     <div style="background:#0f172a;padding:12px;border-radius:8px;">
-                        <div style="color:#94a3b8;font-size:14px;">Final Score</div>
+                        <div style="color:var(--text-secondary);font-size:14px;">Final Score</div>
                         <div style="font-size:20px;font-weight:bold;color:${finalScore >= 80 ? '#4ade80' : finalScore >= 60 ? '#facc15' : '#f87171'};">${finalScore}%</div>
                     </div>
                     <div style="background:#0f172a;padding:12px;border-radius:8px;">
-                        <div style="color:#94a3b8;font-size:14px;">Best Time (${diffLabel})</div>
+                        <div style="color:var(--text-secondary);font-size:14px;">Best Time (${diffLabel})</div>
                         <div style="font-size:20px;font-weight:bold;color:${bestTime > 0 && bestTime < 30 ? '#4ade80' : bestTime > 0 && bestTime < 60 ? '#facc15' : '#e2e8f0'};">${bestTime > 0 ? bestTime + 's' : '—'}</div>
                     </div>
                 </div>
@@ -2677,42 +2975,49 @@
         function renderTAccounts() {
             const container = document.getElementById('t-accounts');
             container.innerHTML = '';
-            document.getElementById('ledger-mission-info').textContent = `Mission • June ${currentDay} • ${currentDifficulty ? currentDifficulty.toUpperCase() : ''} • Version ${currentVersion}`;
-
-            const balances = {};
-            const transactions = lastMissionJournal.length > 0 ? lastMissionJournal : journal;
             
-            if (transactions.length === 0) {
-                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:40px;">Complete a mission first to see T-Accounts!</div>`;
+            // Use account-specific transaction history
+            const history = transactionHistory || [];
+            if (history.length === 0) {
+                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:40px;">Complete a mission first to see T-Accounts!</div>`;
                 return;
             }
 
+            // Build balances from all historical transactions
+            const balances = {};
             const accountTransactions = {};
-            transactions.forEach(entry => {
-                if (!accountTransactions[entry.debit]) accountTransactions[entry.debit] = [];
-                if (!accountTransactions[entry.credit]) accountTransactions[entry.credit] = [];
-                
-                accountTransactions[entry.debit].push({
-                    type: 'debit',
-                    amount: entry.amount,
-                    desc: entry.desc
+            
+            history.forEach(mission => {
+                mission.transactions.forEach(entry => {
+                    if (!accountTransactions[entry.debit]) accountTransactions[entry.debit] = [];
+                    if (!accountTransactions[entry.credit]) accountTransactions[entry.credit] = [];
+                    
+                    accountTransactions[entry.debit].push({
+                        type: 'debit',
+                        amount: entry.amount,
+                        desc: entry.desc,
+                        date: mission.date
+                    });
+                    accountTransactions[entry.credit].push({
+                        type: 'credit',
+                        amount: entry.amount,
+                        desc: entry.desc,
+                        date: mission.date
+                    });
+                    
+                    if (!balances[entry.debit]) balances[entry.debit] = 0;
+                    if (!balances[entry.credit]) balances[entry.credit] = 0;
+                    balances[entry.debit] += entry.amount;
+                    balances[entry.credit] -= entry.amount;
                 });
-                accountTransactions[entry.credit].push({
-                    type: 'credit',
-                    amount: entry.amount,
-                    desc: entry.desc
-                });
-                
-                if (!balances[entry.debit]) balances[entry.debit] = 0;
-                if (!balances[entry.credit]) balances[entry.credit] = 0;
-                balances[entry.debit] += entry.amount;
-                balances[entry.credit] -= entry.amount;
             });
 
             const allAccounts = new Set();
-            transactions.forEach(entry => {
-                allAccounts.add(entry.debit);
-                allAccounts.add(entry.credit);
+            history.forEach(mission => {
+                mission.transactions.forEach(entry => {
+                    allAccounts.add(entry.debit);
+                    allAccounts.add(entry.credit);
+                });
             });
 
             allAccounts.forEach(acc => {
@@ -2757,7 +3062,7 @@
                         <span>Credit: <strong style="color:#f87171;">$${bal < 0 ? Math.abs(bal).toFixed(2) : '0.00'}</strong></span>
                     </div>
                     <div class="account-detail">
-                        <div style="font-size:13px; color:#94a3b8; margin-bottom:6px;">📋 Transaction History:</div>
+                        <div style="font-size:13px; color:var(--text-secondary); margin-bottom:6px;">📋 Transaction History:</div>
                         ${debitTxs.map(t => `<div class="detail-row"><span style="color:#4ade80;">Dr</span> <span>${t.desc.substring(0, 30)}${t.desc.length > 30 ? '...' : ''}</span> <span style="color:#4ade80;">+$${t.amount}</span></div>`).join('')}
                         ${creditTxs.map(t => `<div class="detail-row"><span style="color:#f87171;">Cr</span> <span>${t.desc.substring(0, 30)}${t.desc.length > 30 ? '...' : ''}</span> <span style="color:#f87171;">-$${t.amount}</span></div>`).join('')}
                         ${debitTxs.length === 0 && creditTxs.length === 0 ? '<div class="detail-row" style="color:#64748b;">No transactions</div>' : ''}
@@ -2821,7 +3126,7 @@
                             </button>
                         `).join('')}
                     </div>
-                    <div style="margin-top:8px; font-size:12px; color:#94a3b8;">Earned from leaderboard top 3 rankings!</div>
+                    <div style="margin-top:8px; font-size:12px; color:var(--text-secondary);">Earned from leaderboard top 3 rankings!</div>
                 `;
                 container.appendChild(exclusiveSection);
             }
@@ -2835,7 +3140,7 @@
                         const isActive = loadUserGameData(currentUser).currentTheme === item.theme;
                         return `<button class="theme-btn ${item.theme} ${isActive ? 'active-theme' : ''}" 
                                     onclick="buyTheme('${item.id}', '${item.theme}')" 
-                                    style="border-color: ${isActive ? 'var(--accent)' : '#334155'};">
+                                    style="border-color: ${isActive ? 'var(--accent)' : 'var(--border-color)'};">
                                     ${item.emoji} ${item.name}
                                     ${owned ? (isActive ? ' ✅' : ' ✓') : ` ${item.price}🪙`}
                                 </button>`;
@@ -2923,6 +3228,64 @@
             showFeedback(`✅ Purchased ${item.name}!`, 'success');
         }
 
+        // --- INVENTORY ---
+        function renderInventory() {
+            const container = document.getElementById('inventory-content');
+            container.innerHTML = '';
+            
+            const inventoryItems = Object.keys(userInventory).filter(key => userInventory[key] > 0);
+            
+            if (inventoryItems.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:40px; color:var(--text-secondary);">
+                        <div style="font-size:48px; margin-bottom:16px;">📦</div>
+                        <div>Your inventory is empty.</div>
+                        <div style="font-size:14px; margin-top:8px;">Visit the shop to buy items!</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Map item IDs to display info
+            const itemMap = {};
+            SHOP_ITEMS.forEach(item => {
+                itemMap[item.id] = item;
+            });
+            // Add exclusive items
+            Object.values(EXCLUSIVE_ITEMS).forEach(item => {
+                itemMap[item.id] = item;
+            });
+            
+            let html = `<div class="inventory-grid">`;
+            
+            inventoryItems.forEach(id => {
+                const count = userInventory[id];
+                const item = itemMap[id];
+                if (!item) return;
+                
+                const isTheme = item.type === 'theme' || id.startsWith('theme_');
+                const isExclusive = id === 'theme_gold' || id === 'theme_silver' || id === 'theme_bronze';
+                const emoji = item.emoji || '📦';
+                const name = item.name || id;
+                const desc = item.desc || 'No description';
+                
+                html += `
+                    <div class="inventory-item">
+                        <div class="item-emoji">${emoji}</div>
+                        <div class="item-name">${name}</div>
+                        <div class="item-count">x${count}</div>
+                        <div class="item-desc">${desc}</div>
+                        ${isTheme ? `<div style="margin-top:8px;"><button onclick="setTheme('${item.theme || id.replace('theme_', '')}')" style="padding:6px 12px; font-size:12px; background:var(--primary); color:white; border:none; border-radius:6px; cursor:pointer;">Apply Theme</button></div>` : ''}
+                        ${isExclusive ? `<div style="margin-top:8px; font-size:12px; color:var(--gold);">🏆 Exclusive Reward</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        // --- SCREEN NAVIGATION ---
         function showScreen(screen) {
             document.querySelectorAll('#game-area > div').forEach(div => div.style.display = 'none');
             document.getElementById(screen + '-screen').style.display = 'block';
@@ -2930,11 +3293,11 @@
             const activeBtn = Array.from(document.querySelectorAll('.sidebar .nav-btn')).find(btn => btn.getAttribute('onclick').includes(`'${screen}'`));
             if (activeBtn) activeBtn.classList.add('active');
             if (screen === 'shop') renderShop();
+            if (screen === 'inventory') renderInventory();
             if (screen === 'stats') renderStats();
             if (screen === 'ledger') renderTAccounts();
             if (screen === 'mission') updateAvgTimeDisplay();
             if (screen === 'leaderboard') {
-                // Default to overall view
                 const tabs = document.querySelectorAll('#leaderboard-tabs button');
                 tabs.forEach(b => b.classList.remove('active'));
                 const overallTab = document.querySelector('#leaderboard-tabs button[data-diff="overall"]');
@@ -2967,7 +3330,7 @@
                 timeRows += `
                     <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
                         <div style="font-size:20px;">${diffEmojis[key]}</div>
-                        <div style="font-size:14px; color:#94a3b8;">${diffNames[key]}</div>
+                        <div style="font-size:14px; color:var(--text-secondary);">${diffNames[key]}</div>
                         <div style="font-size:18px; font-weight:bold; color:${avg > 0 ? '#e2e8f0' : '#64748b'};">${avg > 0 ? avg + 's' : '—'}</div>
                         <div style="font-size:11px; color:#64748b;">${data.count} missions</div>
                         ${best > 0 ? `<div style="font-size:12px; color:var(--gold);">🏆 Best: ${best}s</div>` : ''}
@@ -2980,31 +3343,31 @@
             container.innerHTML = `
                 <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-top:20px;">
                     <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
-                        <div style="color:#94a3b8; font-size:14px;">Level</div>
+                        <div style="color:var(--text-secondary); font-size:14px;">Level</div>
                         <div style="font-size:28px; font-weight:bold; color:var(--accent);">${level}</div>
                     </div>
                     <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
-                        <div style="color:#94a3b8; font-size:14px;">Total EXP</div>
+                        <div style="color:var(--text-secondary); font-size:14px;">Total EXP</div>
                         <div style="font-size:28px; font-weight:bold; color:var(--exp-color);">${exp}</div>
                     </div>
                     <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
-                        <div style="color:#94a3b8; font-size:14px;">Next Level</div>
+                        <div style="color:var(--text-secondary); font-size:14px;">Next Level</div>
                         <div style="font-size:28px; font-weight:bold; color:#60a5fa;">${expToNextLevel} EXP</div>
                     </div>
                     <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
-                        <div style="color:#94a3b8; font-size:14px;">Total Coins</div>
+                        <div style="color:var(--text-secondary); font-size:14px;">Total Coins</div>
                         <div style="font-size:28px; font-weight:bold; color:#f1c40f;">${coins} 🪙</div>
                     </div>
                     <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
-                        <div style="color:#94a3b8; font-size:14px;">Missions Completed</div>
+                        <div style="color:var(--text-secondary); font-size:14px;">Missions Completed</div>
                         <div style="font-size:28px; font-weight:bold; color:#60a5fa;">${missionsCompleted}</div>
                     </div>
                     <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
-                        <div style="color:#94a3b8; font-size:14px;">Avg Time (Overall)</div>
+                        <div style="color:var(--text-secondary); font-size:14px;">Avg Time (Overall)</div>
                         <div style="font-size:28px; font-weight:bold; color:${overallAvg > 0 && overallAvg < 30 ? '#4ade80' : overallAvg > 0 && overallAvg < 60 ? '#facc15' : '#e2e8f0'};">${overallAvg > 0 ? overallAvg + 's' : '—'}</div>
                     </div>
                     <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
-                        <div style="color:#94a3b8; font-size:14px;">Player</div>
+                        <div style="color:var(--text-secondary); font-size:14px;">Player</div>
                         <div style="font-size:22px; font-weight:bold; color:var(--primary);">${currentUser || 'Guest'}</div>
                     </div>
                 </div>
@@ -3021,21 +3384,21 @@
                 
                 <div style="margin-top:20px; padding:20px; background:#1e2937; border-radius:12px;">
                     <h3 style="margin-bottom:10px;">📊 Reward System</h3>
-                    <p style="color:#94a3b8;">Your rewards are based on your accuracy score. Higher accuracy = more coins and EXP!</p>
+                    <p style="color:var(--text-secondary);">Your rewards are based on your accuracy score. Higher accuracy = more coins and EXP!</p>
                     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px; margin-top:12px;">
                         <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
                             <div style="color:#4ade80; font-size:20px;">🎯</div>
-                            <div style="font-size:14px; color:#94a3b8;">Accuracy</div>
+                            <div style="font-size:14px; color:var(--text-secondary);">Accuracy</div>
                             <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round((missionsCompleted / (missionsCompleted + incorrectAttempts)) * 100) : 0}%</div>
                         </div>
                         <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
                             <div style="color:#f1c40f; font-size:20px;">🪙</div>
-                            <div style="font-size:14px; color:#94a3b8;">Avg Coins/Mission</div>
+                            <div style="font-size:14px; color:var(--text-secondary);">Avg Coins/Mission</div>
                             <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round(coins / missionsCompleted) : 0}</div>
                         </div>
                         <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
                             <div style="color:var(--exp-color); font-size:20px;">⭐</div>
-                            <div style="font-size:14px; color:#94a3b8;">Avg EXP/Mission</div>
+                            <div style="font-size:14px; color:var(--text-secondary);">Avg EXP/Mission</div>
                             <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round(exp / missionsCompleted) : 0}</div>
                         </div>
                     </div>
@@ -3068,6 +3431,7 @@
             generateCalendar();
             updateDisplay();
             renderShop();
+            renderInventory();
             renderStats();
             renderTAccounts();
             applyTheme();
