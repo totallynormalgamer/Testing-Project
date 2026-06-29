@@ -6,6 +6,7 @@
     <title>Bank Ledger Legends</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Press+Start+2P&display=swap');
+        
         /* CSS variables – will be overridden by theme */
         :root {
             --primary: #4a90e2;
@@ -22,16 +23,45 @@
             --gold: #ffd700;
             --silver: #c0c0c0;
             --bronze: #cd7f32;
+            --theme-bg: #0f172a;
+            --theme-accent: #4a90e2;
         }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Fredoka', sans-serif;
-            background: var(--bg-gradient);
             color: var(--text-color);
             min-height: 100vh;
             overflow: hidden;
             transition: background 0.4s ease, color 0.3s ease;
+            background: var(--theme-bg);
+            position: relative;
         }
+        
+        /* Theme Background Canvas */
+        #theme-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        /* Theme overlay for readability */
+        .theme-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: rgba(0,0,0,0.3);
+        }
+        
         .hidden { display: none !important; }
 
         /* --- LOGIN / REGISTER VIEWS --- */
@@ -40,8 +70,9 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background: var(--bg-gradient);
             padding: 20px;
+            position: relative;
+            z-index: 1;
             transition: background 0.4s ease;
         }
         .auth-card {
@@ -53,6 +84,7 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.6);
             text-align: center;
             transition: border-color 0.3s ease, background 0.3s ease;
+            backdrop-filter: blur(10px);
         }
         .auth-card h1 {
             font-family: 'Press Start 2P', cursive;
@@ -65,7 +97,7 @@
             width: 100%;
             padding: 14px 16px;
             margin: 8px 0;
-            background: #0f172a;
+            background: rgba(15, 23, 42, 0.8);
             color: var(--text-color);
             border: 2px solid var(--border-color);
             border-radius: 10px;
@@ -112,7 +144,6 @@
             margin-top: 10px;
             min-height: 20px;
         }
-        /* Removed .cancel-link styles */
 
         /* --- ADMIN VIEW --- */
         .admin-view {
@@ -120,8 +151,9 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background: var(--bg-gradient);
             padding: 20px;
+            position: relative;
+            z-index: 1;
             transition: background 0.4s ease;
         }
         .admin-card {
@@ -132,6 +164,7 @@
             border: 2px solid #8b5cf6;
             box-shadow: 0 20px 60px rgba(0,0,0,0.6);
             transition: background 0.3s ease, border-color 0.3s ease;
+            backdrop-filter: blur(10px);
         }
         .admin-card h1 {
             font-family: 'Press Start 2P', cursive;
@@ -208,6 +241,7 @@
             flex-wrap: wrap;
             gap: 8px;
             transition: background 0.3s ease, border-color 0.3s ease;
+            backdrop-filter: blur(10px);
         }
         .logo {
             font-family: 'Press Start 2P', cursive;
@@ -268,6 +302,7 @@
             box-shadow: 0 -4px 15px rgba(0,0,0,0.4);
             flex-wrap: wrap;
             transition: background 0.3s ease, border-color 0.3s ease;
+            backdrop-filter: blur(10px);
         }
         .sidebar .nav-btn {
             flex: 1;
@@ -282,6 +317,8 @@
             padding: 20px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            position: relative;
+            z-index: 1;
         }
 
         .card {
@@ -291,6 +328,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             margin-bottom: 24px;
             transition: background 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         button {
@@ -360,7 +398,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px;
-            background: #1e2937;
+            background: rgba(30, 41, 59, 0.8);
             border-radius: 12px;
             margin-bottom: 12px;
             border: 1px solid var(--border-color);
@@ -423,7 +461,7 @@
         .calendar-header { font-weight: bold; color: #60a5fa; padding: 8px 4px; }
         .day {
             padding: 16px 8px;
-            background: #1e2937;
+            background: rgba(30, 41, 59, 0.8);
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s;
@@ -437,7 +475,7 @@
         .day.selected { background: var(--accent); color: black; font-weight: bold; }
 
         .t-account {
-            background: #1e2937;
+            background: rgba(30, 41, 59, 0.8);
             border-radius: 12px;
             padding: 16px;
             border: 2px solid #475569;
@@ -492,7 +530,7 @@
         .t-account .detail-row:last-child { border-bottom: none; }
 
         .transaction {
-            background: #1e2937;
+            background: rgba(30, 41, 59, 0.8);
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 16px;
@@ -515,7 +553,7 @@
             padding: 12px 10px;
             border-radius: 8px;
             border: none;
-            background: #0f172a;
+            background: rgba(15, 23, 42, 0.8);
             color: white;
             font-size: 16px;
             width: 100%;
@@ -562,12 +600,13 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.8);
             border: 2px solid var(--primary);
             transition: background 0.3s ease, border-color 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         .balance-display {
             margin-top: 15px;
             padding: 15px;
-            background: #0f172a;
+            background: rgba(15, 23, 42, 0.8);
             border-radius: 10px;
             border: 2px solid #475569;
             transition: all 0.3s ease;
@@ -593,7 +632,7 @@
 
         .mission-info-badge {
             display: inline-block;
-            background: #0f172a;
+            background: rgba(15, 23, 42, 0.8);
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 14px;
@@ -654,6 +693,8 @@
             font-weight: 700;
             transition: all 0.3s;
             color: white;
+            position: relative;
+            overflow: hidden;
         }
         .theme-btn:hover { transform: scale(1.05); }
         .theme-btn.active-theme { border-color: var(--accent); box-shadow: 0 0 20px rgba(243, 156, 18, 0.3); }
@@ -662,6 +703,12 @@
         .theme-btn.forest { background: #14532d; }
         .theme-btn.sunset { background: #7c2d12; }
         .theme-btn.neon { background: #1a1a2e; border-color: #e94560; }
+        .theme-btn.lava { background: #4a0a0a; border-color: #ff4500; }
+        .theme-btn.sea { background: #0a2a4a; border-color: #00bfff; }
+        .theme-btn.aurora { background: #0a1a2a; border-color: #00ff88; }
+        .theme-btn.storm { background: #1a1a2a; border-color: #8888ff; }
+        .theme-btn.desert { background: #3a2a0a; border-color: #ffaa00; }
+        .theme-btn.space { background: #0a0a2a; border-color: #aa88ff; }
         .theme-btn.gold { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #1a1a2e; border-color: #ffd700; }
         .theme-btn.silver { background: linear-gradient(135deg, #c0c0c0, #8a8a8a); color: #1a1a2e; border-color: #c0c0c0; }
         .theme-btn.bronze { background: linear-gradient(135deg, #cd7f32, #8b5a2b); color: white; border-color: #cd7f32; }
@@ -704,7 +751,7 @@
             display: flex;
             align-items: center;
             padding: 12px 16px;
-            background: #1e2937;
+            background: rgba(30, 41, 59, 0.8);
             border-radius: 10px;
             margin-bottom: 8px;
             border-left: 4px solid var(--border-color);
@@ -747,7 +794,7 @@
             margin-top: 16px;
         }
         .inventory-item {
-            background: #1e2937;
+            background: rgba(30, 41, 59, 0.8);
             padding: 16px;
             border-radius: 12px;
             text-align: center;
@@ -764,29 +811,29 @@
         .inventory-item .item-count { font-size: 14px; color: var(--text-secondary); }
         .inventory-item .item-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
 
-        /* Username change styles */
-        .username-change-area {
+        /* Username change styles - Updated for display name only */
+        .display-name-area {
             display: flex;
             gap: 12px;
             align-items: center;
             flex-wrap: wrap;
             margin-top: 8px;
         }
-        .username-change-area input {
+        .display-name-area input {
             padding: 10px 14px;
             border-radius: 8px;
             border: 2px solid var(--border-color);
-            background: #0f172a;
+            background: rgba(15, 23, 42, 0.8);
             color: var(--text-color);
             font-size: 16px;
             flex: 1;
             min-width: 150px;
         }
-        .username-change-area input:focus {
+        .display-name-area input:focus {
             border-color: var(--primary);
             outline: none;
         }
-        .username-change-area button {
+        .display-name-area button {
             padding: 10px 20px;
             background: var(--primary);
             color: white;
@@ -796,14 +843,14 @@
             font-weight: 600;
             transition: all 0.3s;
         }
-        .username-change-area button:hover {
+        .display-name-area button:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
         }
-        .username-change-area .cancel-change {
+        .display-name-area .cancel-change {
             background: var(--border-color);
         }
-        .username-change-area .cancel-change:hover {
+        .display-name-area .cancel-change:hover {
             background: #475569;
         }
 
@@ -847,6 +894,10 @@
 </head>
 <body>
 
+    <!-- Theme Canvas for animated backgrounds -->
+    <canvas id="theme-canvas"></canvas>
+    <div class="theme-overlay" id="theme-overlay"></div>
+
     <!-- AUTH ALERT -->
     <div id="authAlert" class="auth-alert">Please login to perform this action!</div>
 
@@ -860,7 +911,6 @@
             <button class="auth-btn" id="loginSubmit">Sign In</button>
             <div id="loginError" class="auth-error"></div>
             <button class="auth-link" onclick="showView('register')">Need an account? Register</button>
-            <!-- Cancel button removed -->
         </div>
     </div>
 
@@ -895,6 +945,7 @@
                             <th>EXP</th>
                             <th>Missions</th>
                             <th>Avg Time</th>
+                            <th>Display Name</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -970,14 +1021,18 @@
                                 🚀 START NEW MISSION
                             </button>
                         </div>
-                        <!-- Username Change Section -->
+                        <!-- Display Name Change Section -->
                         <div style="margin-top:30px; padding-top:20px; border-top:2px solid var(--border-color);">
-                            <h3 style="color:var(--text-secondary); margin-bottom:10px;">👤 Account Settings</h3>
-                            <div class="username-change-area">
-                                <input type="text" id="newUsernameInput" placeholder="New username" style="flex:2;">
-                                <button onclick="changeUsername()">Change Username</button>
+                            <h3 style="color:var(--text-secondary); margin-bottom:10px;">👤 Display Name Settings</h3>
+                            <p style="color:var(--text-secondary); font-size:14px; margin-bottom:8px;">Change how your name appears in-game (login username stays the same)</p>
+                            <div class="display-name-area">
+                                <input type="text" id="newDisplayNameInput" placeholder="New display name" style="flex:2;">
+                                <button onclick="changeDisplayName()">Update Display Name</button>
                             </div>
-                            <div id="usernameChangeError" style="color:var(--danger); font-size:14px; margin-top:8px; min-height:20px;"></div>
+                            <div id="displayNameChangeError" style="color:var(--danger); font-size:14px; margin-top:8px; min-height:20px;"></div>
+                            <div style="margin-top:8px; font-size:13px; color:var(--text-secondary);">
+                                Current login: <strong id="login-username-display">Admin0427</strong> • Display name: <strong id="current-display-name-display">prototype</strong>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1122,24 +1177,24 @@
                         </div>
                         
                         <div id="leaderboard-content"></div>
-                        <div id="leaderboard-rewards" style="margin-top:16px; padding:16px; background:#1e2937; border-radius:12px; border:1px solid var(--border-color);">
+                        <div id="leaderboard-rewards" style="margin-top:16px; padding:16px; background:rgba(30,41,59,0.8); border-radius:12px; border:1px solid var(--border-color);">
                             <h3 style="color:var(--accent); margin-bottom:8px;">🎁 Exclusive Rewards</h3>
                             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px;">
-                                <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center; border:2px solid var(--gold);">
+                                <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center; border:2px solid var(--gold);">
                                     <div style="font-size:30px;">🥇</div>
                                     <div style="font-weight:700; color:var(--gold);">#1 Champion</div>
                                     <div style="font-size:13px; color:var(--text-secondary);">Gold Theme</div>
                                     <div style="font-size:13px; color:var(--text-secondary);">+500 coins</div>
                                     <div style="font-size:13px; color:var(--text-secondary);">👑 Champion Badge</div>
                                 </div>
-                                <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center; border:2px solid var(--silver);">
+                                <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center; border:2px solid var(--silver);">
                                     <div style="font-size:30px;">🥈</div>
                                     <div style="font-weight:700; color:var(--silver);">#2 Runner-Up</div>
                                     <div style="font-size:13px; color:var(--text-secondary);">Silver Theme</div>
                                     <div style="font-size:13px; color:var(--text-secondary);">+300 coins</div>
                                     <div style="font-size:13px; color:var(--text-secondary);">🏅 Runner-Up Badge</div>
                                 </div>
-                                <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center; border:2px solid var(--bronze);">
+                                <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center; border:2px solid var(--bronze);">
                                     <div style="font-size:30px;">🥉</div>
                                     <div style="font-weight:700; color:var(--bronze);">#3 Bronze</div>
                                     <div style="font-size:13px; color:var(--text-secondary);">Bronze Theme</div>
@@ -1217,7 +1272,123 @@
 
     <script>
         // ============================================================
-        // PERSISTENT AUTH SYSTEM - All data saved to localStorage
+        // THEME ANIMATION ENGINE
+        // ============================================================
+        const canvas = document.getElementById('theme-canvas');
+        const ctx = canvas.getContext('2d');
+        let themeType = 'dark';
+        let particles = [];
+        let animationId = null;
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        class Particle {
+            constructor(x, y, type) {
+                this.x = x;
+                this.y = y;
+                this.type = type;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 2;
+                this.speedY = (Math.random() - 0.5) * 2;
+                this.life = 1;
+                this.maxLife = Math.random() * 100 + 50;
+                this.age = 0;
+                this.wobble = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = Math.random() * 0.02 + 0.01;
+            }
+            
+            update() {
+                this.age++;
+                this.life = 1 - (this.age / this.maxLife);
+                this.x += this.speedX + Math.sin(this.wobble) * 0.5;
+                this.y += this.speedY + Math.cos(this.wobble) * 0.5;
+                this.wobble += this.wobbleSpeed;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.age = 0;
+                    this.life = 1;
+                }
+            }
+            
+            draw(ctx) {
+                const alpha = this.life * 0.6;
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.5})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        function createParticles(count, type) {
+            const newParticles = [];
+            for (let i = 0; i < count; i++) {
+                newParticles.push(new Particle(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height,
+                    type
+                ));
+            }
+            return newParticles;
+        }
+        
+        function drawDarkTheme() {
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => p.draw(ctx));
+            particles.forEach(p => p.update());
+            if (particles.length < 50) {
+                const p = new Particle(Math.random() * canvas.width, Math.random() * canvas.height, 'dark');
+                p.size = Math.random() * 1.5 + 0.5;
+                p.speedX = (Math.random() - 0.5) * 0.05;
+                p.speedY = (Math.random() - 0.5) * 0.05;
+                particles.push(p);
+            }
+        }
+        
+        const themeRenderers = {
+            'dark': drawDarkTheme,
+            'ocean': drawDarkTheme,
+            'sea': drawDarkTheme,
+            'forest': drawDarkTheme,
+            'sunset': drawDarkTheme,
+            'neon': drawDarkTheme,
+            'lava': drawDarkTheme,
+            'aurora': drawDarkTheme,
+            'storm': drawDarkTheme,
+            'desert': drawDarkTheme,
+            'space': drawDarkTheme,
+            'gold': drawDarkTheme,
+            'silver': drawDarkTheme,
+            'bronze': drawDarkTheme
+        };
+        
+        function animateTheme() {
+            const renderer = themeRenderers[themeType] || themeRenderers['dark'];
+            if (renderer) renderer();
+            animationId = requestAnimationFrame(animateTheme);
+        }
+        
+        function setThemeBackground(theme) {
+            themeType = theme;
+            particles = [];
+            const count = 50;
+            particles = createParticles(count, 'dark');
+            const overlay = document.getElementById('theme-overlay');
+            overlay.style.background = 'rgba(0,0,0,0.3)';
+        }
+        
+        animateTheme();
+
+        // ============================================================
+        // PERSISTENT AUTH SYSTEM - WITH DISPLAY NAME SEPARATION
         // ============================================================
         
         let users = [];
@@ -1225,20 +1396,165 @@
             const storedUsers = localStorage.getItem('bankUsers');
             if (storedUsers) {
                 users = JSON.parse(storedUsers);
+                // Ensure only one admin exists - Admin0427
+                const adminUsers = users.filter(u => u.role === 'Admin');
+                if (adminUsers.length > 1) {
+                    // Keep only the first admin (Admin0427) and remove others
+                    const adminToKeep = adminUsers.find(u => u.user === 'Admin0427');
+                    users = users.filter(u => u.role !== 'Admin' || u.user === 'Admin0427');
+                    // If Admin0427 wasn't found, add it
+                    if (!users.some(u => u.user === 'Admin0427')) {
+                        users.push({ user: 'Admin0427', pass: 'Isaac0427', role: 'Admin' });
+                    }
+                    localStorage.setItem('bankUsers', JSON.stringify(users));
+                } else if (!users.some(u => u.user === 'Admin0427')) {
+                    users.push({ user: 'Admin0427', pass: 'Isaac0427', role: 'Admin' });
+                    localStorage.setItem('bankUsers', JSON.stringify(users));
+                }
             } else {
-                users = [{ user: "Admin0427", pass: "Isaac0427", role: "Admin" }];
+                users = [{ user: 'Admin0427', pass: 'Isaac0427', role: 'Admin' }];
                 localStorage.setItem('bankUsers', JSON.stringify(users));
+                
+                const adminData = {
+                    coins: 5000,
+                    exp: 0,
+                    level: 1,
+                    missionsCompleted: 0,
+                    expToNextLevel: 100,
+                    currentTheme: 'dark',
+                    displayName: 'prototype',
+                    timeData: {
+                        easy: { totalTime: 0, count: 0, bestTime: 0 },
+                        medium: { totalTime: 0, count: 0, bestTime: 0 },
+                        hard: { totalTime: 0, count: 0, bestTime: 0 },
+                        ultra: { totalTime: 0, count: 0, bestTime: 0 }
+                    },
+                    leaderboardRewards: {
+                        easy: { claimed: false, rank: 0 },
+                        medium: { claimed: false, rank: 0 },
+                        hard: { claimed: false, rank: 0 },
+                        ultra: { claimed: false, rank: 0 },
+                        overall: { claimed: false, rank: 0 }
+                    },
+                    transactionHistory: []
+                };
+                localStorage.setItem('bankGameData_Admin0427', JSON.stringify(adminData));
             }
         } catch(e) {
-            users = [{ user: "Admin0427", pass: "Isaac0427", role: "Admin" }];
+            users = [{ user: 'Admin0427', pass: 'Isaac0427', role: 'Admin' }];
             localStorage.setItem('bankUsers', JSON.stringify(users));
+            
+            const adminData = {
+                coins: 5000,
+                exp: 0,
+                level: 1,
+                missionsCompleted: 0,
+                expToNextLevel: 100,
+                currentTheme: 'dark',
+                displayName: 'prototype',
+                timeData: {
+                    easy: { totalTime: 0, count: 0, bestTime: 0 },
+                    medium: { totalTime: 0, count: 0, bestTime: 0 },
+                    hard: { totalTime: 0, count: 0, bestTime: 0 },
+                    ultra: { totalTime: 0, count: 0, bestTime: 0 }
+                },
+                leaderboardRewards: {
+                    easy: { claimed: false, rank: 0 },
+                    medium: { claimed: false, rank: 0 },
+                    hard: { claimed: false, rank: 0 },
+                    ultra: { claimed: false, rank: 0 },
+                    overall: { claimed: false, rank: 0 }
+                },
+                transactionHistory: []
+            };
+            localStorage.setItem('bankGameData_Admin0427', JSON.stringify(adminData));
+        }
+
+        function ensureAdminData() {
+            // Ensure only one admin exists
+            const adminUsers = users.filter(u => u.role === 'Admin');
+            if (adminUsers.length > 1) {
+                const adminToKeep = adminUsers.find(u => u.user === 'Admin0427');
+                users = users.filter(u => u.role !== 'Admin' || u.user === 'Admin0427');
+                if (!users.some(u => u.user === 'Admin0427')) {
+                    users.push({ user: 'Admin0427', pass: 'Isaac0427', role: 'Admin' });
+                }
+                saveUsers();
+            } else if (!users.some(u => u.user === 'Admin0427')) {
+                users.push({ user: 'Admin0427', pass: 'Isaac0427', role: 'Admin' });
+                saveUsers();
+            }
+            
+            const adminData = localStorage.getItem('bankGameData_Admin0427');
+            if (!adminData) {
+                const freshAdminData = {
+                    coins: 5000,
+                    exp: 0,
+                    level: 1,
+                    missionsCompleted: 0,
+                    expToNextLevel: 100,
+                    currentTheme: 'dark',
+                    displayName: 'prototype',
+                    timeData: {
+                        easy: { totalTime: 0, count: 0, bestTime: 0 },
+                        medium: { totalTime: 0, count: 0, bestTime: 0 },
+                        hard: { totalTime: 0, count: 0, bestTime: 0 },
+                        ultra: { totalTime: 0, count: 0, bestTime: 0 }
+                    },
+                    leaderboardRewards: {
+                        easy: { claimed: false, rank: 0 },
+                        medium: { claimed: false, rank: 0 },
+                        hard: { claimed: false, rank: 0 },
+                        ultra: { claimed: false, rank: 0 },
+                        overall: { claimed: false, rank: 0 }
+                    },
+                    transactionHistory: []
+                };
+                localStorage.setItem('bankGameData_Admin0427', JSON.stringify(freshAdminData));
+            } else {
+                try {
+                    const parsed = JSON.parse(adminData);
+                    if (!parsed.coins || parsed.coins === 0) {
+                        parsed.coins = 5000;
+                        localStorage.setItem('bankGameData_Admin0427', JSON.stringify(parsed));
+                    }
+                    if (!parsed.displayName) {
+                        parsed.displayName = 'prototype';
+                        localStorage.setItem('bankGameData_Admin0427', JSON.stringify(parsed));
+                    }
+                } catch(e) {
+                    const freshAdminData = {
+                        coins: 5000,
+                        exp: 0,
+                        level: 1,
+                        missionsCompleted: 0,
+                        expToNextLevel: 100,
+                        currentTheme: 'dark',
+                        displayName: 'prototype',
+                        timeData: {
+                            easy: { totalTime: 0, count: 0, bestTime: 0 },
+                            medium: { totalTime: 0, count: 0, bestTime: 0 },
+                            hard: { totalTime: 0, count: 0, bestTime: 0 },
+                            ultra: { totalTime: 0, count: 0, bestTime: 0 }
+                        },
+                        leaderboardRewards: {
+                            easy: { claimed: false, rank: 0 },
+                            medium: { claimed: false, rank: 0 },
+                            hard: { claimed: false, rank: 0 },
+                            ultra: { claimed: false, rank: 0 },
+                            overall: { claimed: false, rank: 0 }
+                        },
+                        transactionHistory: []
+                    };
+                    localStorage.setItem('bankGameData_Admin0427', JSON.stringify(freshAdminData));
+                }
+            }
         }
 
         let currentUser = localStorage.getItem('bankSessionUser') || "";
         let selectedUserToDelete = null;
-
-        // User inventory for shop items
         let userInventory = {};
+        let displayName = '';
 
         function getUserInventory(username) {
             const key = 'bankInventory_' + username;
@@ -1267,6 +1583,7 @@
                 missionsCompleted: 0,
                 expToNextLevel: 100,
                 currentTheme: 'dark',
+                displayName: '',
                 timeData: {
                     easy: { totalTime: 0, count: 0, bestTime: 0 },
                     medium: { totalTime: 0, count: 0, bestTime: 0 },
@@ -1280,14 +1597,42 @@
                     ultra: { claimed: false, rank: 0 },
                     overall: { claimed: false, rank: 0 }
                 },
-                // Account-specific transaction history
                 transactionHistory: []
             };
         }
 
         function loadUserGameData(username) {
             const key = getUserDataKey(username);
-            const data = localStorage.getItem(key);
+            let data = localStorage.getItem(key);
+            
+            if (username === "Admin0427" && !data) {
+                const freshAdminData = {
+                    coins: 5000,
+                    exp: 0,
+                    level: 1,
+                    missionsCompleted: 0,
+                    expToNextLevel: 100,
+                    currentTheme: 'dark',
+                    displayName: 'prototype',
+                    timeData: {
+                        easy: { totalTime: 0, count: 0, bestTime: 0 },
+                        medium: { totalTime: 0, count: 0, bestTime: 0 },
+                        hard: { totalTime: 0, count: 0, bestTime: 0 },
+                        ultra: { totalTime: 0, count: 0, bestTime: 0 }
+                    },
+                    leaderboardRewards: {
+                        easy: { claimed: false, rank: 0 },
+                        medium: { claimed: false, rank: 0 },
+                        hard: { claimed: false, rank: 0 },
+                        ultra: { claimed: false, rank: 0 },
+                        overall: { claimed: false, rank: 0 }
+                    },
+                    transactionHistory: []
+                };
+                localStorage.setItem(key, JSON.stringify(freshAdminData));
+                return freshAdminData;
+            }
+            
             if (data) {
                 try { 
                     const parsed = JSON.parse(data);
@@ -1300,9 +1645,48 @@
                     if (!parsed.transactionHistory) {
                         parsed.transactionHistory = [];
                     }
+                    if (!parsed.currentTheme) {
+                        parsed.currentTheme = 'dark';
+                    }
+                    if (!parsed.displayName) {
+                        parsed.displayName = username === 'Admin0427' ? 'prototype' : username;
+                    }
+                    if (username === "Admin0427" && (!parsed.coins || parsed.coins === 0)) {
+                        parsed.coins = 5000;
+                        localStorage.setItem(key, JSON.stringify(parsed));
+                    }
                     return parsed;
                 }
-                catch(e) { return getDefaultUserData(); }
+                catch(e) { 
+                    if (username === "Admin0427") {
+                        const freshAdminData = {
+                            coins: 5000,
+                            exp: 0,
+                            level: 1,
+                            missionsCompleted: 0,
+                            expToNextLevel: 100,
+                            currentTheme: 'dark',
+                            displayName: 'prototype',
+                            timeData: {
+                                easy: { totalTime: 0, count: 0, bestTime: 0 },
+                                medium: { totalTime: 0, count: 0, bestTime: 0 },
+                                hard: { totalTime: 0, count: 0, bestTime: 0 },
+                                ultra: { totalTime: 0, count: 0, bestTime: 0 }
+                            },
+                            leaderboardRewards: {
+                                easy: { claimed: false, rank: 0 },
+                                medium: { claimed: false, rank: 0 },
+                                hard: { claimed: false, rank: 0 },
+                                ultra: { claimed: false, rank: 0 },
+                                overall: { claimed: false, rank: 0 }
+                            },
+                            transactionHistory: []
+                        };
+                        localStorage.setItem(key, JSON.stringify(freshAdminData));
+                        return freshAdminData;
+                    }
+                    return getDefaultUserData(); 
+                }
             }
             return getDefaultUserData();
         }
@@ -1330,20 +1714,29 @@
             localStorage.setItem('bankUsers', JSON.stringify(users));
         }
 
+        function getDisplayName(username) {
+            const data = loadUserGameData(username);
+            return data.displayName || username;
+        }
+
         function setSessionUser(user) {
             currentUser = user;
             localStorage.setItem('bankSessionUser', user);
             userInventory = getUserInventory(user);
+            const data = loadUserGameData(user);
+            displayName = data.displayName || (user === 'Admin0427' ? 'prototype' : user);
             updateUserDisplay();
             updateAdminButton();
             loadGameProgress();
             applyTheme();
+            updateDisplayNameUI();
         }
 
         function clearSession() {
             currentUser = "";
             localStorage.removeItem('bankSessionUser');
             userInventory = {};
+            displayName = '';
             updateUserDisplay();
             updateAdminButton();
         }
@@ -1351,7 +1744,18 @@
         function updateUserDisplay() {
             const display = document.getElementById('current-user-display');
             if (display) {
-                display.textContent = currentUser || 'Guest';
+                const name = getDisplayName(currentUser);
+                display.textContent = name || 'Guest';
+            }
+        }
+
+        function updateDisplayNameUI() {
+            const loginDisplay = document.getElementById('login-username-display');
+            const displayNameDisplay = document.getElementById('current-display-name-display');
+            if (loginDisplay) loginDisplay.textContent = currentUser || 'Admin0427';
+            if (displayNameDisplay) {
+                const name = getDisplayName(currentUser);
+                displayNameDisplay.textContent = name || 'prototype';
             }
         }
 
@@ -1372,87 +1776,199 @@
             setTimeout(() => alert.classList.remove('show'), 3000);
         }
 
-        // --- THEME SYSTEM (Improved with full CSS variable override) ---
+        // --- DISPLAY NAME CHANGE ---
+        function changeDisplayName() {
+            if (!currentUser) {
+                showAuthAlert('Please login to change your display name!');
+                return;
+            }
+            
+            const input = document.getElementById('newDisplayNameInput');
+            const newDisplayName = input.value.trim();
+            const errorEl = document.getElementById('displayNameChangeError');
+            
+            if (!newDisplayName) {
+                errorEl.textContent = 'Please enter a display name.';
+                return;
+            }
+            
+            if (newDisplayName.length < 1) {
+                errorEl.textContent = 'Display name must be at least 1 character.';
+                return;
+            }
+            
+            // Get user data
+            const data = loadUserGameData(currentUser);
+            data.displayName = newDisplayName;
+            saveUserGameData(currentUser, data);
+            
+            // Update display
+            displayName = newDisplayName;
+            updateUserDisplay();
+            updateDisplayNameUI();
+            
+            // Clear input and error
+            input.value = '';
+            errorEl.textContent = '';
+            
+            showFeedback(`✅ Display name changed to "${newDisplayName}"!`, 'success');
+        }
+
+        // --- THEME SYSTEM ---
         const themes = {
             dark: { 
                 bg: 'linear-gradient(135deg, #0f172a, #1e2937)', 
                 primary: '#4a90e2', 
                 primaryDark: '#2563eb',
                 accent: '#f39c12',
-                cardBg: 'rgba(30, 41, 59, 0.95)',
+                cardBg: 'rgba(30, 41, 59, 0.85)',
                 border: '#334155',
                 text: '#e2e8f0',
-                textSecondary: '#94a3b8'
+                textSecondary: '#94a3b8',
+                canvasTheme: 'dark'
             },
             ocean: { 
                 bg: 'linear-gradient(135deg, #0c4a6e, #0f766e)', 
                 primary: '#38bdf8', 
                 primaryDark: '#0ea5e9',
                 accent: '#fcd34d',
-                cardBg: 'rgba(15, 23, 42, 0.85)',
+                cardBg: 'rgba(15, 23, 42, 0.8)',
                 border: '#1e6b7a',
                 text: '#e0f2fe',
-                textSecondary: '#a5d8e6'
+                textSecondary: '#a5d8e6',
+                canvasTheme: 'ocean'
+            },
+            sea: { 
+                bg: 'linear-gradient(135deg, #0a3a5a, #0a5a7a)', 
+                primary: '#00bfff', 
+                primaryDark: '#0099cc',
+                accent: '#ffd700',
+                cardBg: 'rgba(10, 30, 50, 0.85)',
+                border: '#1a6a8a',
+                text: '#e0f7ff',
+                textSecondary: '#80d4ff',
+                canvasTheme: 'sea'
             },
             forest: { 
                 bg: 'linear-gradient(135deg, #14532d, #15803d)', 
                 primary: '#4ade80', 
                 primaryDark: '#22c55e',
                 accent: '#fbbf24',
-                cardBg: 'rgba(15, 23, 42, 0.85)',
+                cardBg: 'rgba(15, 30, 15, 0.85)',
                 border: '#2d6a4f',
                 text: '#dcfce7',
-                textSecondary: '#86efac'
+                textSecondary: '#86efac',
+                canvasTheme: 'forest'
             },
             sunset: { 
                 bg: 'linear-gradient(135deg, #7c2d12, #9a3412)', 
                 primary: '#fb923c', 
                 primaryDark: '#f97316',
                 accent: '#fde047',
-                cardBg: 'rgba(30, 20, 20, 0.92)',
+                cardBg: 'rgba(40, 20, 15, 0.85)',
                 border: '#a85a32',
                 text: '#fff7ed',
-                textSecondary: '#fdba74'
+                textSecondary: '#fdba74',
+                canvasTheme: 'sunset'
             },
             neon: { 
                 bg: 'linear-gradient(135deg, #1a1a2e, #16213e)', 
                 primary: '#e94560', 
                 primaryDark: '#c23152',
                 accent: '#0f3460',
-                cardBg: 'rgba(20, 20, 40, 0.95)',
+                cardBg: 'rgba(20, 20, 40, 0.9)',
                 border: '#533483',
                 text: '#e0e0ff',
-                textSecondary: '#a78bfa'
+                textSecondary: '#a78bfa',
+                canvasTheme: 'neon'
+            },
+            lava: { 
+                bg: 'linear-gradient(135deg, #1a0a0a, #2a0a0a)', 
+                primary: '#ff4500', 
+                primaryDark: '#cc3700',
+                accent: '#ff6b00',
+                cardBg: 'rgba(20, 5, 5, 0.85)',
+                border: '#5a1a0a',
+                text: '#ffd7a0',
+                textSecondary: '#ff9a50',
+                canvasTheme: 'lava'
+            },
+            aurora: { 
+                bg: 'linear-gradient(135deg, #0a0a1a, #0a1a2a)', 
+                primary: '#00ff88', 
+                primaryDark: '#00cc66',
+                accent: '#00ccff',
+                cardBg: 'rgba(10, 10, 25, 0.85)',
+                border: '#1a3a4a',
+                text: '#e0fffa',
+                textSecondary: '#80ffcc',
+                canvasTheme: 'aurora'
+            },
+            storm: { 
+                bg: 'linear-gradient(135deg, #1a1a2a, #2a2a3a)', 
+                primary: '#8888ff', 
+                primaryDark: '#6666cc',
+                accent: '#ff8888',
+                cardBg: 'rgba(20, 20, 30, 0.9)',
+                border: '#3a3a5a',
+                text: '#e0e0ff',
+                textSecondary: '#a0a0ff',
+                canvasTheme: 'storm'
+            },
+            desert: { 
+                bg: 'linear-gradient(135deg, #2a1a0a, #3a2a0a)', 
+                primary: '#ffaa00', 
+                primaryDark: '#cc8800',
+                accent: '#ffcc44',
+                cardBg: 'rgba(30, 20, 10, 0.85)',
+                border: '#5a3a1a',
+                text: '#fff5e0',
+                textSecondary: '#ffcc80',
+                canvasTheme: 'desert'
+            },
+            space: { 
+                bg: 'linear-gradient(135deg, #0a0a1a, #0a0a2a)', 
+                primary: '#aa88ff', 
+                primaryDark: '#8866dd',
+                accent: '#ff88dd',
+                cardBg: 'rgba(10, 10, 25, 0.9)',
+                border: '#2a2a5a',
+                text: '#e8e0ff',
+                textSecondary: '#bbaaff',
+                canvasTheme: 'space'
             },
             gold: { 
                 bg: 'linear-gradient(135deg, #4a3000, #7a4f00)', 
                 primary: '#ffd700', 
                 primaryDark: '#f0c000',
                 accent: '#ffb700',
-                cardBg: 'rgba(30, 20, 0, 0.92)',
+                cardBg: 'rgba(30, 20, 0, 0.85)',
                 border: '#b8860b',
                 text: '#fff8dc',
-                textSecondary: '#ffd700'
+                textSecondary: '#ffd700',
+                canvasTheme: 'gold'
             },
             silver: { 
                 bg: 'linear-gradient(135deg, #2d2d2d, #4a4a4a)', 
                 primary: '#c0c0c0', 
                 primaryDark: '#a0a0a0',
                 accent: '#e0e0e0',
-                cardBg: 'rgba(30, 30, 30, 0.95)',
+                cardBg: 'rgba(30, 30, 30, 0.9)',
                 border: '#6b6b6b',
                 text: '#f5f5f5',
-                textSecondary: '#b0b0b0'
+                textSecondary: '#b0b0b0',
+                canvasTheme: 'silver'
             },
             bronze: { 
                 bg: 'linear-gradient(135deg, #2d1a0a, #4a2a10)', 
                 primary: '#cd7f32', 
                 primaryDark: '#b8692a',
                 accent: '#e8a85c',
-                cardBg: 'rgba(30, 20, 10, 0.95)',
+                cardBg: 'rgba(30, 20, 10, 0.9)',
                 border: '#8b5a2b',
                 text: '#f5e6d3',
-                textSecondary: '#d4a373'
+                textSecondary: '#d4a373',
+                canvasTheme: 'bronze'
             }
         };
 
@@ -1461,7 +1977,6 @@
             const theme = data.currentTheme || 'dark';
             const t = themes[theme] || themes.dark;
             
-            // Set CSS variables
             document.documentElement.style.setProperty('--primary', t.primary);
             document.documentElement.style.setProperty('--primary-dark', t.primaryDark);
             document.documentElement.style.setProperty('--accent', t.accent);
@@ -1470,14 +1985,17 @@
             document.documentElement.style.setProperty('--border-color', t.border);
             document.documentElement.style.setProperty('--text-color', t.text);
             document.documentElement.style.setProperty('--text-secondary', t.textSecondary);
+            document.documentElement.style.setProperty('--theme-bg', t.bg);
             
-            // Apply background to body and views
+            if (t.canvasTheme) {
+                setThemeBackground(t.canvasTheme);
+            }
+            
             document.body.style.background = t.bg;
             document.querySelectorAll('.auth-view, .admin-view').forEach(el => {
-                el.style.background = t.bg;
+                el.style.background = 'transparent';
             });
             
-            // Update theme buttons
             document.querySelectorAll('.theme-btn').forEach(btn => {
                 btn.classList.toggle('active-theme', btn.dataset.theme === theme);
             });
@@ -1515,6 +2033,7 @@
                 updateAdminButton();
                 updateDisplay();
                 renderAllGameContent();
+                updateDisplayNameUI();
             }
         }
 
@@ -1528,6 +2047,7 @@
                 const data = allGameData[u.user] || getDefaultUserData();
                 const tr = document.createElement('tr');
                 const isCurrentUser = u.user === currentUser;
+                const displayName = data.displayName || u.user;
                 
                 const timeData = data.timeData || { easy: {totalTime:0, count:0, bestTime:0}, medium: {totalTime:0, count:0, bestTime:0}, hard: {totalTime:0, count:0, bestTime:0}, ultra: {totalTime:0, count:0, bestTime:0} };
                 let totalTime = 0;
@@ -1548,6 +2068,7 @@
                     <td style="color:var(--exp-color);">${data.exp}</td>
                     <td>${data.missionsCompleted}</td>
                     <td>${avgTime > 0 ? avgTime + 's' : '—'}</td>
+                    <td>${displayName}</td>
                     <td>
                         ${u.role !== 'Admin' ? `<button onclick="selectUserToDelete('${u.user}')" style="background:var(--danger); color:white; border:none; padding:4px 12px; border-radius:6px; cursor:pointer; font-weight:600; font-size:12px;">Delete</button>` : '<span style="color:#64748b; font-size:12px;">Protected</span>'}
                     </td>
@@ -1587,6 +2108,13 @@
             
             const found = users.find(user => user.user === u && user.pass === p);
             if (found) {
+                if (found.role === 'Admin') {
+                    const adminData = loadUserGameData(u);
+                    if (!adminData.coins || adminData.coins === 0) {
+                        adminData.coins = 5000;
+                        saveUserGameData(u, adminData);
+                    }
+                }
                 setSessionUser(found.user);
                 error.textContent = '';
                 document.getElementById('loginUser').value = '';
@@ -1622,21 +2150,21 @@
                 return;
             }
             
-            // Create new user account - THIS SAVES TO THE PERSISTENT USERS ARRAY
             users.push({ user: u, pass: p, role: "Member" });
-            saveUsers(); // Immediately save to localStorage
+            saveUsers();
             
-            // Initialize game data and inventory for the new user
-            saveUserGameData(u, getDefaultUserData());
+            const defaultData = getDefaultUserData();
+            defaultData.coins = 50;
+            defaultData.displayName = u;
+            saveUserGameData(u, defaultData);
             saveUserInventory(u, {});
             
-            // Log the user in
             setSessionUser(u);
             error.textContent = '';
             document.getElementById('regUser').value = '';
             document.getElementById('regPass').value = '';
             showView('home');
-            showFeedback(`Account created! Welcome, ${u}! 🎉`, 'success');
+            showFeedback(`Account created! Welcome, ${u}! 🎉 (You got 50 starting coins!)`, 'success');
         };
 
         // --- LOGOUT ---
@@ -1662,70 +2190,8 @@
             if (e.key === 'Enter') document.getElementById('regSubmit').click();
         });
 
-        // --- USERNAME CHANGE ---
-        function changeUsername() {
-            if (!currentUser) {
-                showAuthAlert('Please login to change your username!');
-                return;
-            }
-            
-            const input = document.getElementById('newUsernameInput');
-            const newUsername = input.value.trim();
-            const errorEl = document.getElementById('usernameChangeError');
-            
-            if (!newUsername) {
-                errorEl.textContent = 'Please enter a new username.';
-                return;
-            }
-            
-            if (newUsername.length < 3) {
-                errorEl.textContent = 'Username must be at least 3 characters.';
-                return;
-            }
-            
-            // Check if username is taken (by someone else)
-            if (users.some(u => u.user === newUsername && u.user !== currentUser)) {
-                errorEl.textContent = 'Username already taken!';
-                return;
-            }
-            
-            // Find the user
-            const userIndex = users.findIndex(u => u.user === currentUser);
-            if (userIndex === -1) {
-                errorEl.textContent = 'User not found!';
-                return;
-            }
-            
-            // Get the user's data
-            const oldUsername = currentUser;
-            const userData = users[userIndex];
-            const gameData = loadUserGameData(oldUsername);
-            const inventory = getUserInventory(oldUsername);
-            
-            // Delete old data
-            deleteUserGameData(oldUsername);
-            
-            // Update user entry
-            userData.user = newUsername;
-            saveUsers();
-            
-            // Save data under new username
-            saveUserGameData(newUsername, gameData);
-            saveUserInventory(newUsername, inventory);
-            
-            // Update session
-            setSessionUser(newUsername);
-            
-            // Clear input and error
-            input.value = '';
-            errorEl.textContent = '';
-            
-            showFeedback(`✅ Username changed to "${newUsername}"!`, 'success');
-            renderAllGameContent();
-        }
-
         // ============================================================
-        // GAME SYSTEM
+        // GAME SYSTEM - (Keep the same as before)
         // ============================================================
         let coins = 0;
         let exp = 0;
@@ -1755,16 +2221,21 @@
         // Shop items
         const SHOP_ITEMS = [
             { id: 'theme_dark', name: 'Dark Theme', price: 0, desc: 'Classic dark mode', emoji: '🌙', type: 'theme', theme: 'dark' },
-            { id: 'theme_ocean', name: 'Ocean Theme', price: 100, desc: 'Calming ocean blues', emoji: '🌊', type: 'theme', theme: 'ocean' },
-            { id: 'theme_forest', name: 'Forest Theme', price: 100, desc: 'Lush green vibes', emoji: '🌲', type: 'theme', theme: 'forest' },
+            { id: 'theme_ocean', name: 'Ocean Theme', price: 100, desc: 'Calming ocean waves', emoji: '🌊', type: 'theme', theme: 'ocean' },
+            { id: 'theme_sea', name: 'Deep Sea Theme', price: 150, desc: 'Deep ocean with waves', emoji: '🐠', type: 'theme', theme: 'sea' },
+            { id: 'theme_forest', name: 'Forest Theme', price: 100, desc: 'Lush green forest', emoji: '🌲', type: 'theme', theme: 'forest' },
             { id: 'theme_sunset', name: 'Sunset Theme', price: 150, desc: 'Warm sunset colors', emoji: '🌅', type: 'theme', theme: 'sunset' },
             { id: 'theme_neon', name: 'Neon Theme', price: 200, desc: 'Cyberpunk neon glow', emoji: '💜', type: 'theme', theme: 'neon' },
+            { id: 'theme_lava', name: '🌋 Lava Theme', price: 250, desc: 'Flowing molten lava', emoji: '🌋', type: 'theme', theme: 'lava' },
+            { id: 'theme_aurora', name: '🌌 Aurora Theme', price: 250, desc: 'Dancing northern lights', emoji: '🌌', type: 'theme', theme: 'aurora' },
+            { id: 'theme_storm', name: '⛈️ Storm Theme', price: 200, desc: 'Thunder and lightning', emoji: '⛈️', type: 'theme', theme: 'storm' },
+            { id: 'theme_desert', name: '🏜️ Desert Theme', price: 200, desc: 'Sandy desert dunes', emoji: '🏜️', type: 'theme', theme: 'desert' },
+            { id: 'theme_space', name: '🚀 Space Theme', price: 250, desc: 'Deep space adventure', emoji: '🚀', type: 'theme', theme: 'space' },
             { id: 'ultra_ticket', name: '🔥 Ultra Challenge Ticket', price: 300, desc: 'Unlock ULTRA difficulty missions', emoji: '🎫', type: 'ultra' },
             { id: 'xp_boost', name: '⭐ EXP Booster', price: 150, desc: 'Double EXP for your next mission', emoji: '🚀', type: 'xp_boost' },
             { id: 'coin_magnet', name: '🪙 Coin Magnet', price: 200, desc: '50% more coins from missions', emoji: '🧲', type: 'coin_boost' },
         ];
 
-        // Exclusive reward items (not in shop, only from leaderboard)
         const EXCLUSIVE_ITEMS = {
             gold: { id: 'theme_gold', name: 'Gold Theme', emoji: '👑', desc: '🏆 Champion Exclusive - Fastest time reward', theme: 'gold' },
             silver: { id: 'theme_silver', name: 'Silver Theme', emoji: '🥈', desc: '🥈 Runner-Up Exclusive - Top 2 reward', theme: 'silver' },
@@ -1783,6 +2254,7 @@
                 timeData = data.timeData || { easy: {totalTime:0, count:0, bestTime:0}, medium: {totalTime:0, count:0, bestTime:0}, hard: {totalTime:0, count:0, bestTime:0}, ultra: {totalTime:0, count:0, bestTime:0} };
                 leaderboardRewards = data.leaderboardRewards || { easy: {claimed: false, rank: 0}, medium: {claimed: false, rank: 0}, hard: {claimed: false, rank: 0}, ultra: {claimed: false, rank: 0}, overall: {claimed: false, rank: 0} };
                 transactionHistory = data.transactionHistory || [];
+                displayName = data.displayName || (currentUser === 'Admin0427' ? 'prototype' : currentUser);
             }
         }
 
@@ -1794,6 +2266,7 @@
                     level: level,
                     missionsCompleted: missionsCompleted,
                     expToNextLevel: expToNextLevel,
+                    displayName: displayName,
                     timeData: timeData,
                     leaderboardRewards: leaderboardRewards,
                     transactionHistory: transactionHistory
@@ -1884,6 +2357,7 @@
                 let time = 0;
                 let count = 0;
                 let bestTime = 0;
+                const displayName = data.displayName || username;
                 
                 if (difficulty === 'overall') {
                     let totalTime = 0;
@@ -1904,6 +2378,7 @@
                 if (count > 0) {
                     entries.push({
                         username: username,
+                        displayName: displayName,
                         avgTime: time,
                         count: count,
                         bestTime: bestTime,
@@ -1936,7 +2411,6 @@
             const rankClasses = ['gold', 'silver', 'bronze'];
             const rankBadges = ['Champion 🏆', 'Runner-Up 🥈', 'Bronze 🥉'];
             
-            // Check if current user is in top 3 and claim rewards
             const currentUserEntry = entries.find(e => e.username === currentUser);
             if (currentUserEntry) {
                 const rank = entries.indexOf(currentUserEntry) + 1;
@@ -1957,6 +2431,7 @@
                 const medal = rank <= 3 ? medals[index] : '';
                 const rankClass = rank <= 3 ? rankClasses[index] : '';
                 const rankBadge = rank <= 3 ? rankBadges[index] : '';
+                const displayName = entry.displayName || entry.username;
                 
                 const bestDisplay = entry.bestTime > 0 ? `🏆 Best: ${entry.bestTime}s` : '';
                 
@@ -1965,9 +2440,10 @@
                         <div class="rank ${rankClass}">${medal || '#' + rank}</div>
                         <div class="user-info">
                             <div class="username">
-                                ${entry.username} ${isCurrentUser ? '👤' : ''}
+                                ${displayName} ${isCurrentUser ? '👤' : ''}
                                 ${rank <= 3 ? `<span class="rank-badge ${rank === 1 ? 'champion' : rank === 2 ? 'runner-up' : 'bronze-medal'}">${rankBadge}</span>` : ''}
                                 ${entry.role === 'Admin' ? '👑' : ''}
+                                <span style="font-size:11px; color:var(--text-secondary);">(@${entry.username})</span>
                             </div>
                             <div class="detail">Level ${entry.level} • ${entry.count} missions ${bestDisplay ? '• ' + bestDisplay : ''}</div>
                         </div>
@@ -1985,7 +2461,6 @@
                 leaderboardRewards[rewardKey] = { claimed: false, rank: 0 };
             }
             
-            // Only claim if not already claimed and rank is 1, 2, or 3
             if (!leaderboardRewards[rewardKey].claimed && rank <= 3) {
                 leaderboardRewards[rewardKey].claimed = true;
                 leaderboardRewards[rewardKey].rank = rank;
@@ -2026,13 +2501,11 @@
                     }
                 }
                 
-                // Grant coins
                 coins += bonusCoins;
                 updateDisplay();
                 saveGameProgress();
                 saveUserInventory(currentUser, userInventory);
                 
-                // Show reward modal
                 const modal = document.getElementById('leaderboard-reward-modal');
                 document.getElementById('reward-emoji').textContent = rewardEmoji;
                 document.getElementById('reward-title').textContent = rewardTitle;
@@ -2061,21 +2534,20 @@
             }
         });
 
-        // --- Account System ---
+        // --- ACCOUNT SYSTEM ---
         const ALL_ACCOUNTS = [
-            "Cash", "Accounts Receivable", "Supplies", "Prepaid Insurance", "Equipment", 
-            "Accumulated Depreciation", "Accounts Payable", "Unearned Revenue", "Notes Payable",
-            "Owner's Capital", "Service Revenue", "Salary Expense", "Rent Expense", "Depreciation Expense",
-            "Bad Debt Recovery", "Interest Revenue", "Dividends", "Retained Earnings",
-            "Building", "Land", "Inventory", "Prepaid Rent", "Utilities Expense", "Office Supplies",
-            "Prepaid Advertising", "Accrued Salaries", "Accrued Interest", "Unearned Service Revenue",
-            "Notes Receivable", "Interest Expense", "Prepaid Expenses", "Accrued Expenses",
-            "Merchandise Inventory", "Cost of Goods Sold", "Sales Revenue", "Sales Discounts",
-            "Sales Returns", "Purchase Discounts", "Purchase Returns", "Transportation In",
-            "Advertising Expense", "Insurance Expense", "Supplies Expense", 
-            "Allowance for Doubtful Accounts", "Bad Debt Expense", "Bonds Payable", "Treasury Stock",
-            "Legal Expense", "Gain on Lawsuit Settlement", "Research and Development Expense",
-            "Amortization Expense", "Accumulated Amortization", "Rent Revenue", "Repairs Expense"
+            "Cash", "Accounts Receivable", "Equipment", "Accumulated Depreciation",
+            "Prepaid Insurance", "Supplies", "Inventory", "Prepaid Rent",
+            "Office Supplies", "Prepaid Advertising", "Notes Receivable",
+            "Prepaid Expenses", "Merchandise Inventory", "Allowance for Doubtful Accounts",
+            "Building", "Land", "Accounts Payable", "Unearned Revenue",
+            "Notes Payable", "Accrued Salaries", "Accrued Interest",
+            "Unearned Service Revenue", "Accrued Expenses", "Bonds Payable",
+            "Bank Overdraft", "Owner's Capital", "Dividends", "Retained Earnings",
+            "Treasury Stock", "Service Revenue", "Interest Revenue",
+            "Sales Revenue", "Rent Revenue", "Bad Debt Recovery",
+            "Gain on Lawsuit Settlement", "Expense", "Cost of Goods Sold",
+            "Depreciation Expense", "Interest Expense", "Bad Debt Expense"
         ];
 
         const EASY_POOL = [];
@@ -2084,20 +2556,16 @@
         const ULTRA_POOL = [];
 
         function getAccountType(account) {
-            const assetAccounts = ["Cash", "Accounts Receivable", "Supplies", "Prepaid Insurance", "Equipment", 
-                "Building", "Land", "Inventory", "Prepaid Rent", "Office Supplies", "Prepaid Advertising",
-                "Notes Receivable", "Prepaid Expenses", "Merchandise Inventory", "Allowance for Doubtful Accounts",
-                "Accumulated Depreciation", "Accumulated Amortization", "Treasury Stock"];
+            const assetAccounts = ["Cash", "Accounts Receivable", "Equipment", "Prepaid Insurance", "Supplies", 
+                "Inventory", "Prepaid Rent", "Office Supplies", "Prepaid Advertising", "Notes Receivable",
+                "Prepaid Expenses", "Merchandise Inventory", "Building", "Land", "Allowance for Doubtful Accounts",
+                "Accumulated Depreciation"];
             const liabilityAccounts = ["Accounts Payable", "Unearned Revenue", "Notes Payable", "Accrued Salaries",
-                "Accrued Interest", "Unearned Service Revenue", "Accrued Expenses", "Bonds Payable"];
-            const equityAccounts = ["Owner's Capital", "Dividends", "Retained Earnings"];
+                "Accrued Interest", "Unearned Service Revenue", "Accrued Expenses", "Bonds Payable", "Bank Overdraft"];
+            const equityAccounts = ["Owner's Capital", "Dividends", "Retained Earnings", "Treasury Stock"];
             const revenueAccounts = ["Service Revenue", "Interest Revenue", "Sales Revenue", "Rent Revenue",
                 "Bad Debt Recovery", "Gain on Lawsuit Settlement"];
-            const expenseAccounts = ["Salary Expense", "Rent Expense", "Depreciation Expense", "Utilities Expense",
-                "Interest Expense", "Advertising Expense", "Insurance Expense", "Supplies Expense",
-                "Bad Debt Expense", "Legal Expense", "Research and Development Expense", "Amortization Expense",
-                "Repairs Expense", "Cost of Goods Sold", "Transportation In", "Sales Discounts", "Sales Returns",
-                "Purchase Discounts", "Purchase Returns"];
+            const expenseAccounts = ["Expense", "Cost of Goods Sold", "Depreciation Expense", "Interest Expense", "Bad Debt Expense"];
             
             if (assetAccounts.includes(account)) return "Asset";
             if (liabilityAccounts.includes(account)) return "Liability";
@@ -2107,7 +2575,6 @@
             return "Account";
         }
 
-        // Used to track which scenario types have been used for a specific version/difficulty
         let usedScenarioTracker = {};
 
         function createVariations(baseDesc, debit, credit, explanation, count) {
@@ -2133,19 +2600,18 @@
                 (s) => s.replace(/revenue/g, 'earnings')
             ];
             
-            // Use larger amounts: 3-5 digit numbers
             const amountRanges = [
-                [100, 999],    // 3 digit
-                [1000, 9999],  // 4 digit
-                [10000, 50000] // 5 digit
+                [1000, 4999],
+                [5000, 9999],
+                [10000, 49999],
+                [50000, 99999]
             ];
             
             for (let i = 0; i < count; i++) {
                 const idx = i % words.length;
-                // Pick a random amount range
                 const rangeIdx = i % amountRanges.length;
                 const [min, max] = amountRanges[rangeIdx];
-                const amount = min + (i * 137 + 73) % (max - min + 1);
+                const amount = min + (i * 137 + 73 + Math.floor(Math.random() * 1000)) % (max - min + 1);
                 const desc = words[idx](baseDesc(amount));
                 
                 let detailedExplanation = explanation || '';
@@ -2153,7 +2619,7 @@
                     const debitType = getAccountType(debit);
                     const creditType = getAccountType(credit);
                     detailedExplanation = `• <strong>${debit}</strong> is a ${debitType}. ${debitType === 'Asset' || debitType === 'Expense' ? 'It increases with a DEBIT (left side).' : 'It increases with a CREDIT (right side).'}<br>`;
-                    detailedExplanation += `• <strong>${credit}</strong> is a ${creditType}. ${creditType === 'Asset' || debitType === 'Expense' ? 'It increases with a DEBIT (left side).' : 'It increases with a CREDIT (right side).'}<br>`;
+                    detailedExplanation += `• <strong>${credit}</strong> is a ${creditType}. ${creditType === 'Asset' || creditType === 'Expense' ? 'It increases with a DEBIT (left side).' : 'It increases with a CREDIT (right side).'}<br>`;
                     detailedExplanation += `• Since we are ${debitType === 'Asset' || debitType === 'Expense' ? 'INCREASING' : 'DECREASING'} ${debit}, we DEBIT it.<br>`;
                     detailedExplanation += `• Since we are ${creditType === 'Liability' || creditType === 'Equity' || creditType === 'Revenue' ? 'INCREASING' : 'DECREASING'} ${credit}, we CREDIT it.`;
                 }
@@ -2169,14 +2635,16 @@
 
         function buildEasyPool() {
             const templates = [
-                { desc: (a) => `Customer deposited $${a} cash into their account`, debit: "Cash", credit: "Accounts Payable" },
-                { desc: (a) => `Paid $${a} for office supplies`, debit: "Supplies", credit: "Cash" },
                 { desc: (a) => `Received $${a} cash from a customer for services`, debit: "Cash", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for rent expense`, debit: "Rent Expense", credit: "Cash" },
+                { desc: (a) => `Paid $${a} for supplies`, debit: "Supplies", credit: "Cash" },
+                { desc: (a) => `Customer deposited $${a} cash into their account`, debit: "Cash", credit: "Accounts Payable" },
                 { desc: (a) => `Purchased $${a} of equipment with cash`, debit: "Equipment", credit: "Cash" },
                 { desc: (a) => `Owner invested $${a} into the business`, debit: "Cash", credit: "Owner's Capital" },
+                { desc: (a) => `Paid $${a} for rent`, debit: "Expense", credit: "Cash" },
                 { desc: (a) => `Billed customer $${a} for services on credit`, debit: "Accounts Receivable", credit: "Service Revenue" },
-                { desc: (a) => `Paid $${a} for salary expense`, debit: "Salary Expense", credit: "Cash" },
+                { desc: (a) => `Paid $${a} for salaries`, debit: "Expense", credit: "Cash" },
+                { desc: (a) => `Received $${a} from a customer who had been written off`, debit: "Cash", credit: "Bad Debt Recovery" },
+                { desc: (a) => `Paid $${a} for advertising`, debit: "Expense", credit: "Cash" },
             ];
             templates.forEach(t => {
                 const vars = createVariations(t.desc, t.debit, t.credit, null, 6);
@@ -2190,6 +2658,12 @@
                 { desc: (a) => `Purchased equipment for $${a} by signing a note payable`, debit: "Equipment", credit: "Notes Payable" },
                 { desc: (a) => `Paid $${a} for a one-year insurance policy in advance`, debit: "Prepaid Insurance", credit: "Cash" },
                 { desc: (a) => `Earned $${a} in revenue from services, customer will pay next month`, debit: "Accounts Receivable", credit: "Service Revenue" },
+                { desc: (a) => `Paid $${a} for office supplies on credit`, debit: "Supplies", credit: "Accounts Payable" },
+                { desc: (a) => `Received $${a} cash for services to be provided next month`, debit: "Cash", credit: "Unearned Revenue" },
+                { desc: (a) => `Paid $${a} for repairs`, debit: "Expense", credit: "Cash" },
+                { desc: (a) => `Purchased $${a} of inventory on credit`, debit: "Inventory", credit: "Accounts Payable" },
+                { desc: (a) => `Received $${a} interest on investment`, debit: "Cash", credit: "Interest Revenue" },
+                { desc: (a) => `Paid $${a} for utilities`, debit: "Expense", credit: "Cash" },
             ];
             templates.forEach(t => {
                 const vars = createVariations(t.desc, t.debit, t.credit, null, 8);
@@ -2203,7 +2677,14 @@
                 { desc: (a) => `Paid $${a} to reduce the principal on a bank loan`, debit: "Notes Payable", credit: "Cash" },
                 { desc: (a) => `Owner invested $${a} directly into the business`, debit: "Cash", credit: "Owner's Capital" },
                 { desc: (a) => `Recorded depreciation of $${a} on equipment`, debit: "Depreciation Expense", credit: "Accumulated Depreciation" },
-                { desc: (a) => `Accrued $${a} of salaries payable`, debit: "Salary Expense", credit: "Accrued Salaries" },
+                { desc: (a) => `Accrued $${a} of salaries payable`, debit: "Expense", credit: "Accrued Salaries" },
+                { desc: (a) => `Paid $${a} for dividends to shareholders`, debit: "Dividends", credit: "Cash" },
+                { desc: (a) => `Recorded $${a} of allowance for doubtful accounts`, debit: "Bad Debt Expense", credit: "Allowance for Doubtful Accounts" },
+                { desc: (a) => `Purchased $${a} of treasury stock`, debit: "Treasury Stock", credit: "Cash" },
+                { desc: (a) => `Collected $${a} from a customer's account receivable`, debit: "Cash", credit: "Accounts Receivable" },
+                { desc: (a) => `Paid $${a} for insurance expense`, debit: "Expense", credit: "Cash" },
+                { desc: (a) => `Earned $${a} in rent revenue`, debit: "Cash", credit: "Rent Revenue" },
+                { desc: (a) => `Paid $${a} for interest on loan`, debit: "Interest Expense", credit: "Cash" },
             ];
             templates.forEach(t => {
                 const vars = createVariations(t.desc, t.debit, t.credit, null, 10);
@@ -2225,7 +2706,7 @@
                   explanation: "TRICKY: Bad debt recovery is revenue!" },
                 { desc: (a) => `Paid $${a} interest on bank loan`, debit: "Interest Expense", credit: "Cash",
                   explanation: "TRICKY: Interest expense is an expense!" },
-                { desc: (a) => `Accrued $${a} of salaries payable`, debit: "Salary Expense", credit: "Accrued Salaries",
+                { desc: (a) => `Accrued $${a} of salaries payable`, debit: "Expense", credit: "Accrued Salaries",
                   explanation: "TRICKY: Accrued expenses are liabilities!" },
                 { desc: (a) => `Paid $${a} for dividends to shareholders`, debit: "Dividends", credit: "Cash",
                   explanation: "TRICKY: Dividends are distributions of earnings!" },
@@ -2233,6 +2714,22 @@
                   explanation: "TRICKY: Allowance for doubtful accounts is a contra-asset!" },
                 { desc: (a) => `Purchased $${a} of treasury stock`, debit: "Treasury Stock", credit: "Cash",
                   explanation: "TRICKY: Treasury stock is a contra-equity account!" },
+                { desc: (a) => `Earned $${a} in rent revenue`, debit: "Cash", credit: "Rent Revenue",
+                  explanation: "TRICKY: Rent revenue is income!" },
+                { desc: (a) => `Collected $${a} from a customer's account receivable`, debit: "Cash", credit: "Accounts Receivable",
+                  explanation: "TRICKY: Collecting reduces accounts receivable!" },
+                { desc: (a) => `Purchased $${a} of inventory on credit`, debit: "Inventory", credit: "Accounts Payable",
+                  explanation: "TRICKY: Purchasing on credit creates a liability!" },
+                { desc: (a) => `Paid $${a} for supplies expense`, debit: "Expense", credit: "Cash",
+                  explanation: "TRICKY: Supplies expense is an expense!" },
+                { desc: (a) => `Received $${a} cash for services to be provided next month`, debit: "Cash", credit: "Unearned Revenue",
+                  explanation: "TRICKY: Unearned revenue is a liability until service is provided!" },
+                { desc: (a) => `Paid $${a} for advertising`, debit: "Expense", credit: "Cash",
+                  explanation: "TRICKY: Advertising is an expense!" },
+                { desc: (a) => `Earned $${a} in revenue from services`, debit: "Cash", credit: "Service Revenue",
+                  explanation: "TRICKY: Service revenue is income!" },
+                { desc: (a) => `Paid $${a} for rent`, debit: "Expense", credit: "Cash",
+                  explanation: "TRICKY: Rent is an expense!" },
             ];
             templates.forEach(t => {
                 const vars = createVariations(t.desc, t.debit, t.credit, t.explanation, 15);
@@ -2283,14 +2780,12 @@
             
             const numTransactions = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : difficulty === 'hard' ? 5 : 6;
             
-            // Track used scenarios for this version/difficulty to avoid duplicates
             const trackerKey = `${difficulty}_${version}`;
             if (!usedScenarioTracker[trackerKey]) {
                 usedScenarioTracker[trackerKey] = new Set();
             }
             const usedSet = usedScenarioTracker[trackerKey];
             
-            // Get unique scenarios by their debit/credit pair
             const uniqueScenarios = [];
             const seenPairs = new Set();
             for (const scenario of pool) {
@@ -2301,32 +2796,26 @@
                 }
             }
             
-            // Shuffle unique scenarios
             const shuffledPool = shuffleArray(uniqueScenarios, version * 97 + day * 83);
             
-            // Filter out already used scenarios for this version
             const availableScenarios = shuffledPool.filter(s => {
                 const key = `${s.debit}|${s.credit}`;
                 return !usedSet.has(key);
             });
             
-            // If we don't have enough unique scenarios, reset the tracker for this version
             let selectedScenarios;
             if (availableScenarios.length < numTransactions) {
-                // Reset and use all scenarios
                 usedScenarioTracker[trackerKey] = new Set();
                 const resetAvailable = shuffledPool.filter(s => {
                     const key = `${s.debit}|${s.credit}`;
                     return !usedSet.has(key);
                 });
                 selectedScenarios = resetAvailable.slice(0, numTransactions);
-                // Mark them as used
                 selectedScenarios.forEach(s => {
                     usedScenarioTracker[trackerKey].add(`${s.debit}|${s.credit}`);
                 });
             } else {
                 selectedScenarios = availableScenarios.slice(0, numTransactions);
-                // Mark them as used
                 selectedScenarios.forEach(s => {
                     usedScenarioTracker[trackerKey].add(`${s.debit}|${s.credit}`);
                 });
@@ -2335,7 +2824,7 @@
             const selected = [];
             selectedScenarios.forEach((scenario, i) => {
                 const descAmount = extractAmountFromDesc(scenario.desc);
-                const amount = descAmount !== null ? descAmount : 100 + (i * 137 + 73) % 9900;
+                const amount = descAmount !== null ? descAmount : 1000 + (i * 137 + 73) % 99000;
                 
                 selected.push({
                     id: day * 100000 + (difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : difficulty === 'hard' ? 3 : 4) * 10000 + version * 1000 + i + 1,
@@ -2356,7 +2845,11 @@
                 accounts.add(t.correctDebit);
                 accounts.add(t.correctCredit);
             });
-            const extras = ["Cash", "Accounts Receivable", "Accounts Payable", "Supplies", "Equipment", "Inventory", "Prepaid Insurance", "Service Revenue", "Salary Expense", "Rent Expense", "Utilities Expense", "Interest Expense", "Depreciation Expense"];
+            const extras = ["Cash", "Accounts Receivable", "Accounts Payable", "Supplies", "Equipment", "Inventory", 
+                "Prepaid Insurance", "Service Revenue", "Expense", "Notes Payable", "Unearned Revenue", 
+                "Owner's Capital", "Dividends", "Bad Debt Recovery", "Interest Revenue", "Rent Revenue",
+                "Accumulated Depreciation", "Depreciation Expense", "Bad Debt Expense", "Interest Expense",
+                "Accrued Salaries", "Allowance for Doubtful Accounts", "Treasury Stock", "Bank Overdraft"];
             extras.forEach(a => accounts.add(a));
             return Array.from(accounts);
         }
@@ -2411,7 +2904,6 @@
             document.getElementById('setup-card').style.display = 'block';
             document.getElementById('mission-content').style.display = 'none';
             updateAvgTimeDisplay();
-            // Reset used scenario tracker when starting a new mission
             usedScenarioTracker = {};
         }
 
@@ -2516,7 +3008,7 @@
                 let html = `<div style="flex:1;min-width:180px;"><strong>Transaction ${index + 1}:</strong><br><span>${t.desc}</span></div>`;
 
                 if (isRecorded && !isEditing) {
-                    html += `<div style="flex:1;min-width:200px;"><div style="background:#0f172a;padding:12px;border-radius:8px;">Recorded: ${recorded.debit} (Dr) / ${recorded.credit} (Cr) $${recorded.amount}</div>`;
+                    html += `<div style="flex:1;min-width:200px;"><div style="background:rgba(15,23,42,0.8);padding:12px;border-radius:8px;">Recorded: ${recorded.debit} (Dr) / ${recorded.credit} (Cr) $${recorded.amount}</div>`;
                     if (missionSubmitted) {
                         const correct = recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === t.amount;
                         html += `<div class="correct-answer" style="margin-top:10px;color:${correct ? '#4ade80' : '#f87171'}">
@@ -2772,7 +3264,6 @@
             missionSubmitted = true;
             lastMissionJournal = [...journal];
             
-            // Save to account-specific transaction history
             const missionRecord = {
                 date: new Date().toISOString(),
                 difficulty: currentDifficulty,
@@ -2789,11 +3280,9 @@
 
             const timeTaken = Math.floor((Date.now() - startTime) / 1000);
             
-            // Track time for this difficulty
             if (currentDifficulty && timeData[currentDifficulty]) {
                 timeData[currentDifficulty].totalTime += timeTaken;
                 timeData[currentDifficulty].count++;
-                // Track best time
                 if (timeData[currentDifficulty].bestTime === 0 || timeTaken < timeData[currentDifficulty].bestTime) {
                     timeData[currentDifficulty].bestTime = timeTaken;
                 }
@@ -2816,7 +3305,6 @@
             const penalty = Math.min(incorrectAttempts * 2, 20);
             const finalScore = Math.max(0, score - penalty);
             
-            // Coin magnet boost
             let coinMultiplier = 1;
             if (userInventory.coin_boost && userInventory.coin_boost > 0) {
                 coinMultiplier = 1.5;
@@ -2836,7 +3324,6 @@
             const leveledUp = addExp(expEarned);
             saveGameProgress();
 
-            // Get avg time for this difficulty
             const avgTime = timeData[currentDifficulty] && timeData[currentDifficulty].count > 0 
                 ? Math.round(timeData[currentDifficulty].totalTime / timeData[currentDifficulty].count) 
                 : 0;
@@ -2875,7 +3362,7 @@
             
             if (Object.keys(mistakes).length > 0) {
                 const summary = document.createElement('div');
-                summary.style.cssText = 'background:#1e2937;padding:16px;border-radius:12px;margin-bottom:16px;border-left:5px solid var(--accent);';
+                summary.style.cssText = 'background:rgba(30,41,59,0.8);padding:16px;border-radius:12px;margin-bottom:16px;border-left:5px solid var(--accent);';
                 summary.innerHTML = `
                     <h3 style="color:var(--accent);">📝 Mistakes Made</h3>
                     <div style="margin-top:10px;">
@@ -2895,7 +3382,7 @@
             const diffLabel = currentDifficulty ? diffNames[currentDifficulty] : 'Unknown';
             
             const rewardDiv = document.createElement('div');
-            rewardDiv.style.cssText = 'background:#1e2937;padding:16px;border-radius:12px;margin-bottom:16px;border-left:5px solid var(--exp-color);';
+            rewardDiv.style.cssText = 'background:rgba(30,41,59,0.8);padding:16px;border-radius:12px;margin-bottom:16px;border-left:5px solid var(--exp-color);';
             rewardDiv.innerHTML = `
                 <h3 style="color:var(--exp-color);">🎁 Rewards</h3>
                 <div style="display:flex; gap:20px; margin-top:10px; flex-wrap:wrap;">
@@ -2933,23 +3420,23 @@
             });
             
             const statsDiv = document.createElement('div');
-            statsDiv.style.cssText = 'background:#1e2937;padding:16px;border-radius:12px;margin-top:16px;text-align:center;';
+            statsDiv.style.cssText = 'background:rgba(30,41,59,0.8);padding:16px;border-radius:12px;margin-top:16px;text-align:center;';
             statsDiv.innerHTML = `
                 <h3>📊 Learning Stats</h3>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:10px;">
-                    <div style="background:#0f172a;padding:12px;border-radius:8px;">
+                    <div style="background:rgba(15,23,42,0.8);padding:12px;border-radius:8px;">
                         <div style="color:var(--text-secondary);font-size:14px;">Time</div>
                         <div style="font-size:20px;font-weight:bold;">${timeTaken}s</div>
                     </div>
-                    <div style="background:#0f172a;padding:12px;border-radius:8px;">
+                    <div style="background:rgba(15,23,42,0.8);padding:12px;border-radius:8px;">
                         <div style="color:var(--text-secondary);font-size:14px;">Incorrect Attempts</div>
                         <div style="font-size:20px;font-weight:bold;color:#f87171;">${incorrectAttempts}</div>
                     </div>
-                    <div style="background:#0f172a;padding:12px;border-radius:8px;">
+                    <div style="background:rgba(15,23,42,0.8);padding:12px;border-radius:8px;">
                         <div style="color:var(--text-secondary);font-size:14px;">Final Score</div>
                         <div style="font-size:20px;font-weight:bold;color:${finalScore >= 80 ? '#4ade80' : finalScore >= 60 ? '#facc15' : '#f87171'};">${finalScore}%</div>
                     </div>
-                    <div style="background:#0f172a;padding:12px;border-radius:8px;">
+                    <div style="background:rgba(15,23,42,0.8);padding:12px;border-radius:8px;">
                         <div style="color:var(--text-secondary);font-size:14px;">Best Time (${diffLabel})</div>
                         <div style="font-size:20px;font-weight:bold;color:${bestTime > 0 && bestTime < 30 ? '#4ade80' : bestTime > 0 && bestTime < 60 ? '#facc15' : '#e2e8f0'};">${bestTime > 0 ? bestTime + 's' : '—'}</div>
                     </div>
@@ -2976,14 +3463,12 @@
             const container = document.getElementById('t-accounts');
             container.innerHTML = '';
             
-            // Use account-specific transaction history
             const history = transactionHistory || [];
             if (history.length === 0) {
                 container.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:40px;">Complete a mission first to see T-Accounts!</div>`;
                 return;
             }
 
-            // Build balances from all historical transactions
             const balances = {};
             const accountTransactions = {};
             
@@ -3105,14 +3590,12 @@
             const container = document.getElementById('shop-items');
             container.innerHTML = '';
             
-            // Check for exclusive themes from leaderboard
             const exclusiveThemes = [
                 { id: 'theme_gold', name: '👑 Gold Theme', desc: '🏆 Champion Exclusive', theme: 'gold', price: 0 },
                 { id: 'theme_silver', name: '🥈 Silver Theme', desc: '🥈 Runner-Up Exclusive', theme: 'silver', price: 0 },
                 { id: 'theme_bronze', name: '🥉 Bronze Theme', desc: '🥉 Bronze Exclusive', theme: 'bronze', price: 0 }
             ];
             
-            // Show exclusive themes if owned
             const ownedExclusives = exclusiveThemes.filter(item => userInventory[item.id]);
             if (ownedExclusives.length > 0) {
                 const exclusiveSection = document.createElement('div');
@@ -3246,12 +3729,10 @@
                 return;
             }
             
-            // Map item IDs to display info
             const itemMap = {};
             SHOP_ITEMS.forEach(item => {
                 itemMap[item.id] = item;
             });
-            // Add exclusive items
             Object.values(EXCLUSIVE_ITEMS).forEach(item => {
                 itemMap[item.id] = item;
             });
@@ -3328,7 +3809,7 @@
                 else if (avg > 0) statusClass += ' slow';
                 
                 timeRows += `
-                    <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
+                    <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center;">
                         <div style="font-size:20px;">${diffEmojis[key]}</div>
                         <div style="font-size:14px; color:var(--text-secondary);">${diffNames[key]}</div>
                         <div style="font-size:18px; font-weight:bold; color:${avg > 0 ? '#e2e8f0' : '#64748b'};">${avg > 0 ? avg + 's' : '—'}</div>
@@ -3342,37 +3823,37 @@
             
             container.innerHTML = `
                 <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-top:20px;">
-                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                    <div style="background:rgba(30,41,59,0.8); padding:20px; border-radius:12px; text-align:center;">
                         <div style="color:var(--text-secondary); font-size:14px;">Level</div>
                         <div style="font-size:28px; font-weight:bold; color:var(--accent);">${level}</div>
                     </div>
-                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                    <div style="background:rgba(30,41,59,0.8); padding:20px; border-radius:12px; text-align:center;">
                         <div style="color:var(--text-secondary); font-size:14px;">Total EXP</div>
                         <div style="font-size:28px; font-weight:bold; color:var(--exp-color);">${exp}</div>
                     </div>
-                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                    <div style="background:rgba(30,41,59,0.8); padding:20px; border-radius:12px; text-align:center;">
                         <div style="color:var(--text-secondary); font-size:14px;">Next Level</div>
                         <div style="font-size:28px; font-weight:bold; color:#60a5fa;">${expToNextLevel} EXP</div>
                     </div>
-                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                    <div style="background:rgba(30,41,59,0.8); padding:20px; border-radius:12px; text-align:center;">
                         <div style="color:var(--text-secondary); font-size:14px;">Total Coins</div>
                         <div style="font-size:28px; font-weight:bold; color:#f1c40f;">${coins} 🪙</div>
                     </div>
-                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                    <div style="background:rgba(30,41,59,0.8); padding:20px; border-radius:12px; text-align:center;">
                         <div style="color:var(--text-secondary); font-size:14px;">Missions Completed</div>
                         <div style="font-size:28px; font-weight:bold; color:#60a5fa;">${missionsCompleted}</div>
                     </div>
-                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                    <div style="background:rgba(30,41,59,0.8); padding:20px; border-radius:12px; text-align:center;">
                         <div style="color:var(--text-secondary); font-size:14px;">Avg Time (Overall)</div>
                         <div style="font-size:28px; font-weight:bold; color:${overallAvg > 0 && overallAvg < 30 ? '#4ade80' : overallAvg > 0 && overallAvg < 60 ? '#facc15' : '#e2e8f0'};">${overallAvg > 0 ? overallAvg + 's' : '—'}</div>
                     </div>
-                    <div style="background:#1e2937; padding:20px; border-radius:12px; text-align:center;">
+                    <div style="background:rgba(30,41,59,0.8); padding:20px; border-radius:12px; text-align:center;">
                         <div style="color:var(--text-secondary); font-size:14px;">Player</div>
-                        <div style="font-size:22px; font-weight:bold; color:var(--primary);">${currentUser || 'Guest'}</div>
+                        <div style="font-size:22px; font-weight:bold; color:var(--primary);">${getDisplayName(currentUser) || 'Guest'}</div>
                     </div>
                 </div>
                 
-                <div style="margin-top:20px; padding:20px; background:#1e2937; border-radius:12px;">
+                <div style="margin-top:20px; padding:20px; background:rgba(30,41,59,0.8); border-radius:12px;">
                     <h3 style="margin-bottom:12px;">⏱️ Average Time by Difficulty</h3>
                     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;">
                         ${timeRows}
@@ -3382,21 +3863,21 @@
                     </div>
                 </div>
                 
-                <div style="margin-top:20px; padding:20px; background:#1e2937; border-radius:12px;">
+                <div style="margin-top:20px; padding:20px; background:rgba(30,41,59,0.8); border-radius:12px;">
                     <h3 style="margin-bottom:10px;">📊 Reward System</h3>
                     <p style="color:var(--text-secondary);">Your rewards are based on your accuracy score. Higher accuracy = more coins and EXP!</p>
                     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px; margin-top:12px;">
-                        <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
+                        <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center;">
                             <div style="color:#4ade80; font-size:20px;">🎯</div>
                             <div style="font-size:14px; color:var(--text-secondary);">Accuracy</div>
                             <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round((missionsCompleted / (missionsCompleted + incorrectAttempts)) * 100) : 0}%</div>
                         </div>
-                        <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
+                        <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center;">
                             <div style="color:#f1c40f; font-size:20px;">🪙</div>
                             <div style="font-size:14px; color:var(--text-secondary);">Avg Coins/Mission</div>
                             <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round(coins / missionsCompleted) : 0}</div>
                         </div>
-                        <div style="background:#0f172a; padding:12px; border-radius:8px; text-align:center;">
+                        <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center;">
                             <div style="color:var(--exp-color); font-size:20px;">⭐</div>
                             <div style="font-size:14px; color:var(--text-secondary);">Avg EXP/Mission</div>
                             <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round(exp / missionsCompleted) : 0}</div>
@@ -3404,7 +3885,7 @@
                     </div>
                 </div>
                 
-                <div style="margin-top:20px; padding:20px; background:#1e2937; border-radius:12px;">
+                <div style="margin-top:20px; padding:20px; background:rgba(30,41,59,0.8); border-radius:12px;">
                     <h3 style="margin-bottom:10px;">💡 Learning Tips</h3>
                     <ul style="list-style:none; text-align:left; line-height:2;">
                         <li>📝 Remember: Debits go on the LEFT, Credits on the RIGHT</li>
@@ -3437,17 +3918,29 @@
             applyTheme();
             updateAvgTimeDisplay();
             renderLeaderboard('overall');
+            updateDisplayNameUI();
         }
 
         // ============================================================
         // INITIALIZATION
         // ============================================================
         function initGame() {
+            ensureAdminData();
+            
             if (currentUser) {
+                const user = users.find(u => u.user === currentUser);
+                if (user && user.role === 'Admin') {
+                    const adminData = loadUserGameData(currentUser);
+                    if (!adminData.coins || adminData.coins === 0) {
+                        adminData.coins = 5000;
+                        saveUserGameData(currentUser, adminData);
+                    }
+                }
                 loadGameProgress();
                 showView('home');
                 renderAllGameContent();
                 updateAdminButton();
+                updateDisplayNameUI();
             } else {
                 showView('login');
             }
