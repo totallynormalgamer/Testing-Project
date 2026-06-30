@@ -155,7 +155,7 @@
             background: var(--card-bg);
             padding: 40px;
             border-radius: 20px;
-            width: min(900px, 100%);
+            width: min(1100px, 100%);
             border: 2px solid #8b5cf6;
             box-shadow: 0 20px 60px rgba(0,0,0,0.6);
             transition: background 0.3s ease, border-color 0.3s ease;
@@ -173,18 +173,18 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
-            font-size: 13px;
+            font-size: 12px;
         }
         .admin-card th {
             background: var(--border-color);
-            padding: 10px 8px;
+            padding: 8px 4px;
             text-align: left;
             font-weight: 700;
             color: var(--text-color);
             border-bottom: 2px solid #475569;
         }
         .admin-card td {
-            padding: 8px;
+            padding: 6px 4px;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-secondary);
         }
@@ -193,9 +193,9 @@
         }
         .admin-card .role-badge {
             display: inline-block;
-            padding: 3px 12px;
+            padding: 2px 10px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
         }
         .role-badge.admin { background: #8b5cf6; color: white; }
@@ -220,6 +220,8 @@
         .admin-actions .back-btn:hover { background: #475569; transform: translateY(-2px); }
         .admin-actions .delete-user-btn { background: var(--danger); color: white; }
         .admin-actions .delete-user-btn:hover { background: #c0392b; transform: translateY(-2px); }
+        .admin-actions .refresh-leaderboard-btn { background: var(--accent); color: black; }
+        .admin-actions .refresh-leaderboard-btn:hover { background: #e67e22; transform: translateY(-2px); }
 
         .header {
             background: var(--card-bg);
@@ -706,6 +708,7 @@
         .theme-btn.gold { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #1a1a2e; border-color: #ffd700; }
         .theme-btn.silver { background: linear-gradient(135deg, #c0c0c0, #8a8a8a); color: #1a1a2e; border-color: #c0c0c0; }
         .theme-btn.bronze { background: linear-gradient(135deg, #cd7f32, #8b5a2b); color: white; border-color: #cd7f32; }
+        .theme-btn.cash { background: linear-gradient(135deg, #4ade80, #15803d); color: #0a1a0a; border-color: #ffd700; box-shadow: 0 0 20px rgba(74, 222, 128, 0.3); }
 
         .time-stat {
             display: inline-block;
@@ -786,7 +789,36 @@
             100% { box-shadow: 0 0 40px rgba(255, 107, 107, 0.6); }
         }
 
-        /* Cash Dash Rich Background */
+        /* Overall combined time special backgrounds */
+        .leaderboard-entry.overall-gold {
+            background: linear-gradient(135deg, #4a3000, #7a4f00, #4a3000);
+            border-left: 6px solid var(--gold);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+        .leaderboard-entry.overall-silver {
+            background: linear-gradient(135deg, #2d2d2d, #4a4a4a, #2d2d2d);
+            border-left: 6px solid var(--silver);
+            box-shadow: 0 0 30px rgba(192, 192, 192, 0.2);
+        }
+        .leaderboard-entry.overall-bronze {
+            background: linear-gradient(135deg, #2d1a0a, #4a2a10, #2d1a0a);
+            border-left: 6px solid var(--bronze);
+            box-shadow: 0 0 30px rgba(205, 127, 50, 0.2);
+        }
+
+        /* Diamond & Legendary backgrounds for overall rank - ONLY for users who earned them */
+        .leaderboard-entry.overall-diamond {
+            background: linear-gradient(135deg, #0a2a3a, #1a4a5a, #0a2a3a);
+            border-left: 6px solid #00d4ff;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
+        }
+        .leaderboard-entry.overall-legendary {
+            background: linear-gradient(135deg, #2a0a0a, #4a1a1a, #2a0a2a, #4a1a1a);
+            border-left: 6px solid #ff6b6b;
+            box-shadow: 0 0 50px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Cash Dash Rich Background - Only for rank 1 */
         .cashdash-rich-bg {
             background: linear-gradient(135deg, #1a2a0a, #2a4a0a, #1a3a0a);
             border: 2px solid #ffd700;
@@ -811,6 +843,23 @@
             font-size: 50px;
             opacity: 0.12;
             transform: rotate(-15deg);
+        }
+
+        /* Champion, Silver, Bronze backgrounds for leaderboard rankings */
+        .leaderboard-entry.rank-champion {
+            background: linear-gradient(135deg, #4a3000, #7a4f00, #4a3000);
+            border-left: 6px solid var(--gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+        .leaderboard-entry.rank-silver {
+            background: linear-gradient(135deg, #2d2d2d, #4a4a4a, #2d2d2d);
+            border-left: 6px solid var(--silver);
+            box-shadow: 0 0 25px rgba(192, 192, 192, 0.15);
+        }
+        .leaderboard-entry.rank-bronze {
+            background: linear-gradient(135deg, #2d1a0a, #4a2a10, #2d1a0a);
+            border-left: 6px solid var(--bronze);
+            box-shadow: 0 0 25px rgba(205, 127, 50, 0.15);
         }
 
         .inventory-grid {
@@ -962,6 +1011,29 @@
             transform: none;
         }
 
+        /* Special badge for overall rank with multiple #1s */
+        .overall-badge-diamond {
+            background: linear-gradient(135deg, #b9f2ff, #00d4ff);
+            color: #0a0a2a;
+            border: 2px solid #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .overall-badge-legendary {
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff);
+            color: #0a0a2a;
+            border: 2px solid #ffd93d;
+            box-shadow: 0 0 30px rgba(255, 217, 61, 0.5);
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            animation: legendary-glow 1.5s ease-in-out infinite alternate;
+        }
+
         @media (min-width: 768px) {
             .main { flex-direction: row; height: calc(100vh - 68px); }
             .sidebar {
@@ -986,8 +1058,8 @@
             .level-progress { width: 80px; }
             .header { padding: 10px 12px; }
             .admin-card { padding: 20px; }
-            .admin-card table { font-size: 11px; }
-            .admin-card th, .admin-card td { padding: 4px 3px; }
+            .admin-card table { font-size: 10px; }
+            .admin-card th, .admin-card td { padding: 3px 2px; }
             .shop-item { flex-wrap: wrap; }
             .shop-item button { margin-left: 0; margin-top: 8px; width: 100%; }
             .leaderboard-entry { flex-wrap: wrap; gap: 8px; }
@@ -998,6 +1070,7 @@
             .entry-form { grid-template-columns: 1fr 1fr 120px 100px; }
             .entry-form select, .entry-form input { font-size: 17px; padding: 14px 12px; }
             .transaction { padding: 20px; }
+            .admin-card table { font-size: 11px; }
         }
     </style>
 </head>
@@ -1035,7 +1108,7 @@
     <div id="adminView" class="admin-view hidden">
         <div class="admin-card">
             <h1>👑 Admin Panel</h1>
-            <p style="text-align:center; color:var(--text-secondary); margin-bottom:20px;">User Management - All registered accounts</p>
+            <p style="text-align:center; color:var(--text-secondary); margin-bottom:20px;">User Management & Leaderboard Points</p>
             <div style="overflow-x:auto;">
                 <table>
                     <thead>
@@ -1048,8 +1121,9 @@
                             <th>Coins</th>
                             <th>EXP</th>
                             <th>Missions</th>
-                            <th>Avg Time</th>
+                            <th>Combined Avg Time</th>
                             <th>Display Name</th>
+                            <th>🏆 Points</th>
                             <th>Cash Dash Best</th>
                             <th>Actions</th>
                         </tr>
@@ -1060,9 +1134,10 @@
             <div class="admin-actions">
                 <button class="back-btn" onclick="showView('home')">⬅️ Back to Game</button>
                 <button class="delete-user-btn" onclick="deleteSelectedUser()">🗑️ Delete Selected</button>
+                <button class="refresh-leaderboard-btn" onclick="forceLeaderboardCheck()">🔄 Check Rankings Now</button>
             </div>
             <p style="text-align:center; color:#64748b; font-size:13px; margin-top:15px;">
-                Click the delete button on a user row to remove them
+                Points: 🥇 Champion = 10pts • 🥈 Runner-Up = 5pts • 🥉 Bronze = 3pts • Rankings update every 30 seconds
             </p>
         </div>
     </div>
@@ -1307,6 +1382,12 @@
                                     <div style="font-size:13px; color:var(--text-secondary);">Bronze Theme</div>
                                     <div style="font-size:13px; color:var(--text-secondary);">+150 coins</div>
                                     <div style="font-size:13px; color:var(--text-secondary);">🥉 Bronze Badge</div>
+                                </div>
+                                <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center; border:2px solid #4ade80;">
+                                    <div style="font-size:30px;">💰</div>
+                                    <div style="font-weight:700; color:#4ade80;">Cash Dash #1</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">Cash Theme</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">💰 Cash Badge</div>
                                 </div>
                             </div>
                         </div>
@@ -1556,7 +1637,10 @@
             'space': drawDarkTheme,
             'gold': drawDarkTheme,
             'silver': drawDarkTheme,
-            'bronze': drawDarkTheme
+            'bronze': drawDarkTheme,
+            'cash': drawDarkTheme,
+            'diamond': drawDarkTheme,
+            'legendary': drawDarkTheme
         };
         
         function animateTheme() {
@@ -1577,7 +1661,7 @@
         animateTheme();
 
         // ============================================================
-        // PERSISTENT AUTH SYSTEM
+        // PERSISTENT AUTH SYSTEM - Cleaned up, no bot accounts
         // ============================================================
         
         let users = [];
@@ -1585,6 +1669,9 @@
             const storedUsers = localStorage.getItem('bankUsers');
             if (storedUsers) {
                 users = JSON.parse(storedUsers);
+                // Filter out any bot accounts (password 'bot123')
+                users = users.filter(u => u.pass !== 'bot123');
+                
                 const adminUsers = users.filter(u => u.role === 'Admin');
                 if (adminUsers.length > 1) {
                     const adminToKeep = adminUsers.find(u => u.user === 'Admin0427');
@@ -1597,6 +1684,14 @@
                     users.push({ user: 'Admin0427', pass: 'Isaac0427', role: 'Admin' });
                     localStorage.setItem('bankUsers', JSON.stringify(users));
                 }
+                
+                // Clean up bot game data
+                const botUsernames = users.filter(u => u.pass === 'bot123').map(u => u.user);
+                botUsernames.forEach(username => {
+                    localStorage.removeItem(getUserDataKey(username));
+                    localStorage.removeItem('bankInventory_' + username);
+                });
+                
             } else {
                 users = [{ user: 'Admin0427', pass: 'Isaac0427', role: 'Admin' }];
                 localStorage.setItem('bankUsers', JSON.stringify(users));
@@ -1628,7 +1723,9 @@
                     cashdashBest: { profit: 0, time: 0 },
                     cashdashRank: 0,
                     achievements: { champion: 0, diamond: false, legendary: false },
-                    leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 }
+                    leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
+                    points: 0,
+                    rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
                 };
                 localStorage.setItem('bankGameData_Admin0427', JSON.stringify(adminData));
             }
@@ -1663,12 +1760,17 @@
                 cashdashBest: { profit: 0, time: 0 },
                 cashdashRank: 0,
                 achievements: { champion: 0, diamond: false, legendary: false },
-                leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 }
+                leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
+                points: 0,
+                rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
             };
             localStorage.setItem('bankGameData_Admin0427', JSON.stringify(adminData));
         }
 
         function ensureAdminData() {
+            // Filter out any bot accounts first
+            users = users.filter(u => u.pass !== 'bot123');
+            
             const adminUsers = users.filter(u => u.role === 'Admin');
             if (adminUsers.length > 1) {
                 const adminToKeep = adminUsers.find(u => u.user === 'Admin0427');
@@ -1681,6 +1783,15 @@
                 users.push({ user: 'Admin0427', pass: 'Isaac0427', role: 'Admin' });
                 saveUsers();
             }
+            
+            // Clean up any leftover bot data
+            const botUsernames = users.filter(u => u.pass === 'bot123').map(u => u.user);
+            botUsernames.forEach(username => {
+                localStorage.removeItem(getUserDataKey(username));
+                localStorage.removeItem('bankInventory_' + username);
+            });
+            users = users.filter(u => u.pass !== 'bot123');
+            saveUsers();
             
             const adminData = localStorage.getItem('bankGameData_Admin0427');
             if (!adminData) {
@@ -1711,7 +1822,9 @@
                     cashdashBest: { profit: 0, time: 0 },
                     cashdashRank: 0,
                     achievements: { champion: 0, diamond: false, legendary: false },
-                    leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 }
+                    leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
+                    points: 0,
+                    rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
                 };
                 localStorage.setItem('bankGameData_Admin0427', JSON.stringify(freshAdminData));
             } else {
@@ -1758,6 +1871,14 @@
                         parsed.leaderboardRanks = { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 };
                         localStorage.setItem('bankGameData_Admin0427', JSON.stringify(parsed));
                     }
+                    if (parsed.points === undefined) {
+                        parsed.points = 0;
+                        localStorage.setItem('bankGameData_Admin0427', JSON.stringify(parsed));
+                    }
+                    if (!parsed.rankHistory) {
+                        parsed.rankHistory = { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
+                        localStorage.setItem('bankGameData_Admin0427', JSON.stringify(parsed));
+                    }
                 } catch(e) {
                     const freshAdminData = {
                         coins: 5000,
@@ -1786,7 +1907,9 @@
                         cashdashBest: { profit: 0, time: 0 },
                         cashdashRank: 0,
                         achievements: { champion: 0, diamond: false, legendary: false },
-                        leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 }
+                        leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
+                        points: 0,
+                        rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
                     };
                     localStorage.setItem('bankGameData_Admin0427', JSON.stringify(freshAdminData));
                 }
@@ -1801,7 +1924,10 @@
         let cashdashRank = 0;
         let achievements = { champion: 0, diamond: false, legendary: false };
         let leaderboardRanks = { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 };
+        let points = 0;
+        let rankHistory = { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
         let hiddenTimerInterval = null;
+        let leaderboardCheckInterval = null;
 
         function getUserInventory(username) {
             const key = 'bankInventory_' + username;
@@ -1850,7 +1976,9 @@
                 cashdashBest: { profit: 0, time: 0 },
                 cashdashRank: 0,
                 achievements: { champion: 0, diamond: false, legendary: false },
-                leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 }
+                leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
+                points: 0,
+                rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
             };
         }
 
@@ -1886,7 +2014,9 @@
                     cashdashBest: { profit: 0, time: 0 },
                     cashdashRank: 0,
                     achievements: { champion: 0, diamond: false, legendary: false },
-                    leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 }
+                    leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
+                    points: 0,
+                    rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
                 };
                 localStorage.setItem(key, JSON.stringify(freshAdminData));
                 return freshAdminData;
@@ -1935,6 +2065,12 @@
                     if (!parsed.leaderboardRanks) {
                         parsed.leaderboardRanks = { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 };
                     }
+                    if (parsed.points === undefined) {
+                        parsed.points = 0;
+                    }
+                    if (!parsed.rankHistory) {
+                        parsed.rankHistory = { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
+                    }
                     if (username === "Admin0427" && (!parsed.coins || parsed.coins === 0)) {
                         parsed.coins = 5000;
                         localStorage.setItem(key, JSON.stringify(parsed));
@@ -1970,7 +2106,9 @@
                             cashdashBest: { profit: 0, time: 0 },
                             cashdashRank: 0,
                             achievements: { champion: 0, diamond: false, legendary: false },
-                            leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 }
+                            leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
+                            points: 0,
+                            rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
                         };
                         localStorage.setItem(key, JSON.stringify(freshAdminData));
                         return freshAdminData;
@@ -2019,12 +2157,15 @@
             cashdashRank = data.cashdashRank || 0;
             achievements = data.achievements || { champion: 0, diamond: false, legendary: false };
             leaderboardRanks = data.leaderboardRanks || { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 };
+            points = data.points || 0;
+            rankHistory = data.rankHistory || { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
             updateUserDisplay();
             updateAdminButton();
             loadGameProgress();
             applyTheme();
             updateDisplayNameUI();
             startHiddenTimer();
+            startLeaderboardCheck();
         }
 
         function clearSession() {
@@ -2036,12 +2177,20 @@
             cashdashRank = 0;
             achievements = { champion: 0, diamond: false, legendary: false };
             leaderboardRanks = { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 };
+            points = 0;
+            rankHistory = { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
             if (hiddenTimerInterval) {
                 clearInterval(hiddenTimerInterval);
                 hiddenTimerInterval = null;
             }
+            if (leaderboardCheckInterval) {
+                clearInterval(leaderboardCheckInterval);
+                leaderboardCheckInterval = null;
+            }
             updateUserDisplay();
             updateAdminButton();
+            // Reset to default theme background on logout
+            setThemeBackground('dark');
         }
 
         function updateUserDisplay() {
@@ -2268,6 +2417,39 @@
                 text: '#f5e6d3',
                 textSecondary: '#d4a373',
                 canvasTheme: 'bronze'
+            },
+            cash: { 
+                bg: 'linear-gradient(135deg, #1a3a0a, #2a5a0a)', 
+                primary: '#4ade80', 
+                primaryDark: '#22c55e',
+                accent: '#ffd700',
+                cardBg: 'rgba(20, 40, 10, 0.9)',
+                border: '#3a7a1a',
+                text: '#e0ffd0',
+                textSecondary: '#a0e080',
+                canvasTheme: 'forest'
+            },
+            diamond: { 
+                bg: 'linear-gradient(135deg, #0a2a3a, #1a4a5a)', 
+                primary: '#00d4ff', 
+                primaryDark: '#00aacc',
+                accent: '#b9f2ff',
+                cardBg: 'rgba(10, 30, 40, 0.9)',
+                border: '#1a6a7a',
+                text: '#e0f7ff',
+                textSecondary: '#80d4ff',
+                canvasTheme: 'ocean'
+            },
+            legendary: { 
+                bg: 'linear-gradient(135deg, #2a0a0a, #4a1a1a, #2a0a2a)', 
+                primary: '#ff6b6b', 
+                primaryDark: '#cc4444',
+                accent: '#ffd93d',
+                cardBg: 'rgba(30, 10, 15, 0.9)',
+                border: '#6a1a2a',
+                text: '#ffd7d7',
+                textSecondary: '#ff9a9a',
+                canvasTheme: 'lava'
             }
         };
 
@@ -2348,15 +2530,38 @@
                 const cdBest = data.cashdashBest || { profit: 0, time: 0 };
                 const cdRank = data.cashdashRank || 0;
                 const ach = data.achievements || { champion: 0, diamond: false, legendary: false };
+                const userPoints = data.points || 0;
                 
+                // Calculate combined avg time across ALL difficulties
                 const timeData = data.timeData || { baby: {totalTime:0, count:0, bestTime:0}, easy: {totalTime:0, count:0, bestTime:0}, medium: {totalTime:0, count:0, bestTime:0}, hard: {totalTime:0, count:0, bestTime:0}, ultra: {totalTime:0, count:0, bestTime:0} };
-                let totalTime = 0;
-                let totalCount = 0;
-                Object.values(timeData).forEach(d => {
-                    totalTime += d.totalTime;
-                    totalCount += d.count;
+                let totalCombinedTime = 0;
+                let totalCombinedCount = 0;
+                const difficulties = ['baby', 'easy', 'medium', 'hard', 'ultra'];
+                let hasAllDifficulties = true;
+                
+                difficulties.forEach(diff => {
+                    const d = timeData[diff];
+                    if (!d || d.count === 0) {
+                        hasAllDifficulties = false;
+                    } else {
+                        totalCombinedTime += d.totalTime;
+                        totalCombinedCount += d.count;
+                    }
                 });
-                const avgTime = totalCount > 0 ? Math.round(totalTime / totalCount) : 0;
+                
+                let combinedAvg = 0;
+                if (hasAllDifficulties && totalCombinedCount > 0) {
+                    combinedAvg = Math.round(totalCombinedTime / totalCombinedCount);
+                } else {
+                    // Show individual avg if not all difficulties completed
+                    let totalTime = 0;
+                    let totalCount = 0;
+                    Object.values(timeData).forEach(d => {
+                        totalTime += d.totalTime;
+                        totalCount += d.count;
+                    });
+                    combinedAvg = totalCount > 0 ? Math.round(totalTime / totalCount) : 0;
+                }
                 
                 let rankBadge = '';
                 if (ach.legendary) {
@@ -2376,8 +2581,9 @@
                     <td style="color:#f1c40f;">${data.coins}</td>
                     <td style="color:var(--exp-color);">${data.exp}</td>
                     <td>${data.missionsCompleted}</td>
-                    <td>${avgTime > 0 ? avgTime + 's' : '—'}</td>
+                    <td>${combinedAvg > 0 ? combinedAvg + 's' : '—'}</td>
                     <td>${displayName} ${rankBadge}</td>
+                    <td style="color:${userPoints >= 50 ? '#ffd700' : userPoints >= 30 ? '#c0c0c0' : userPoints >= 15 ? '#cd7f32' : 'var(--text-secondary)'}; font-weight:bold; font-size:16px;">${userPoints}</td>
                     <td>${cdBest.profit > 0 ? `$${cdBest.profit} (${cdBest.time}s)` : '—'}</td>
                     <td>
                         ${u.role !== 'Admin' ? `<button onclick="selectUserToDelete('${u.user}')" style="background:var(--danger); color:white; border:none; padding:4px 12px; border-radius:6px; cursor:pointer; font-weight:600; font-size:12px;">Delete</button>` : '<span style="color:#64748b; font-size:12px;">Protected</span>'}
@@ -2498,6 +2704,178 @@
         });
 
         // ============================================================
+        // LEADERBOARD POINTS SYSTEM
+        // ============================================================
+        
+        function updateLeaderboardPoints() {
+            const difficulties = ['baby', 'easy', 'medium', 'hard', 'ultra'];
+            const allData = getAllUserGameData();
+            let updated = false;
+            
+            difficulties.forEach(diff => {
+                const entries = getLeaderboard(diff);
+                
+                // Track top 3 positions
+                const top3 = [];
+                entries.slice(0, 3).forEach((entry, index) => {
+                    const rank = index + 1;
+                    let pointsEarned = 0;
+                    if (rank === 1) pointsEarned = 10;
+                    else if (rank === 2) pointsEarned = 5;
+                    else if (rank === 3) pointsEarned = 3;
+                    
+                    top3.push({
+                        username: entry.username,
+                        rank: rank,
+                        points: pointsEarned
+                    });
+                });
+                
+                // Update each user's points based on their rank
+                users.forEach(user => {
+                    const username = user.user;
+                    
+                    const userData = allData[username];
+                    if (!userData) return;
+                    
+                    const rankHistory = userData.rankHistory || { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
+                    const previousRank = rankHistory[diff]?.rank || 0;
+                    const previousPoints = rankHistory[diff]?.pointsEarned || 0;
+                    
+                    // Find current rank
+                    const current = top3.find(t => t.username === username);
+                    const currentRank = current ? current.rank : 0;
+                    const currentPoints = current ? current.points : 0;
+                    
+                    // If rank changed or points changed
+                    if (previousRank !== currentRank || previousPoints !== currentPoints) {
+                        // Remove old points if user was in top 3 before
+                        if (previousRank > 0 && previousRank <= 3) {
+                            userData.points = (userData.points || 0) - previousPoints;
+                        }
+                        // Add new points
+                        if (currentRank > 0 && currentRank <= 3) {
+                            userData.points = (userData.points || 0) + currentPoints;
+                        }
+                        
+                        // Update rank history
+                        rankHistory[diff] = {
+                            rank: currentRank,
+                            pointsEarned: currentPoints
+                        };
+                        userData.rankHistory = rankHistory;
+                        
+                        updated = true;
+                        saveUserGameData(username, userData);
+                        
+                        // Show feedback for the current user if they gained or lost a position
+                        if (username === currentUser) {
+                            if (currentRank > 0 && currentRank <= 3) {
+                                const medal = currentRank === 1 ? '🥇' : currentRank === 2 ? '🥈' : '🥉';
+                                const title = currentRank === 1 ? 'Champion' : currentRank === 2 ? 'Runner-Up' : 'Bronze';
+                                showFeedback(`${medal} You are now #${currentRank} on the ${diff} leaderboard! (+${currentPoints} points)`, 'success');
+                            } else if (previousRank > 0 && previousRank <= 3 && currentRank === 0) {
+                                showFeedback(`You lost your position on the ${diff} leaderboard. Keep practicing!`, 'danger');
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // Also check Overall leaderboard
+            const overallEntries = getOverallLeaderboard();
+            const overallTop3 = [];
+            overallEntries.slice(0, 3).forEach((entry, index) => {
+                const rank = index + 1;
+                let pointsEarned = 0;
+                if (rank === 1) pointsEarned = 10;
+                else if (rank === 2) pointsEarned = 5;
+                else if (rank === 3) pointsEarned = 3;
+                
+                overallTop3.push({
+                    username: entry.username,
+                    rank: rank,
+                    points: pointsEarned
+                });
+            });
+            
+            users.forEach(user => {
+                const username = user.user;
+                
+                const userData = allData[username];
+                if (!userData) return;
+                
+                const rankHistory = userData.rankHistory || { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
+                const previousRank = rankHistory['overall']?.rank || 0;
+                const previousPoints = rankHistory['overall']?.pointsEarned || 0;
+                
+                const current = overallTop3.find(t => t.username === username);
+                const currentRank = current ? current.rank : 0;
+                const currentPoints = current ? current.points : 0;
+                
+                if (previousRank !== currentRank || previousPoints !== currentPoints) {
+                    if (previousRank > 0 && previousRank <= 3) {
+                        userData.points = (userData.points || 0) - previousPoints;
+                    }
+                    if (currentRank > 0 && currentRank <= 3) {
+                        userData.points = (userData.points || 0) + currentPoints;
+                    }
+                    
+                    rankHistory['overall'] = {
+                        rank: currentRank,
+                        pointsEarned: currentPoints
+                    };
+                    userData.rankHistory = rankHistory;
+                    
+                    updated = true;
+                    saveUserGameData(username, userData);
+                    
+                    if (username === currentUser) {
+                        if (currentRank > 0 && currentRank <= 3) {
+                            const medal = currentRank === 1 ? '🥇' : currentRank === 2 ? '🥈' : '🥉';
+                            const title = currentRank === 1 ? 'Champion' : currentRank === 2 ? 'Runner-Up' : 'Bronze';
+                            showFeedback(`${medal} You are now #${currentRank} on the Overall leaderboard! (+${currentPoints} points)`, 'success');
+                        } else if (previousRank > 0 && previousRank <= 3 && currentRank === 0) {
+                            showFeedback(`You lost your position on the Overall leaderboard. Keep practicing!`, 'danger');
+                        }
+                    }
+                }
+            });
+            
+            if (updated) {
+                if (document.getElementById('adminView').style.display !== 'none') {
+                    renderAdminTable();
+                }
+                if (document.getElementById('leaderboard-screen').style.display !== 'none') {
+                    renderLeaderboard(document.querySelector('#leaderboard-tabs .active')?.dataset?.diff || 'baby');
+                    renderCashdashLeaderboard();
+                }
+                if (document.getElementById('stats-screen').style.display !== 'none') {
+                    renderStats();
+                }
+                // Update current user's points
+                const userData = loadUserGameData(currentUser);
+                if (userData) {
+                    points = userData.points || 0;
+                }
+            }
+        }
+
+        function startLeaderboardCheck() {
+            if (leaderboardCheckInterval) {
+                clearInterval(leaderboardCheckInterval);
+            }
+            leaderboardCheckInterval = setInterval(() => {
+                updateLeaderboardPoints();
+            }, 30000); // Check every 30 seconds
+        }
+
+        function forceLeaderboardCheck() {
+            updateLeaderboardPoints();
+            showFeedback('🔄 Leaderboard rankings updated!', 'success');
+        }
+
+        // ============================================================
         // GAME SYSTEM
         // ============================================================
         let coins = 0;
@@ -2546,6 +2924,7 @@
             gold: { id: 'theme_gold', name: 'Gold Theme', emoji: '👑', desc: '🏆 Champion Exclusive - Fastest time reward', theme: 'gold' },
             silver: { id: 'theme_silver', name: 'Silver Theme', emoji: '🥈', desc: '🥈 Runner-Up Exclusive - Top 2 reward', theme: 'silver' },
             bronze: { id: 'theme_bronze', name: 'Bronze Theme', emoji: '🥉', desc: '🥉 Bronze Exclusive - Top 3 reward', theme: 'bronze' },
+            cash: { id: 'theme_cash', name: 'Cash Theme', emoji: '💰', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash' }
         };
 
         function loadGameProgress() {
@@ -2565,6 +2944,8 @@
                 cashdashRank = data.cashdashRank || 0;
                 achievements = data.achievements || { champion: 0, diamond: false, legendary: false };
                 leaderboardRanks = data.leaderboardRanks || { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 };
+                points = data.points || 0;
+                rankHistory = data.rankHistory || { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
             }
         }
 
@@ -2583,7 +2964,9 @@
                     cashdashBest: cashdashBest,
                     cashdashRank: cashdashRank,
                     achievements: achievements,
-                    leaderboardRanks: leaderboardRanks
+                    leaderboardRanks: leaderboardRanks,
+                    points: points,
+                    rankHistory: rankHistory
                 };
                 saveUserGameData(currentUser, data);
                 saveUserInventory(currentUser, userInventory);
@@ -2664,7 +3047,7 @@
             }
             hiddenTimerInterval = setInterval(() => {
                 checkAndUpdateRanks();
-            }, 60000); // Every minute
+            }, 60000);
         }
 
         function checkAndUpdateRanks() {
@@ -2673,8 +3056,7 @@
             const allData = getAllUserGameData();
             const currentUserData = loadUserGameData(currentUser);
             
-            // Check leaderboard ranks for all difficulties
-            const difficulties = ['baby', 'easy', 'medium', 'hard', 'ultra', 'overall'];
+            const difficulties = ['baby', 'easy', 'medium', 'hard', 'ultra'];
             let championCount = 0;
             
             difficulties.forEach(diff => {
@@ -2684,7 +3066,6 @@
                     const rank = entries.indexOf(userEntry) + 1;
                     if (rank <= 3) {
                         championCount++;
-                        // Update leaderboard rank storage
                         currentUserData.leaderboardRanks[diff] = rank;
                     } else {
                         currentUserData.leaderboardRanks[diff] = 0;
@@ -2694,7 +3075,15 @@
                 }
             });
             
-            // Check Cash Dash rank
+            // Check overall rank (combined time across ALL difficulties)
+            const overallEntries = getOverallLeaderboard();
+            const overallUserEntry = overallEntries.find(e => e.username === currentUser);
+            let overallRank = 0;
+            if (overallUserEntry) {
+                overallRank = overallEntries.indexOf(overallUserEntry) + 1;
+            }
+            currentUserData.leaderboardRanks.overall = overallRank;
+            
             const cdEntries = getCashdashLeaderboard();
             const cdUserEntry = cdEntries.find(e => e.username === currentUser);
             let isCdTop1 = false;
@@ -2705,16 +3094,9 @@
                 }
             }
             
-            // Update achievements based on champion count
             let needsUpdate = false;
             
-            // Champion achievement (1 or more top 3 ranks)
-            if (championCount >= 1 && currentUserData.achievements.champion < championCount) {
-                currentUserData.achievements.champion = championCount;
-                needsUpdate = true;
-            }
-            
-            // Diamond achievement (2 or more top 1 ranks)
+            // Update champion count based on #1 rankings
             let top1Count = 0;
             difficulties.forEach(diff => {
                 if (currentUserData.leaderboardRanks[diff] === 1) {
@@ -2723,10 +3105,16 @@
             });
             if (isCdTop1) top1Count++;
             
+            // Award champion badge if any #1
+            if (top1Count >= 1 && currentUserData.achievements.champion < top1Count) {
+                currentUserData.achievements.champion = top1Count;
+                needsUpdate = true;
+            }
+            
+            // Diamond: 2+ #1 rankings
             if (top1Count >= 2 && !currentUserData.achievements.diamond) {
                 currentUserData.achievements.diamond = true;
                 needsUpdate = true;
-                // Award diamond background
                 if (!userInventory['theme_diamond']) {
                     userInventory['theme_diamond'] = 1;
                     saveUserInventory(currentUser, userInventory);
@@ -2734,11 +3122,10 @@
                 showAchievementModal('💎', 'DIAMOND ACHIEVEMENT!', 'You have achieved 2 or more #1 rankings! Unlocked Diamond theme and badge!');
             }
             
-            // Legendary achievement (3 or more top 1 ranks)
+            // Legendary: 3+ #1 rankings
             if (top1Count >= 3 && !currentUserData.achievements.legendary) {
                 currentUserData.achievements.legendary = true;
                 needsUpdate = true;
-                // Award legendary background
                 if (!userInventory['theme_legendary']) {
                     userInventory['theme_legendary'] = 1;
                     saveUserInventory(currentUser, userInventory);
@@ -2746,7 +3133,7 @@
                 showAchievementModal('👑', 'LEGENDARY ACHIEVEMENT!', 'You have achieved 3 or more #1 rankings! Unlocked Legendary theme and badge!');
             }
             
-            // Check and award Gold/Silver/Bronze themes for top 3 on any leaderboard
+            // Award themes for individual difficulty #1s
             difficulties.forEach(diff => {
                 const entries = getLeaderboard(diff);
                 const userEntry = entries.find(e => e.username === currentUser);
@@ -2791,6 +3178,36 @@
             modal.style.display = 'flex';
         }
 
+        // ============================================================
+        // LEADERBOARD FUNCTIONS - No bots
+        // ============================================================
+        
+        function getCombinedAvgTime(username) {
+            const data = loadUserGameData(username);
+            if (!data) return 0;
+            
+            const timeData = data.timeData || {};
+            const difficulties = ['baby', 'easy', 'medium', 'hard', 'ultra'];
+            let totalCombinedTime = 0;
+            let totalCombinedCount = 0;
+            let hasAllDifficulties = true;
+            
+            difficulties.forEach(diff => {
+                const d = timeData[diff];
+                if (!d || d.count === 0) {
+                    hasAllDifficulties = false;
+                } else {
+                    totalCombinedTime += d.totalTime || 0;
+                    totalCombinedCount += d.count || 0;
+                }
+            });
+            
+            if (hasAllDifficulties && totalCombinedCount > 0) {
+                return Math.round(totalCombinedTime / totalCombinedCount);
+            }
+            return 0;
+        }
+
         function getLeaderboard(difficulty) {
             const allData = getAllUserGameData();
             const entries = [];
@@ -2805,16 +3222,7 @@
                 let bestTime = 0;
                 const displayName = data.displayName || username;
                 
-                if (difficulty === 'overall') {
-                    let totalTime = 0;
-                    let totalCount = 0;
-                    Object.values(data.timeData || {}).forEach(d => {
-                        totalTime += d.totalTime || 0;
-                        totalCount += d.count || 0;
-                    });
-                    time = totalCount > 0 ? Math.round(totalTime / totalCount) : 0;
-                    count = totalCount;
-                } else if (data.timeData && data.timeData[difficulty]) {
+                if (data.timeData && data.timeData[difficulty]) {
                     const d = data.timeData[difficulty];
                     time = d.count > 0 ? Math.round(d.totalTime / d.count) : 0;
                     count = d.count;
@@ -2829,12 +3237,72 @@
                         count: count,
                         bestTime: bestTime,
                         role: user.role,
-                        level: data.level || 1
+                        level: data.level || 1,
+                        isBot: false
                     });
                 }
             });
             
-            entries.sort((a, b) => a.avgTime - b.avgTime);
+            entries.sort((a, b) => {
+                if (a.avgTime === 0) return 1;
+                if (b.avgTime === 0) return -1;
+                return a.avgTime - b.avgTime;
+            });
+            
+            return entries;
+        }
+
+        function getOverallLeaderboard() {
+            const allData = getAllUserGameData();
+            const entries = [];
+            const difficulties = ['baby', 'easy', 'medium', 'hard', 'ultra'];
+            
+            Object.keys(allData).forEach(username => {
+                const data = allData[username];
+                const user = users.find(u => u.user === username);
+                if (!user) return;
+                
+                const displayName = data.displayName || username;
+                
+                // Check if user has completed ALL difficulties
+                let hasAllDifficulties = true;
+                let totalCombinedTime = 0;
+                let totalCount = 0;
+                
+                difficulties.forEach(diff => {
+                    const d = data.timeData && data.timeData[diff];
+                    if (!d || d.count === 0) {
+                        hasAllDifficulties = false;
+                    } else {
+                        totalCombinedTime += d.totalTime || 0;
+                        totalCount += d.count || 0;
+                    }
+                });
+                
+                // Only include if they have completed all difficulties
+                if (hasAllDifficulties && totalCount > 0) {
+                    const combinedAvg = Math.round(totalCombinedTime / totalCount);
+                    
+                    entries.push({
+                        username: username,
+                        displayName: displayName,
+                        avgTime: combinedAvg,
+                        count: totalCount,
+                        bestTime: 0,
+                        role: user.role,
+                        level: data.level || 1,
+                        isBot: false,
+                        hasAllDifficulties: true
+                    });
+                }
+            });
+            
+            entries.sort((a, b) => {
+                if (a.avgTime === 0) return 1;
+                if (b.avgTime === 0) return -1;
+                return a.avgTime - b.avgTime;
+            });
+            
             return entries;
         }
 
@@ -2854,7 +3322,8 @@
                         profit: cdBest.profit,
                         time: cdBest.time,
                         role: user.role,
-                        rank: data.cashdashRank || 0
+                        rank: data.cashdashRank || 0,
+                        isBot: false
                     });
                 }
             });
@@ -2868,14 +3337,22 @@
 
         function renderLeaderboard(difficulty) {
             const container = document.getElementById('leaderboard-content');
-            const entries = getLeaderboard(difficulty);
+            let entries;
+            
+            if (difficulty === 'overall') {
+                entries = getOverallLeaderboard();
+            } else {
+                entries = getLeaderboard(difficulty);
+            }
             
             if (entries.length === 0) {
+                const msg = difficulty === 'overall' 
+                    ? 'Complete ALL difficulties (Baby, Easy, Medium, Hard, Ultra) to appear on the Overall leaderboard!'
+                    : 'No data yet for this difficulty.';
                 container.innerHTML = `
                     <div style="text-align:center; padding:40px; color:var(--text-secondary);">
                         <div style="font-size:48px; margin-bottom:16px;">📊</div>
-                        <div>No data yet for this difficulty.</div>
-                        <div style="font-size:14px; margin-top:8px;">Complete missions to appear on the leaderboard!</div>
+                        <div>${msg}</div>
                     </div>
                 `;
                 return;
@@ -2887,33 +3364,96 @@
             
             let html = `
                 <div style="margin-bottom:12px; color:var(--text-secondary); font-size:14px;">
-                    ${entries.length} players • Fastest times win!
+                    ${entries.length} players • Fastest combined time wins!
                 </div>
             `;
             
             entries.forEach((entry, index) => {
                 const rank = index + 1;
-                const isCurrentUser = entry.username === currentUser;
+                const isCurrentUser = entry.username === currentUser && !entry.isBot;
                 const medal = rank <= 3 ? medals[index] : '';
                 const rankClass = rank <= 3 ? rankClasses[index] : '';
                 const rankBadge = rank <= 3 ? rankBadges[index] : '';
                 const displayName = entry.displayName || entry.username;
                 
-                const bestDisplay = entry.bestTime > 0 ? `🏆 Best: ${entry.bestTime}s` : '';
+                // Determine rank background class and special badges
+                let rankBgClass = '';
+                let specialBadge = '';
+                
+                if (difficulty === 'overall') {
+                    // Check for diamond/legendary achievements - reload fresh data to ensure persistence
+                    const userData = loadUserGameData(entry.username);
+                    const ach = userData.achievements || { champion: 0, diamond: false, legendary: false };
+                    const ranks = userData.leaderboardRanks || {};
+                    
+                    // Count actual #1 rankings
+                    let actualRank1Count = 0;
+                    ['baby', 'easy', 'medium', 'hard', 'ultra'].forEach(d => {
+                        if (ranks[d] === 1) actualRank1Count++;
+                    });
+                    const cdRank = userData.cashdashRank || 0;
+                    if (cdRank === 1) actualRank1Count++;
+                    
+                    // Get combined average time
+                    const combinedAvg = getCombinedAvgTime(entry.username);
+                    
+                    // Only show diamond/legendary if they have the actual achievements
+                    if (ach.legendary && actualRank1Count >= 3) {
+                        rankBgClass = 'overall-legendary';
+                        specialBadge = '<span class="overall-badge-legendary">👑 LEGENDARY</span>';
+                    } else if (ach.diamond && actualRank1Count >= 2) {
+                        rankBgClass = 'overall-diamond';
+                        specialBadge = '<span class="overall-badge-diamond">💎 DIAMOND</span>';
+                    } else if (rank === 1) {
+                        rankBgClass = 'overall-gold';
+                    } else if (rank === 2) {
+                        rankBgClass = 'overall-silver';
+                    } else if (rank === 3) {
+                        rankBgClass = 'overall-bronze';
+                    }
+                } else {
+                    if (rank === 1) rankBgClass = 'rank-champion';
+                    else if (rank === 2) rankBgClass = 'rank-silver';
+                    else if (rank === 3) rankBgClass = 'rank-bronze';
+                }
+                
+                // Count #1 rankings for badge display - reload fresh data
+                let rank1Count = 0;
+                const userData = loadUserGameData(entry.username);
+                const ranks = userData.leaderboardRanks || {};
+                ['baby', 'easy', 'medium', 'hard', 'ultra'].forEach(d => {
+                    if (ranks[d] === 1) rank1Count++;
+                });
+                const cdRank = userData.cashdashRank || 0;
+                if (cdRank === 1) rank1Count++;
+                
+                let rank1Badge = '';
+                if (rank1Count >= 3) {
+                    rank1Badge = ' 👑x' + rank1Count;
+                } else if (rank1Count >= 2) {
+                    rank1Badge = ' 💎x' + rank1Count;
+                } else if (rank1Count >= 1) {
+                    rank1Badge = ' 🏆x' + rank1Count;
+                }
+                
+                // Get combined avg for display
+                const combinedAvg = getCombinedAvgTime(entry.username);
+                const displayTime = difficulty === 'overall' ? entry.avgTime : entry.avgTime;
                 
                 html += `
-                    <div class="leaderboard-entry ${isCurrentUser ? 'current-user' : ''}">
+                    <div class="leaderboard-entry ${isCurrentUser ? 'current-user' : ''} ${rankBgClass}">
                         <div class="rank ${rankClass}">${medal || '#' + rank}</div>
                         <div class="user-info">
                             <div class="username">
                                 ${displayName} ${isCurrentUser ? '👤' : ''}
-                                ${rank <= 3 ? `<span class="rank-badge ${rank === 1 ? 'champion' : rank === 2 ? 'runner-up' : 'bronze-medal'}">${rankBadge}</span>` : ''}
+                                ${rank <= 3 && difficulty !== 'overall' ? `<span class="rank-badge ${rank === 1 ? 'champion' : rank === 2 ? 'runner-up' : 'bronze-medal'}">${rankBadge}</span>` : ''}
+                                ${specialBadge}
+                                ${rank1Badge}
                                 ${entry.role === 'Admin' ? '👑' : ''}
-                                <span style="font-size:11px; color:var(--text-secondary);">(@${entry.username})</span>
                             </div>
-                            <div class="detail">Level ${entry.level} • ${entry.count} missions ${bestDisplay ? '• ' + bestDisplay : ''}</div>
+                            ${difficulty === 'overall' ? `<div style="font-size:11px; color:var(--text-secondary);">${entry.count} missions across all difficulties</div>` : ''}
                         </div>
-                        <div class="time-display">${entry.avgTime}s</div>
+                        <div class="time-display">${displayTime}s</div>
                     </div>
                 `;
             });
@@ -2940,26 +3480,34 @@
             
             let html = `<div style="margin-top:12px;">`;
             
-            entries.slice(0, 10).forEach((entry, index) => {
+            entries.slice(0, 15).forEach((entry, index) => {
                 const rank = index + 1;
-                const isCurrentUser = entry.username === currentUser;
+                const isCurrentUser = entry.username === currentUser && !entry.isBot;
                 const medal = rank <= 3 ? medals[index] : '';
                 const rankClass = rank <= 3 ? rankClasses[index] : '';
                 const displayName = entry.displayName || entry.username;
                 
-                // Show RICH badge only for top 1
                 let rankBadge = '';
-                if (entry.rank >= 1) {
+                if (entry.rank >= 1 && !entry.isBot) {
                     rankBadge = '<span class="rank-badge rich-bg" style="font-size:10px;">💰 RICH</span>';
                 }
                 
-                // Apply cash background only for top 1 rank
                 let entryClass = 'leaderboard-entry';
-                if (isCurrentUser && entry.rank >= 1) {
+                if (isCurrentUser && rank === 1) {
                     entryClass += ' cashdash-rich-bg';
                 } else if (isCurrentUser) {
                     entryClass += ' current-user';
                 }
+                
+                if (rank === 1 && !entryClass.includes('cashdash-rich-bg')) {
+                    entryClass += ' rank-champion';
+                } else if (rank === 2) {
+                    entryClass += ' rank-silver';
+                } else if (rank === 3) {
+                    entryClass += ' rank-bronze';
+                }
+                
+                const profitDisplay = entry.profit > 0 ? `$${entry.profit}` : '—';
                 
                 html += `
                     <div class="${entryClass}">
@@ -2969,9 +3517,8 @@
                                 ${displayName} ${isCurrentUser ? '👤' : ''} ${rankBadge}
                                 ${entry.role === 'Admin' ? '👑' : ''}
                             </div>
-                            <div class="detail">💰 $${entry.profit} profit • ⏱️ ${entry.time}s</div>
                         </div>
-                        <div class="time-display">$${entry.profit}</div>
+                        <div class="time-display">${profitDisplay}</div>
                     </div>
                 `;
             });
@@ -4134,6 +4681,7 @@
                 { id: 'theme_gold', name: '👑 Gold Theme', desc: '🏆 Champion Exclusive', theme: 'gold', price: 0 },
                 { id: 'theme_silver', name: '🥈 Silver Theme', desc: '🥈 Runner-Up Exclusive', theme: 'silver', price: 0 },
                 { id: 'theme_bronze', name: '🥉 Bronze Theme', desc: '🥉 Bronze Exclusive', theme: 'bronze', price: 0 },
+                { id: 'theme_cash', name: '💰 Cash Theme', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash', price: 0 },
                 { id: 'theme_diamond', name: '💎 Diamond Theme', desc: '💎 Diamond Achievement - 2 #1 Rankings', theme: 'diamond', price: 0 },
                 { id: 'theme_legendary', name: '👑 Legendary Theme', desc: '👑 Legendary Achievement - 3 #1 Rankings', theme: 'legendary', price: 0 }
             ];
@@ -4277,9 +4825,9 @@
             Object.values(EXCLUSIVE_ITEMS).forEach(item => {
                 itemMap[item.id] = item;
             });
-            // Add diamond and legendary themes to map
             itemMap['theme_diamond'] = { id: 'theme_diamond', name: 'Diamond Theme', emoji: '💎', desc: '💎 Diamond Achievement - 2 #1 Rankings', theme: 'diamond', type: 'theme' };
             itemMap['theme_legendary'] = { id: 'theme_legendary', name: 'Legendary Theme', emoji: '👑', desc: '👑 Legendary Achievement - 3 #1 Rankings', theme: 'legendary', type: 'theme' };
+            itemMap['theme_cash'] = { id: 'theme_cash', name: 'Cash Theme', emoji: '💰', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash', type: 'theme' };
             
             let html = `<div class="inventory-grid">`;
             
@@ -4289,7 +4837,7 @@
                 if (!item) return;
                 
                 const isTheme = item.type === 'theme' || id.startsWith('theme_');
-                const isExclusive = id === 'theme_gold' || id === 'theme_silver' || id === 'theme_bronze' || id === 'theme_diamond' || id === 'theme_legendary';
+                const isExclusive = id === 'theme_gold' || id === 'theme_silver' || id === 'theme_bronze' || id === 'theme_cash' || id === 'theme_diamond' || id === 'theme_legendary';
                 const emoji = item.emoji || '📦';
                 const name = item.name || id;
                 const desc = item.desc || 'No description';
@@ -4366,7 +4914,6 @@
             
             const overallAvg = totalCount > 0 ? Math.round(totalTime / totalCount) : 0;
             
-            // Get leaderboard rankings
             const difficulties = ['baby', 'easy', 'medium', 'hard', 'ultra', 'overall'];
             let rankingHtml = '';
             let top1Count = 0;
@@ -4374,7 +4921,12 @@
             let top3Count = 0;
             
             difficulties.forEach(diff => {
-                const entries = getLeaderboard(diff);
+                let entries;
+                if (diff === 'overall') {
+                    entries = getOverallLeaderboard();
+                } else {
+                    entries = getLeaderboard(diff);
+                }
                 const userEntry = entries.find(e => e.username === currentUser);
                 let rank = 0;
                 if (userEntry) {
@@ -4387,15 +4939,15 @@
                 else if (displayRank === 3) top3Count++;
                 
                 const rankDisplay = displayRank > 0 ? `#${displayRank}` : '—';
+                const diffLabel = diff === 'overall' ? 'Overall' : diffNames[diff];
                 rankingHtml += `
                     <div style="background:rgba(15,23,42,0.8); padding:8px 12px; border-radius:8px; text-align:center; border:1px solid ${displayRank === 1 ? 'var(--gold)' : displayRank === 2 ? 'var(--silver)' : displayRank === 3 ? 'var(--bronze)' : 'var(--border-color)'};">
-                        <div style="font-size:14px; color:var(--text-secondary);">${diffNames[diff]}</div>
+                        <div style="font-size:14px; color:var(--text-secondary);">${diffLabel}</div>
                         <div style="font-size:20px; font-weight:bold; color:${displayRank === 1 ? 'var(--gold)' : displayRank === 2 ? 'var(--silver)' : displayRank === 3 ? 'var(--bronze)' : 'var(--text-secondary)'};">${rankDisplay}</div>
                     </div>
                 `;
             });
             
-            // Cash Dash ranking
             const cdEntries = getCashdashLeaderboard();
             const cdUserEntry = cdEntries.find(e => e.username === currentUser);
             let cdRank = 0;
@@ -4414,7 +4966,6 @@
                 rankBadge = '<span class="rank-badge rich-bg" style="font-size:14px; padding:4px 16px;">🏆 CHAMPION</span>';
             }
             
-            // Apply cash background if user has top 1 rank
             let statsCardClass = '';
             if (isCdTop1) {
                 statsCardClass = ' cashdash-rich-bg';
@@ -4478,6 +5029,31 @@
                         <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center; border:2px solid var(--gold);">
                             <div style="font-size:20px;">💰 Cash Dash Rank</div>
                             <div style="font-size:28px; font-weight:bold; color:var(--gold);">${cdRankDisplay}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top:20px; padding:20px; background:rgba(30,41,59,0.8); border-radius:12px;">
+                    <h3 style="margin-bottom:12px;">🏆 Points</h3>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
+                        <div style="background:rgba(15,23,42,0.8); padding:20px; border-radius:12px; text-align:center; border:2px solid var(--gold);">
+                            <div style="font-size:24px;">🏆</div>
+                            <div style="font-size:14px; color:var(--text-secondary);">Total Points</div>
+                            <div style="font-size:32px; font-weight:bold; color:${points >= 50 ? 'var(--gold)' : points >= 30 ? 'var(--silver)' : points >= 15 ? 'var(--bronze)' : 'var(--text-secondary)'};">${points}</div>
+                            <div style="font-size:12px; color:var(--text-secondary);">🥇 +10 🥈 +5 🥉 +3</div>
+                        </div>
+                        <div style="background:rgba(15,23,42,0.8); padding:20px; border-radius:12px; text-align:center;">
+                            <div style="font-size:24px;">📊</div>
+                            <div style="font-size:14px; color:var(--text-secondary);">Rank History</div>
+                            <div style="font-size:13px; margin-top:8px;">
+                                ${Object.keys(rankHistory).map(diff => {
+                                    const r = rankHistory[diff];
+                                    if (r.rank > 0) {
+                                        return `<div>${diff.charAt(0).toUpperCase() + diff.slice(1)}: #${r.rank} (${r.pointsEarned}pts)</div>`;
+                                    }
+                                    return null;
+                                }).filter(Boolean).join('') || 'No rankings yet'}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -4641,16 +5217,12 @@
                 const roll = Math.random();
                 let multiplier;
                 if (roll < 0.25) {
-                    // 25%: 50-100%
                     multiplier = 0.5 + Math.random() * 0.5;
                 } else if (roll < 0.65) {
-                    // 40%: 101-200%
                     multiplier = 1.01 + Math.random() * 0.99;
                 } else if (roll < 0.93) {
-                    // 28%: 201-300%
                     multiplier = 2.01 + Math.random() * 0.99;
                 } else {
-                    // 7%: 301-400%
                     multiplier = 3.01 + Math.random() * 0.99;
                 }
                 const sellPrice = Math.round(item.buy * multiplier);
@@ -4723,7 +5295,6 @@
             });
 
             cdState.round++;
-            // Reset rolls for next round
             cdState.rollsLeft = 5;
             document.getElementById('cd-rolls-left').textContent = '5';
             document.getElementById('cd-roll-btn').disabled = false;
@@ -4763,9 +5334,9 @@
             if (profit > cashdashBest.profit || (profit === cashdashBest.profit && timeTaken < cashdashBest.time && profit > 0)) {
                 cashdashBest = { profit: profit, time: timeTaken };
                 
-                // Check if user is #1 on leaderboard
                 const allData = getAllUserGameData();
                 let isTop1 = true;
+                let top1Profit = 0;
                 Object.keys(allData).forEach(other => {
                     if (other !== currentUser) {
                         const otherBest = allData[other].cashdashBest || { profit: 0, time: 0 };
@@ -4773,11 +5344,18 @@
                             (otherBest.profit === cashdashBest.profit && otherBest.time < cashdashBest.time && otherBest.profit > 0)) {
                             isTop1 = false;
                         }
+                        if (otherBest.profit > top1Profit) top1Profit = otherBest.profit;
                     }
                 });
                 
                 if (isTop1 && cashdashBest.profit > 0) {
                     cashdashRank = 1;
+                    
+                    if (!userInventory['theme_cash']) {
+                        userInventory['theme_cash'] = 1;
+                        saveUserInventory(currentUser, userInventory);
+                        showFeedback('💰 You unlocked the exclusive CASH THEME for being #1 in Cash Dash!', 'success');
+                    }
                 } else {
                     cashdashRank = 0;
                 }
@@ -4799,7 +5377,6 @@
                 if (document.getElementById('adminView').style.display !== 'none') {
                     renderAdminTable();
                 }
-                // Force rank check
                 checkAndUpdateRanks();
             }
         }
@@ -4858,8 +5435,8 @@
             renderLeaderboard('baby');
             renderCashdashLeaderboard();
             updateDisplayNameUI();
-            // Start hidden timer for rank checking
             startHiddenTimer();
+            startLeaderboardCheck();
         }
 
         function initGame() {
@@ -4879,6 +5456,8 @@
                 renderAllGameContent();
                 updateAdminButton();
                 updateDisplayNameUI();
+                // Run initial points check
+                setTimeout(() => updateLeaderboardPoints(), 1000);
             } else {
                 showView('login');
             }
