@@ -360,6 +360,11 @@
             border: 3px solid transparent;
             min-width: 140px;
         }
+        .difficulty-btn.selected {
+            border-color: var(--gold) !important;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            transform: scale(1.05);
+        }
         .difficulty-btn.baby { background: #a78bfa; color: #0f172a; }
         .difficulty-btn.easy { background: #4ade80; color: #0f172a; }
         .difficulty-btn.medium { background: #facc15; color: #0f172a; }
@@ -709,6 +714,46 @@
         .theme-btn.silver { background: linear-gradient(135deg, #c0c0c0, #8a8a8a); color: #1a1a2e; border-color: #c0c0c0; }
         .theme-btn.bronze { background: linear-gradient(135deg, #cd7f32, #8b5a2b); color: white; border-color: #cd7f32; }
         .theme-btn.cash { background: linear-gradient(135deg, #4ade80, #15803d); color: #0a1a0a; border-color: #ffd700; box-shadow: 0 0 20px rgba(74, 222, 128, 0.3); }
+        .theme-btn.speed_god { 
+            background: linear-gradient(135deg, #0a0a2a, #1a0a3a, #0a0a2a); 
+            border-color: #ffd700; 
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4), inset 0 0 30px rgba(255, 215, 0, 0.1);
+            animation: lightning-pulse 1.5s ease-in-out infinite;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        .theme-btn.speed_god::before {
+            content: "⚡⚡⚡";
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 14px;
+            opacity: 0.6;
+            animation: lightning-spark 0.5s ease-in-out infinite alternate;
+        }
+        .theme-btn.speed_god::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.15), transparent 70%);
+            pointer-events: none;
+            animation: lightning-shimmer 2s ease-in-out infinite;
+        }
+        @keyframes lightning-pulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.4), inset 0 0 30px rgba(255, 215, 0, 0.1); }
+            50% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.7), inset 0 0 50px rgba(255, 215, 0, 0.2); }
+        }
+        @keyframes lightning-spark {
+            0% { opacity: 0.3; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0.8; transform: translate(-5px, -5px) scale(1.3); }
+        }
+        @keyframes lightning-shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
 
         .time-stat {
             display: inline-block;
@@ -789,7 +834,6 @@
             100% { box-shadow: 0 0 40px rgba(255, 107, 107, 0.6); }
         }
 
-        /* Overall combined time special backgrounds */
         .leaderboard-entry.overall-gold {
             background: linear-gradient(135deg, #4a3000, #7a4f00, #4a3000);
             border-left: 6px solid var(--gold);
@@ -805,8 +849,6 @@
             border-left: 6px solid var(--bronze);
             box-shadow: 0 0 30px rgba(205, 127, 50, 0.2);
         }
-
-        /* Diamond & Legendary backgrounds for overall rank - ONLY for users who earned them */
         .leaderboard-entry.overall-diamond {
             background: linear-gradient(135deg, #0a2a3a, #1a4a5a, #0a2a3a);
             border-left: 6px solid #00d4ff;
@@ -818,7 +860,6 @@
             box-shadow: 0 0 50px rgba(255, 107, 107, 0.4);
         }
 
-        /* Cash Dash Rich Background - Only for rank 1 */
         .cashdash-rich-bg {
             background: linear-gradient(135deg, #1a2a0a, #2a4a0a, #1a3a0a);
             border: 2px solid #ffd700;
@@ -845,7 +886,6 @@
             transform: rotate(-15deg);
         }
 
-        /* Champion, Silver, Bronze backgrounds for leaderboard rankings */
         .leaderboard-entry.rank-champion {
             background: linear-gradient(135deg, #4a3000, #7a4f00, #4a3000);
             border-left: 6px solid var(--gold);
@@ -928,7 +968,6 @@
             background: #475569;
         }
 
-        /* Cash Dash Mini-Game Styles */
         .cashdash-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -950,6 +989,15 @@
         .cashdash-card .emoji { font-size: 28px; }
         .cashdash-card .price { font-size: 16px; font-weight: 700; color: var(--gold); margin: 4px 0; }
         .cashdash-card .sub { font-size: 14px; color: var(--text-secondary); font-weight: 600; }
+        .cashdash-card .percentage-display {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--success);
+            margin-top: 2px;
+        }
+        .cashdash-card .percentage-display.negative {
+            color: var(--danger);
+        }
         .cashdash-card .buy-label { font-size: 12px; color: var(--text-secondary); }
         .cashdash-input {
             padding: 8px 10px;
@@ -1011,7 +1059,6 @@
             transform: none;
         }
 
-        /* Special badge for overall rank with multiple #1s */
         .overall-badge-diamond {
             background: linear-gradient(135deg, #b9f2ff, #00d4ff);
             color: #0a0a2a;
@@ -1032,6 +1079,109 @@
             font-size: 11px;
             font-weight: 700;
             animation: legendary-glow 1.5s ease-in-out infinite alternate;
+        }
+
+        .infinite-mode-active {
+            border-color: #ff6b6b !important;
+            box-shadow: 0 0 40px rgba(255, 107, 107, 0.3) !important;
+        }
+        .infinite-mode-active .cashdash-btn {
+            background: linear-gradient(135deg, #ff6b6b, #cc4444) !important;
+            color: white !important;
+        }
+        .infinite-mode-active .cashdash-btn:hover {
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.5) !important;
+        }
+        .infinite-badge {
+            background: linear-gradient(135deg, #ff6b6b, #cc4444);
+            color: white;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 8px;
+            animation: pulse-red 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .speed-god-badge {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b, #ffd700);
+            background-size: 200% 200%;
+            animation: speed-god-glow 2s ease-in-out infinite;
+            color: #0a0a2a;
+            border: 2px solid #ffd700;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+        @keyframes speed-god-glow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .boost-btn {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        .boost-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.5);
+        }
+        .boost-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .boost-btn.used {
+            background: var(--border-color);
+            color: var(--text-secondary);
+            box-shadow: none;
+        }
+
+        /* Trial Balance styles */
+        .trial-balance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        .trial-balance-table th {
+            background: var(--border-color);
+            padding: 10px;
+            text-align: left;
+            font-weight: 700;
+        }
+        .trial-balance-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .trial-balance-table .total-row {
+            border-top: 3px double var(--accent);
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .trial-balance-table .balanced {
+            color: var(--success);
+        }
+        .trial-balance-table .unbalanced {
+            color: var(--danger);
+        }
+        .trial-balance-table tr:hover td {
+            background: rgba(30, 41, 59, 0.5);
         }
 
         @media (min-width: 768px) {
@@ -1113,6 +1263,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th><input type="checkbox" id="selectAllUsers" onchange="toggleSelectAll()"></th>
                             <th>#</th>
                             <th>Username</th>
                             <th>Password</th>
@@ -1125,7 +1276,7 @@
                             <th>Display Name</th>
                             <th>🏆 Points</th>
                             <th>Cash Dash Best</th>
-                            <th>Actions</th>
+                            <th>Infinite Best</th>
                         </tr>
                     </thead>
                     <tbody id="adminUserTableBody"></tbody>
@@ -1133,7 +1284,7 @@
             </div>
             <div class="admin-actions">
                 <button class="back-btn" onclick="showView('home')">⬅️ Back to Game</button>
-                <button class="delete-user-btn" onclick="deleteSelectedUser()">🗑️ Delete Selected</button>
+                <button class="delete-user-btn" onclick="deleteSelectedUsers()">🗑️ Delete Selected</button>
                 <button class="refresh-leaderboard-btn" onclick="forceLeaderboardCheck()">🔄 Check Rankings Now</button>
             </div>
             <p style="text-align:center; color:#64748b; font-size:13px; margin-top:15px;">
@@ -1169,6 +1320,7 @@
                 <button class="nav-btn" onclick="showScreen('shop')">🛒 Shop</button>
                 <button class="nav-btn" onclick="showScreen('inventory')">📦 Inventory</button>
                 <button class="nav-btn" onclick="showScreen('ledger')">📒 Ledger</button>
+                <button class="nav-btn" onclick="showScreen('trialbalance')">⚖️ Trial Balance</button>
                 <button class="nav-btn" onclick="showScreen('stats')">📊 Progress</button>
                 <button class="nav-btn" onclick="showScreen('leaderboard')">🏆 Leaderboard</button>
             </div>
@@ -1229,11 +1381,11 @@
                         </div>
                         <div class="difficulty-select">
                             <strong style="font-size:18px;">Choose Difficulty:</strong><br><br>
-                            <button class="difficulty-btn baby" onclick="startMission('baby')">👶 BABY</button>
-                            <button class="difficulty-btn easy" onclick="startMission('easy')">EASY</button>
-                            <button class="difficulty-btn medium" onclick="startMission('medium')">MEDIUM</button>
-                            <button class="difficulty-btn hard" onclick="startMission('hard')">HARD</button>
-                            <button class="difficulty-btn ultra" onclick="startMission('ultra')">🔥 ULTRA</button>
+                            <button class="difficulty-btn baby" onclick="selectDifficulty('baby')">👶 BABY</button>
+                            <button class="difficulty-btn easy" onclick="selectDifficulty('easy')">EASY</button>
+                            <button class="difficulty-btn medium" onclick="selectDifficulty('medium')">MEDIUM</button>
+                            <button class="difficulty-btn hard" onclick="selectDifficulty('hard')">HARD</button>
+                            <button class="difficulty-btn ultra" onclick="selectDifficulty('ultra')">🔥 ULTRA</button>
                         </div>
                         <div style="text-align:center; margin-top:15px; color:var(--text-secondary); font-size:14px;">
                             💡 Ultra difficulty requires an Ultra Challenge Ticket from the shop!
@@ -1314,6 +1466,14 @@
                     </div>
                 </div>
 
+                <div id="trialbalance-screen" style="display:none;">
+                    <div class="card">
+                        <h2>⚖️ Trial Balance</h2>
+                        <p style="color:var(--text-secondary);margin-bottom:16px;">A summary of all account balances from your completed missions.</p>
+                        <div id="trial-balance-content"></div>
+                    </div>
+                </div>
+
                 <div id="shop-screen" style="display:none;">
                     <div class="card">
                         <h2>🛒 Bank Shop</h2>
@@ -1357,6 +1517,12 @@
                             <h3>🎮 Cash Dash Leaderboard</h3>
                             <p style="color:var(--text-secondary); font-size:14px;">Best performances in the Cash Dash mini-game</p>
                             <div id="cashdash-leaderboard-content"></div>
+                            
+                            <div style="margin-top:12px;">
+                                <h3>♾️ Infinite Mode Leaderboard</h3>
+                                <p style="color:var(--text-secondary); font-size:14px;">Best performances in Infinite Mode (3 min timer)</p>
+                                <div id="infinite-leaderboard-content"></div>
+                            </div>
                         </div>
                         
                         <div id="leaderboard-rewards" style="margin-top:16px; padding:16px; background:rgba(30,41,59,0.8); border-radius:12px; border:1px solid var(--border-color);">
@@ -1389,6 +1555,12 @@
                                     <div style="font-size:13px; color:var(--text-secondary);">Cash Theme</div>
                                     <div style="font-size:13px; color:var(--text-secondary);">💰 Cash Badge</div>
                                 </div>
+                                <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center; border:2px solid #ffd700;">
+                                    <div style="font-size:30px;">⚡</div>
+                                    <div style="font-weight:700; color:#ffd700;">Speed God</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">⚡ Speed God Theme</div>
+                                    <div style="font-size:13px; color:var(--text-secondary);">♾️ Infinite Mode #1</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1396,21 +1568,24 @@
 
                 <!-- CASH DASH MINI-GAME -->
                 <div id="cashdash-screen" style="display:none;">
-                    <div class="card">
+                    <div class="card" id="cashdash-card">
                         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-                            <h2>🎮 Cash Dash</h2>
-                            <div style="display:flex; gap:12px; align-items:center;">
+                            <h2 id="cashdash-title">🎮 Cash Dash <span id="infinite-mode-indicator"></span></h2>
+                            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
                                 <span style="font-size:18px;">💰 Cash: <strong id="cd-cash" style="color:var(--gold);">$10</strong></span>
-                                <span style="font-size:18px;">🔄 Round: <strong id="cd-round">1</strong>/6</span>
-                                <span style="font-size:18px;">⏱️ <strong id="cd-timer">5:00</strong></span>
+                                <span style="font-size:18px;">🔄 Round: <strong id="cd-round">1</strong><span id="cd-max-rounds">/6</span></span>
+                                <span style="font-size:18px;" id="cd-timer-container">⏱️ <strong id="cd-timer">3:00</strong></span>
                             </div>
                         </div>
-                        <p style="color:var(--text-secondary); margin-bottom:16px;">Buy items, roll for sell prices, make profit! (5 rolls per round limit)</p>
+                        <p style="color:var(--text-secondary); margin-bottom:16px;" id="cd-description">Buy items, roll for sell prices, make profit! (5 rolls per round limit)</p>
                         
-                        <div id="cd-price-display" style="text-align:center; padding:12px; background:rgba(15,23,42,0.8); border-radius:10px; margin-bottom:16px; border:2px solid var(--accent);">
+                        <div id="cd-price-display" style="text-align:center; padding:12px; background:rgba(15,23,42,0.8); border-radius:10px; margin-bottom:16px; border:2px solid var(--accent); display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;">
                             <span style="font-size:20px;">🎲 Current Sell Prices: <strong id="cd-price-level" style="color:var(--accent);">—</strong></span>
-                            <span style="font-size:16px; margin-left:16px; color:var(--text-secondary);">Rolls Left: <strong id="cd-rolls-left">5</strong></span>
-                            <button onclick="cdRollPrice()" class="cashdash-btn" style="padding:8px 20px; font-size:14px; margin-left:16px;" id="cd-roll-btn">🎲 Roll Prices</button>
+                            <span style="font-size:16px; color:var(--text-secondary);">Rolls Left: <strong id="cd-rolls-left">5</strong></span>
+                            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                                <button onclick="cdRollPrice()" class="cashdash-btn" style="padding:8px 20px; font-size:14px;" id="cd-roll-btn">🎲 Roll Prices</button>
+                                <button onclick="cdUseBoost()" class="boost-btn" id="cd-boost-btn" disabled style="padding:8px 20px; font-size:14px;">📊 Use Boost</button>
+                            </div>
                         </div>
 
                         <div class="cashdash-grid" id="cd-items-grid">
@@ -1423,6 +1598,9 @@
                             </button>
                             <button onclick="cdResetGame()" style="background:var(--border-color); color:white; padding:12px 24px; margin-left:12px;">
                                 🔄 Reset Game
+                            </button>
+                            <button onclick="cdToggleInfiniteMode()" id="cd-toggle-infinite-btn" style="background:var(--border-color); color:white; padding:12px 24px; margin-left:12px;">
+                                ♾️ Toggle Infinite Mode
                             </button>
                         </div>
 
@@ -1463,6 +1641,10 @@
                                 <div>
                                     <span style="color:var(--text-secondary);">Rating:</span>
                                     <span class="cashdash-stars" id="cd-stars">☆☆☆☆☆</span>
+                                </div>
+                                <div>
+                                    <span style="color:var(--text-secondary);">Mode:</span>
+                                    <strong id="cd-mode-display" style="color:var(--accent);">Classic</strong>
                                 </div>
                             </div>
                         </div>
@@ -1623,6 +1805,91 @@
             }
         }
         
+        // Speed God theme renderer - lightning particles
+        function drawSpeedGodTheme() {
+            ctx.fillStyle = '#0a0a2a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw lightning bolts
+            const time = Date.now() / 1000;
+            const boltCount = 3;
+            for (let i = 0; i < boltCount; i++) {
+                const x = (i + 0.5) * canvas.width / boltCount + Math.sin(time * 0.5 + i * 2) * 50;
+                const yStart = 0;
+                const yEnd = canvas.height;
+                const segments = 6 + Math.floor(Math.random() * 4);
+                const width = 2 + Math.random() * 3;
+                const brightness = 0.5 + Math.sin(time * 2 + i * 1.5) * 0.3 + 0.2;
+                
+                ctx.beginPath();
+                let xPos = x;
+                let yPos = yStart;
+                ctx.moveTo(xPos, yPos);
+                
+                for (let s = 0; s < segments; s++) {
+                    const yProgress = (s + 1) / segments;
+                    const y = yStart + yProgress * (yEnd - yStart);
+                    const xOffset = (Math.random() - 0.5) * 60 * (1 - yProgress * 0.5);
+                    const newX = x + xOffset + Math.sin(time * 3 + s * 0.7 + i * 1.2) * 20;
+                    ctx.lineTo(newX, y);
+                    xPos = newX;
+                    yPos = y;
+                }
+                
+                const gradient = ctx.createLinearGradient(x, 0, x, canvas.height);
+                gradient.addColorStop(0, `rgba(255, 215, 0, ${brightness * 0.8})`);
+                gradient.addColorStop(0.3, `rgba(255, 200, 50, ${brightness * 0.6})`);
+                gradient.addColorStop(0.7, `rgba(255, 215, 0, ${brightness * 0.4})`);
+                gradient.addColorStop(1, `rgba(255, 200, 50, ${brightness * 0.1})`);
+                
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = width;
+                ctx.shadowColor = `rgba(255, 215, 0, ${brightness * 0.5})`;
+                ctx.shadowBlur = 20;
+                ctx.stroke();
+                
+                // Glow effect
+                ctx.shadowBlur = 40;
+                ctx.shadowColor = `rgba(255, 200, 50, ${brightness * 0.2})`;
+                ctx.strokeStyle = `rgba(255, 215, 0, ${brightness * 0.1})`;
+                ctx.lineWidth = width * 4;
+                ctx.stroke();
+            }
+            
+            // Add spark particles
+            particles.forEach(p => p.draw(ctx));
+            particles.forEach(p => p.update());
+            
+            if (particles.length < 80) {
+                const p = new Particle(Math.random() * canvas.width, Math.random() * canvas.height, 'speed_god');
+                p.size = Math.random() * 2 + 1;
+                p.speedX = (Math.random() - 0.5) * 3;
+                p.speedY = (Math.random() - 0.5) * 3;
+                p.color = `hsl(45, 100%, ${50 + Math.random() * 30}%)`;
+                particles.push(p);
+            }
+        }
+        
+        // Override particle draw for speed god
+        const originalDraw = Particle.prototype.draw;
+        Particle.prototype.draw = function(ctx) {
+            if (themeType === 'speed_god') {
+                const alpha = this.life * 0.8;
+                ctx.globalAlpha = alpha;
+                const color = this.color || `hsl(45, 100%, 70%)`;
+                ctx.fillStyle = color;
+                ctx.shadowColor = 'rgba(255, 215, 0, 0.3)';
+                ctx.shadowBlur = 15;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 1.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.globalAlpha = 1;
+                return;
+            }
+            originalDraw.call(this, ctx);
+        };
+        
         const themeRenderers = {
             'dark': drawDarkTheme,
             'ocean': drawDarkTheme,
@@ -1640,7 +1907,8 @@
             'bronze': drawDarkTheme,
             'cash': drawDarkTheme,
             'diamond': drawDarkTheme,
-            'legendary': drawDarkTheme
+            'legendary': drawDarkTheme,
+            'speed_god': drawSpeedGodTheme
         };
         
         function animateTheme() {
@@ -1652,24 +1920,24 @@
         function setThemeBackground(theme) {
             themeType = theme;
             particles = [];
-            const count = 50;
+            const count = theme === 'speed_god' ? 80 : 50;
             particles = createParticles(count, 'dark');
             const overlay = document.getElementById('theme-overlay');
-            overlay.style.background = 'rgba(0,0,0,0.3)';
+            overlay.style.background = theme === 'speed_god' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.3)';
         }
         
         animateTheme();
 
         // ============================================================
-        // PERSISTENT AUTH SYSTEM - Cleaned up, no bot accounts
+        // PERSISTENT AUTH SYSTEM
         // ============================================================
         
         let users = [];
+        let selectedUsersToDelete = new Set();
         try {
             const storedUsers = localStorage.getItem('bankUsers');
             if (storedUsers) {
                 users = JSON.parse(storedUsers);
-                // Filter out any bot accounts (password 'bot123')
                 users = users.filter(u => u.pass !== 'bot123');
                 
                 const adminUsers = users.filter(u => u.role === 'Admin');
@@ -1684,14 +1952,6 @@
                     users.push({ user: 'Admin0427', pass: 'Isaac0427', role: 'Admin' });
                     localStorage.setItem('bankUsers', JSON.stringify(users));
                 }
-                
-                // Clean up bot game data
-                const botUsernames = users.filter(u => u.pass === 'bot123').map(u => u.user);
-                botUsernames.forEach(username => {
-                    localStorage.removeItem(getUserDataKey(username));
-                    localStorage.removeItem('bankInventory_' + username);
-                });
-                
             } else {
                 users = [{ user: 'Admin0427', pass: 'Isaac0427', role: 'Admin' }];
                 localStorage.setItem('bankUsers', JSON.stringify(users));
@@ -1725,7 +1985,10 @@
                     achievements: { champion: 0, diamond: false, legendary: false },
                     leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
                     points: 0,
-                    rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
+                    rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} },
+                    infiniteBest: { profit: 0, time: 0, rounds: 0 },
+                    infiniteRank: 0,
+                    infiniteTickets: 0
                 };
                 localStorage.setItem('bankGameData_Admin0427', JSON.stringify(adminData));
             }
@@ -1762,13 +2025,15 @@
                 achievements: { champion: 0, diamond: false, legendary: false },
                 leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
                 points: 0,
-                rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
+                rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} },
+                infiniteBest: { profit: 0, time: 0, rounds: 0 },
+                infiniteRank: 0,
+                infiniteTickets: 0
             };
             localStorage.setItem('bankGameData_Admin0427', JSON.stringify(adminData));
         }
 
         function ensureAdminData() {
-            // Filter out any bot accounts first
             users = users.filter(u => u.pass !== 'bot123');
             
             const adminUsers = users.filter(u => u.role === 'Admin');
@@ -1784,7 +2049,6 @@
                 saveUsers();
             }
             
-            // Clean up any leftover bot data
             const botUsernames = users.filter(u => u.pass === 'bot123').map(u => u.user);
             botUsernames.forEach(username => {
                 localStorage.removeItem(getUserDataKey(username));
@@ -1824,7 +2088,10 @@
                     achievements: { champion: 0, diamond: false, legendary: false },
                     leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
                     points: 0,
-                    rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
+                    rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} },
+                    infiniteBest: { profit: 0, time: 0, rounds: 0 },
+                    infiniteRank: 0,
+                    infiniteTickets: 0
                 };
                 localStorage.setItem('bankGameData_Admin0427', JSON.stringify(freshAdminData));
             } else {
@@ -1879,6 +2146,18 @@
                         parsed.rankHistory = { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
                         localStorage.setItem('bankGameData_Admin0427', JSON.stringify(parsed));
                     }
+                    if (!parsed.infiniteBest) {
+                        parsed.infiniteBest = { profit: 0, time: 0, rounds: 0 };
+                        localStorage.setItem('bankGameData_Admin0427', JSON.stringify(parsed));
+                    }
+                    if (parsed.infiniteRank === undefined) {
+                        parsed.infiniteRank = 0;
+                        localStorage.setItem('bankGameData_Admin0427', JSON.stringify(parsed));
+                    }
+                    if (parsed.infiniteTickets === undefined) {
+                        parsed.infiniteTickets = 0;
+                        localStorage.setItem('bankGameData_Admin0427', JSON.stringify(parsed));
+                    }
                 } catch(e) {
                     const freshAdminData = {
                         coins: 5000,
@@ -1909,7 +2188,10 @@
                         achievements: { champion: 0, diamond: false, legendary: false },
                         leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
                         points: 0,
-                        rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
+                        rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} },
+                        infiniteBest: { profit: 0, time: 0, rounds: 0 },
+                        infiniteRank: 0,
+                        infiniteTickets: 0
                     };
                     localStorage.setItem('bankGameData_Admin0427', JSON.stringify(freshAdminData));
                 }
@@ -1928,6 +2210,20 @@
         let rankHistory = { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
         let hiddenTimerInterval = null;
         let leaderboardCheckInterval = null;
+        let infiniteBest = { profit: 0, time: 0, rounds: 0 };
+        let infiniteRank = 0;
+        let infiniteTickets = 0;
+
+        // Infinite Mode state
+        let isInfiniteMode = false;
+
+        // Mission state - FIXED: properly track retry state
+        let missionRetryState = {
+            retrying: false,
+            originalDay: null,
+            originalDiff: null,
+            originalVersion: null
+        };
 
         function getUserInventory(username) {
             const key = 'bankInventory_' + username;
@@ -1978,7 +2274,10 @@
                 achievements: { champion: 0, diamond: false, legendary: false },
                 leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
                 points: 0,
-                rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
+                rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} },
+                infiniteBest: { profit: 0, time: 0, rounds: 0 },
+                infiniteRank: 0,
+                infiniteTickets: 0
             };
         }
 
@@ -2016,7 +2315,10 @@
                     achievements: { champion: 0, diamond: false, legendary: false },
                     leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
                     points: 0,
-                    rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
+                    rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} },
+                    infiniteBest: { profit: 0, time: 0, rounds: 0 },
+                    infiniteRank: 0,
+                    infiniteTickets: 0
                 };
                 localStorage.setItem(key, JSON.stringify(freshAdminData));
                 return freshAdminData;
@@ -2071,6 +2373,15 @@
                     if (!parsed.rankHistory) {
                         parsed.rankHistory = { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
                     }
+                    if (!parsed.infiniteBest) {
+                        parsed.infiniteBest = { profit: 0, time: 0, rounds: 0 };
+                    }
+                    if (parsed.infiniteRank === undefined) {
+                        parsed.infiniteRank = 0;
+                    }
+                    if (parsed.infiniteTickets === undefined) {
+                        parsed.infiniteTickets = 0;
+                    }
                     if (username === "Admin0427" && (!parsed.coins || parsed.coins === 0)) {
                         parsed.coins = 5000;
                         localStorage.setItem(key, JSON.stringify(parsed));
@@ -2108,7 +2419,10 @@
                             achievements: { champion: 0, diamond: false, legendary: false },
                             leaderboardRanks: { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 },
                             points: 0,
-                            rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} }
+                            rankHistory: { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} },
+                            infiniteBest: { profit: 0, time: 0, rounds: 0 },
+                            infiniteRank: 0,
+                            infiniteTickets: 0
                         };
                         localStorage.setItem(key, JSON.stringify(freshAdminData));
                         return freshAdminData;
@@ -2159,6 +2473,9 @@
             leaderboardRanks = data.leaderboardRanks || { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 };
             points = data.points || 0;
             rankHistory = data.rankHistory || { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
+            infiniteBest = data.infiniteBest || { profit: 0, time: 0, rounds: 0 };
+            infiniteRank = data.infiniteRank || 0;
+            infiniteTickets = data.infiniteTickets || 0;
             updateUserDisplay();
             updateAdminButton();
             loadGameProgress();
@@ -2179,6 +2496,9 @@
             leaderboardRanks = { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 };
             points = 0;
             rankHistory = { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
+            infiniteBest = { profit: 0, time: 0, rounds: 0 };
+            infiniteRank = 0;
+            infiniteTickets = 0;
             if (hiddenTimerInterval) {
                 clearInterval(hiddenTimerInterval);
                 hiddenTimerInterval = null;
@@ -2189,7 +2509,6 @@
             }
             updateUserDisplay();
             updateAdminButton();
-            // Reset to default theme background on logout
             setThemeBackground('dark');
         }
 
@@ -2450,6 +2769,17 @@
                 text: '#ffd7d7',
                 textSecondary: '#ff9a9a',
                 canvasTheme: 'lava'
+            },
+            speed_god: { 
+                bg: 'linear-gradient(135deg, #0a0a2a, #1a0a3a, #0a0a2a)', 
+                primary: '#ffd700', 
+                primaryDark: '#ffaa00',
+                accent: '#ffd700',
+                cardBg: 'rgba(10, 5, 20, 0.9)',
+                border: '#ffd700',
+                text: '#ffd700',
+                textSecondary: '#ffd700',
+                canvasTheme: 'speed_god'
             }
         };
 
@@ -2517,6 +2847,64 @@
             }
         }
 
+        // FIX #2: Admin Panel - Multi-select delete
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAllUsers');
+            const checkboxes = document.querySelectorAll('.user-select-checkbox');
+            checkboxes.forEach(cb => cb.checked = selectAll.checked);
+        }
+
+        function toggleUserSelection(username) {
+            if (selectedUsersToDelete.has(username)) {
+                selectedUsersToDelete.delete(username);
+            } else {
+                selectedUsersToDelete.add(username);
+            }
+        }
+
+        function deleteSelectedUsers() {
+            if (selectedUsersToDelete.size === 0) {
+                showFeedback('Please select at least one user to delete.', 'danger');
+                return;
+            }
+            
+            let confirmMsg = `Are you sure you want to delete ${selectedUsersToDelete.size} user(s)?`;
+            const adminSelected = Array.from(selectedUsersToDelete).some(u => {
+                const user = users.find(x => x.user === u);
+                return user && user.role === 'Admin';
+            });
+            
+            if (adminSelected) {
+                confirmMsg += '\n\n⚠️ Warning: Admin users are protected and cannot be deleted.';
+            }
+            
+            if (!confirm(confirmMsg)) return;
+            
+            const toDelete = Array.from(selectedUsersToDelete).filter(u => {
+                const user = users.find(x => x.user === u);
+                return user && user.role !== 'Admin';
+            });
+            
+            if (toDelete.length === 0) {
+                showFeedback('No deletable users selected. Admin users are protected.', 'danger');
+                return;
+            }
+            
+            toDelete.forEach(username => {
+                const index = users.findIndex(u => u.user === username);
+                if (index !== -1) {
+                    deleteUserGameData(username);
+                    users.splice(index, 1);
+                }
+            });
+            
+            saveUsers();
+            selectedUsersToDelete.clear();
+            document.getElementById('selectAllUsers').checked = false;
+            renderAdminTable();
+            showFeedback(`🗑️ Deleted ${toDelete.length} user(s) and all their data.`, 'success');
+        }
+
         function renderAdminTable() {
             const tbody = document.getElementById('adminUserTableBody');
             tbody.innerHTML = '';
@@ -2531,8 +2919,9 @@
                 const cdRank = data.cashdashRank || 0;
                 const ach = data.achievements || { champion: 0, diamond: false, legendary: false };
                 const userPoints = data.points || 0;
+                const infBest = data.infiniteBest || { profit: 0, time: 0, rounds: 0 };
+                const tickets = data.infiniteTickets || 0;
                 
-                // Calculate combined avg time across ALL difficulties
                 const timeData = data.timeData || { baby: {totalTime:0, count:0, bestTime:0}, easy: {totalTime:0, count:0, bestTime:0}, medium: {totalTime:0, count:0, bestTime:0}, hard: {totalTime:0, count:0, bestTime:0}, ultra: {totalTime:0, count:0, bestTime:0} };
                 let totalCombinedTime = 0;
                 let totalCombinedCount = 0;
@@ -2553,7 +2942,6 @@
                 if (hasAllDifficulties && totalCombinedCount > 0) {
                     combinedAvg = Math.round(totalCombinedTime / totalCombinedCount);
                 } else {
-                    // Show individual avg if not all difficulties completed
                     let totalTime = 0;
                     let totalCount = 0;
                     Object.values(timeData).forEach(d => {
@@ -2572,11 +2960,20 @@
                     rankBadge = '<span class="rank-badge rich-bg" style="font-size:10px;">🏆 CHAMPION</span>';
                 }
                 
+                const infDisplay = infBest.profit > 0 ? `$${infBest.profit} (${infBest.rounds}r)` : '—';
+                const isAdmin = u.role === 'Admin';
+                
                 tr.innerHTML = `
+                    <td>
+                        <input type="checkbox" class="user-select-checkbox" 
+                               ${isAdmin ? 'disabled' : ''} 
+                               onchange="toggleUserSelection('${u.user}')"
+                               ${selectedUsersToDelete.has(u.user) && !isAdmin ? 'checked' : ''}>
+                    </td>
                     <td>${index + 1}</td>
                     <td><strong>${u.user}</strong> ${isCurrentUser ? '👤' : ''}</td>
                     <td><span style="font-family:monospace; color:#facc15;">${u.pass}</span></td>
-                    <td><span class="role-badge ${u.role === 'Admin' ? 'admin' : 'member'}">${u.role}</span></td>
+                    <td><span class="role-badge ${isAdmin ? 'admin' : 'member'}">${u.role}</span></td>
                     <td style="color:var(--accent);">${data.level}</td>
                     <td style="color:#f1c40f;">${data.coins}</td>
                     <td style="color:var(--exp-color);">${data.exp}</td>
@@ -2585,30 +2982,10 @@
                     <td>${displayName} ${rankBadge}</td>
                     <td style="color:${userPoints >= 50 ? '#ffd700' : userPoints >= 30 ? '#c0c0c0' : userPoints >= 15 ? '#cd7f32' : 'var(--text-secondary)'}; font-weight:bold; font-size:16px;">${userPoints}</td>
                     <td>${cdBest.profit > 0 ? `$${cdBest.profit} (${cdBest.time}s)` : '—'}</td>
-                    <td>
-                        ${u.role !== 'Admin' ? `<button onclick="selectUserToDelete('${u.user}')" style="background:var(--danger); color:white; border:none; padding:4px 12px; border-radius:6px; cursor:pointer; font-weight:600; font-size:12px;">Delete</button>` : '<span style="color:#64748b; font-size:12px;">Protected</span>'}
-                    </td>
+                    <td>${infDisplay}</td>
                 `;
                 tbody.appendChild(tr);
             });
-            selectedUserToDelete = null;
-        }
-
-        function selectUserToDelete(username) {
-            if (confirm(`Are you sure you want to delete user "${username}"? This will also delete all their game data!`)) {
-                const index = users.findIndex(u => u.user === username);
-                if (index !== -1) {
-                    deleteUserGameData(username);
-                    users.splice(index, 1);
-                    saveUsers();
-                    renderAdminTable();
-                    showFeedback(`🗑️ User "${username}" and all their data has been deleted.`, 'success');
-                }
-            }
-        }
-
-        function deleteSelectedUser() {
-            showFeedback('Click the Delete button on a specific user row.', 'success');
         }
 
         document.getElementById('loginSubmit').onclick = () => {
@@ -2715,7 +3092,6 @@
             difficulties.forEach(diff => {
                 const entries = getLeaderboard(diff);
                 
-                // Track top 3 positions
                 const top3 = [];
                 entries.slice(0, 3).forEach((entry, index) => {
                     const rank = index + 1;
@@ -2731,7 +3107,6 @@
                     });
                 });
                 
-                // Update each user's points based on their rank
                 users.forEach(user => {
                     const username = user.user;
                     
@@ -2742,23 +3117,18 @@
                     const previousRank = rankHistory[diff]?.rank || 0;
                     const previousPoints = rankHistory[diff]?.pointsEarned || 0;
                     
-                    // Find current rank
                     const current = top3.find(t => t.username === username);
                     const currentRank = current ? current.rank : 0;
                     const currentPoints = current ? current.points : 0;
                     
-                    // If rank changed or points changed
                     if (previousRank !== currentRank || previousPoints !== currentPoints) {
-                        // Remove old points if user was in top 3 before
                         if (previousRank > 0 && previousRank <= 3) {
                             userData.points = (userData.points || 0) - previousPoints;
                         }
-                        // Add new points
                         if (currentRank > 0 && currentRank <= 3) {
                             userData.points = (userData.points || 0) + currentPoints;
                         }
                         
-                        // Update rank history
                         rankHistory[diff] = {
                             rank: currentRank,
                             pointsEarned: currentPoints
@@ -2768,7 +3138,6 @@
                         updated = true;
                         saveUserGameData(username, userData);
                         
-                        // Show feedback for the current user if they gained or lost a position
                         if (username === currentUser) {
                             if (currentRank > 0 && currentRank <= 3) {
                                 const medal = currentRank === 1 ? '🥇' : currentRank === 2 ? '🥈' : '🥉';
@@ -2782,7 +3151,6 @@
                 });
             });
             
-            // Also check Overall leaderboard
             const overallEntries = getOverallLeaderboard();
             const overallTop3 = [];
             overallEntries.slice(0, 3).forEach((entry, index) => {
@@ -2847,13 +3215,13 @@
                     renderAdminTable();
                 }
                 if (document.getElementById('leaderboard-screen').style.display !== 'none') {
-                    renderLeaderboard(document.querySelector('#leaderboard-tabs .active')?.dataset?.diff || 'baby');
+                    renderLeaderboard('baby');
                     renderCashdashLeaderboard();
+                    renderInfiniteLeaderboard();
                 }
                 if (document.getElementById('stats-screen').style.display !== 'none') {
                     renderStats();
                 }
-                // Update current user's points
                 const userData = loadUserGameData(currentUser);
                 if (userData) {
                     points = userData.points || 0;
@@ -2867,7 +3235,7 @@
             }
             leaderboardCheckInterval = setInterval(() => {
                 updateLeaderboardPoints();
-            }, 30000); // Check every 30 seconds
+            }, 30000);
         }
 
         function forceLeaderboardCheck() {
@@ -2902,6 +3270,8 @@
         let currentDay = null;
         let currentDiff = null;
         let versionCache = {};
+        let missionTimerInterval = null;
+        let elapsedMissionTime = 0;
 
         const SHOP_ITEMS = [
             { id: 'theme_dark', name: 'Dark Theme', price: 0, desc: 'Classic dark mode', emoji: '🌙', type: 'theme', theme: 'dark' },
@@ -2916,15 +3286,16 @@
             { id: 'theme_desert', name: '🏜️ Desert Theme', price: 200, desc: 'Sandy desert dunes', emoji: '🏜️', type: 'theme', theme: 'desert' },
             { id: 'theme_space', name: '🚀 Space Theme', price: 250, desc: 'Deep space adventure', emoji: '🚀', type: 'theme', theme: 'space' },
             { id: 'ultra_ticket', name: '🔥 Ultra Challenge Ticket', price: 300, desc: 'Unlock ULTRA difficulty missions', emoji: '🎫', type: 'ultra' },
-            { id: 'xp_boost', name: '⭐ EXP Booster', price: 150, desc: 'Double EXP for your next mission', emoji: '🚀', type: 'xp_boost' },
-            { id: 'coin_magnet', name: '🪙 Coin Magnet', price: 200, desc: '50% more coins from missions', emoji: '🧲', type: 'coin_boost' },
+            { id: 'cashdash_boost', name: '📈 Cash Dash Boost', price: 100, desc: 'Shows percentage increase in Cash Dash profits (1 use per game)', emoji: '📊', type: 'cashdash_boost' },
+            { id: 'infinite_ticket', name: '♾️ Infinite Mode Ticket', price: 200, desc: 'Unlock Infinite Mode for Cash Dash (3 min timer, 1 use per game)', emoji: '🎟️', type: 'infinite_ticket' },
         ];
 
         const EXCLUSIVE_ITEMS = {
             gold: { id: 'theme_gold', name: 'Gold Theme', emoji: '👑', desc: '🏆 Champion Exclusive - Fastest time reward', theme: 'gold' },
             silver: { id: 'theme_silver', name: 'Silver Theme', emoji: '🥈', desc: '🥈 Runner-Up Exclusive - Top 2 reward', theme: 'silver' },
             bronze: { id: 'theme_bronze', name: 'Bronze Theme', emoji: '🥉', desc: '🥉 Bronze Exclusive - Top 3 reward', theme: 'bronze' },
-            cash: { id: 'theme_cash', name: 'Cash Theme', emoji: '💰', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash' }
+            cash: { id: 'theme_cash', name: 'Cash Theme', emoji: '💰', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash' },
+            speed_god: { id: 'theme_speed_god', name: '⚡ Speed God Theme', emoji: '⚡', desc: '♾️ Infinite Mode Champion - #1 in Infinite Mode', theme: 'speed_god' }
         };
 
         function loadGameProgress() {
@@ -2946,6 +3317,9 @@
                 leaderboardRanks = data.leaderboardRanks || { baby: 0, easy: 0, medium: 0, hard: 0, ultra: 0, overall: 0 };
                 points = data.points || 0;
                 rankHistory = data.rankHistory || { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
+                infiniteBest = data.infiniteBest || { profit: 0, time: 0, rounds: 0 };
+                infiniteRank = data.infiniteRank || 0;
+                infiniteTickets = data.infiniteTickets || 0;
             }
         }
 
@@ -2966,7 +3340,10 @@
                     achievements: achievements,
                     leaderboardRanks: leaderboardRanks,
                     points: points,
-                    rankHistory: rankHistory
+                    rankHistory: rankHistory,
+                    infiniteBest: infiniteBest,
+                    infiniteRank: infiniteRank,
+                    infiniteTickets: infiniteTickets
                 };
                 saveUserGameData(currentUser, data);
                 saveUserInventory(currentUser, userInventory);
@@ -2979,11 +3356,6 @@
 
         function addExp(amount) {
             let multiplier = 1;
-            if (userInventory.xp_boost && userInventory.xp_boost > 0) {
-                multiplier = 2;
-                userInventory.xp_boost--;
-                showFeedback('🚀 EXP Booster activated! Double EXP!', 'success');
-            }
             
             const finalAmount = Math.floor(amount * multiplier);
             exp += finalAmount;
@@ -3075,7 +3447,6 @@
                 }
             });
             
-            // Check overall rank (combined time across ALL difficulties)
             const overallEntries = getOverallLeaderboard();
             const overallUserEntry = overallEntries.find(e => e.username === currentUser);
             let overallRank = 0;
@@ -3094,9 +3465,17 @@
                 }
             }
             
+            // Check Infinite Mode leaderboard
+            const infEntries = getInfiniteLeaderboard();
+            const infUserEntry = infEntries.find(e => e.username === currentUser);
+            let infRank = 0;
+            if (infUserEntry) {
+                infRank = infEntries.indexOf(infUserEntry) + 1;
+            }
+            currentUserData.infiniteRank = infRank;
+            
             let needsUpdate = false;
             
-            // Update champion count based on #1 rankings
             let top1Count = 0;
             difficulties.forEach(diff => {
                 if (currentUserData.leaderboardRanks[diff] === 1) {
@@ -3104,14 +3483,13 @@
                 }
             });
             if (isCdTop1) top1Count++;
+            if (infRank === 1) top1Count++;
             
-            // Award champion badge if any #1
             if (top1Count >= 1 && currentUserData.achievements.champion < top1Count) {
                 currentUserData.achievements.champion = top1Count;
                 needsUpdate = true;
             }
             
-            // Diamond: 2+ #1 rankings
             if (top1Count >= 2 && !currentUserData.achievements.diamond) {
                 currentUserData.achievements.diamond = true;
                 needsUpdate = true;
@@ -3122,7 +3500,6 @@
                 showAchievementModal('💎', 'DIAMOND ACHIEVEMENT!', 'You have achieved 2 or more #1 rankings! Unlocked Diamond theme and badge!');
             }
             
-            // Legendary: 3+ #1 rankings
             if (top1Count >= 3 && !currentUserData.achievements.legendary) {
                 currentUserData.achievements.legendary = true;
                 needsUpdate = true;
@@ -3133,7 +3510,13 @@
                 showAchievementModal('👑', 'LEGENDARY ACHIEVEMENT!', 'You have achieved 3 or more #1 rankings! Unlocked Legendary theme and badge!');
             }
             
-            // Award themes for individual difficulty #1s
+            // Check Infinite Mode #1 for Speed God theme
+            if (infRank === 1 && !userInventory['theme_speed_god']) {
+                userInventory['theme_speed_god'] = 1;
+                saveUserInventory(currentUser, userInventory);
+                showFeedback('⚡ You unlocked the SPEED GOD theme for being #1 in Infinite Mode!', 'success');
+            }
+            
             difficulties.forEach(diff => {
                 const entries = getLeaderboard(diff);
                 const userEntry = entries.find(e => e.username === currentUser);
@@ -3160,6 +3543,7 @@
                 if (document.getElementById('leaderboard-screen').style.display !== 'none') {
                     renderLeaderboard('baby');
                     renderCashdashLeaderboard();
+                    renderInfiniteLeaderboard();
                 }
                 if (document.getElementById('adminView').style.display !== 'none') {
                     renderAdminTable();
@@ -3179,7 +3563,7 @@
         }
 
         // ============================================================
-        // LEADERBOARD FUNCTIONS - No bots
+        // LEADERBOARD FUNCTIONS
         // ============================================================
         
         function getCombinedAvgTime(username) {
@@ -3264,7 +3648,6 @@
                 
                 const displayName = data.displayName || username;
                 
-                // Check if user has completed ALL difficulties
                 let hasAllDifficulties = true;
                 let totalCombinedTime = 0;
                 let totalCount = 0;
@@ -3279,7 +3662,6 @@
                     }
                 });
                 
-                // Only include if they have completed all difficulties
                 if (hasAllDifficulties && totalCount > 0) {
                     const combinedAvg = Math.round(totalCombinedTime / totalCount);
                     
@@ -3335,6 +3717,36 @@
             return entries;
         }
 
+        function getInfiniteLeaderboard() {
+            const allData = getAllUserGameData();
+            const entries = [];
+            
+            Object.keys(allData).forEach(username => {
+                const data = allData[username];
+                const user = users.find(u => u.user === username);
+                if (!user) return;
+                const infBest = data.infiniteBest || { profit: 0, time: 0, rounds: 0 };
+                if (infBest.profit > 0 && infBest.rounds > 0) {
+                    entries.push({
+                        username: username,
+                        displayName: data.displayName || username,
+                        profit: infBest.profit,
+                        rounds: infBest.rounds,
+                        time: infBest.time,
+                        role: user.role,
+                        rank: data.infiniteRank || 0,
+                        isBot: false
+                    });
+                }
+            });
+            
+            entries.sort((a, b) => {
+                if (b.profit !== a.profit) return b.profit - a.profit;
+                return a.rounds - b.rounds;
+            });
+            return entries;
+        }
+
         function renderLeaderboard(difficulty) {
             const container = document.getElementById('leaderboard-content');
             let entries;
@@ -3376,28 +3788,24 @@
                 const rankBadge = rank <= 3 ? rankBadges[index] : '';
                 const displayName = entry.displayName || entry.username;
                 
-                // Determine rank background class and special badges
                 let rankBgClass = '';
                 let specialBadge = '';
+                let displayValue = entry.avgTime + 's';
                 
                 if (difficulty === 'overall') {
-                    // Check for diamond/legendary achievements - reload fresh data to ensure persistence
                     const userData = loadUserGameData(entry.username);
                     const ach = userData.achievements || { champion: 0, diamond: false, legendary: false };
                     const ranks = userData.leaderboardRanks || {};
                     
-                    // Count actual #1 rankings
                     let actualRank1Count = 0;
                     ['baby', 'easy', 'medium', 'hard', 'ultra'].forEach(d => {
                         if (ranks[d] === 1) actualRank1Count++;
                     });
                     const cdRank = userData.cashdashRank || 0;
                     if (cdRank === 1) actualRank1Count++;
+                    const infRank = userData.infiniteRank || 0;
+                    if (infRank === 1) actualRank1Count++;
                     
-                    // Get combined average time
-                    const combinedAvg = getCombinedAvgTime(entry.username);
-                    
-                    // Only show diamond/legendary if they have the actual achievements
                     if (ach.legendary && actualRank1Count >= 3) {
                         rankBgClass = 'overall-legendary';
                         specialBadge = '<span class="overall-badge-legendary">👑 LEGENDARY</span>';
@@ -3417,7 +3825,6 @@
                     else if (rank === 3) rankBgClass = 'rank-bronze';
                 }
                 
-                // Count #1 rankings for badge display - reload fresh data
                 let rank1Count = 0;
                 const userData = loadUserGameData(entry.username);
                 const ranks = userData.leaderboardRanks || {};
@@ -3426,6 +3833,8 @@
                 });
                 const cdRank = userData.cashdashRank || 0;
                 if (cdRank === 1) rank1Count++;
+                const infRank = userData.infiniteRank || 0;
+                if (infRank === 1) rank1Count++;
                 
                 let rank1Badge = '';
                 if (rank1Count >= 3) {
@@ -3435,10 +3844,6 @@
                 } else if (rank1Count >= 1) {
                     rank1Badge = ' 🏆x' + rank1Count;
                 }
-                
-                // Get combined avg for display
-                const combinedAvg = getCombinedAvgTime(entry.username);
-                const displayTime = difficulty === 'overall' ? entry.avgTime : entry.avgTime;
                 
                 html += `
                     <div class="leaderboard-entry ${isCurrentUser ? 'current-user' : ''} ${rankBgClass}">
@@ -3453,7 +3858,7 @@
                             </div>
                             ${difficulty === 'overall' ? `<div style="font-size:11px; color:var(--text-secondary);">${entry.count} missions across all difficulties</div>` : ''}
                         </div>
-                        <div class="time-display">${displayTime}s</div>
+                        <div class="time-display">${displayValue}</div>
                     </div>
                 `;
             });
@@ -3517,6 +3922,7 @@
                                 ${displayName} ${isCurrentUser ? '👤' : ''} ${rankBadge}
                                 ${entry.role === 'Admin' ? '👑' : ''}
                             </div>
+                            <div style="font-size:11px; color:var(--text-secondary);">⏱️ ${entry.time}s</div>
                         </div>
                         <div class="time-display">${profitDisplay}</div>
                     </div>
@@ -3527,6 +3933,75 @@
             container.innerHTML = html;
         }
 
+        function renderInfiniteLeaderboard() {
+            const container = document.getElementById('infinite-leaderboard-content');
+            const entries = getInfiniteLeaderboard();
+            
+            if (entries.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:20px; color:var(--text-secondary);">
+                        <div>No Infinite Mode records yet.</div>
+                        <div style="font-size:14px; margin-top:8px;">Buy an Infinite Mode ticket from the shop to play!</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            const medals = ['🥇', '🥈', '🥉'];
+            const rankClasses = ['gold', 'silver', 'bronze'];
+            
+            let html = `<div style="margin-top:12px;">`;
+            
+            entries.slice(0, 15).forEach((entry, index) => {
+                const rank = index + 1;
+                const isCurrentUser = entry.username === currentUser && !entry.isBot;
+                const medal = rank <= 3 ? medals[index] : '';
+                const rankClass = rank <= 3 ? rankClasses[index] : '';
+                const displayName = entry.displayName || entry.username;
+                
+                let rankBadge = '';
+                if (entry.rank >= 1 && !entry.isBot) {
+                    rankBadge = '<span class="rank-badge rich-bg" style="font-size:10px;">♾️ SPEED</span>';
+                }
+                
+                let entryClass = 'leaderboard-entry';
+                if (isCurrentUser && rank === 1) {
+                    entryClass += ' cashdash-rich-bg';
+                } else if (isCurrentUser) {
+                    entryClass += ' current-user';
+                }
+                
+                if (rank === 1 && !entryClass.includes('cashdash-rich-bg')) {
+                    entryClass += ' rank-champion';
+                } else if (rank === 2) {
+                    entryClass += ' rank-silver';
+                } else if (rank === 3) {
+                    entryClass += ' rank-bronze';
+                }
+                
+                const profitDisplay = entry.profit > 0 ? `$${entry.profit}` : '—';
+                const timeDisplay = entry.time ? ` ⏱️${entry.time}s` : '';
+                
+                html += `
+                    <div class="${entryClass}">
+                        <div class="rank ${rankClass}">${medal || '#' + rank}</div>
+                        <div class="user-info">
+                            <div class="username">
+                                ${displayName} ${isCurrentUser ? '👤' : ''} ${rankBadge}
+                                ${entry.role === 'Admin' ? '👑' : ''}
+                            </div>
+                            <div style="font-size:11px; color:var(--text-secondary);">${entry.rounds} rounds${timeDisplay}</div>
+                        </div>
+                        <div class="time-display">${profitDisplay}</div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        // FIX #3: Leaderboard Rewards now properly triggered
         function checkAndClaimLeaderboardReward(difficulty, rank) {
             const rewardKey = difficulty;
             if (!leaderboardRewards[rewardKey]) {
@@ -3605,6 +4080,950 @@
             }
         });
 
+        // ============================================================
+        // CASH DASH WITH INFINITE MODE
+        // ============================================================
+        const CD_ITEMS = [
+            { id: 'choc', emoji: '🍫', name: 'Chocolate', buy: 2, maxQty: 10 },
+            { id: 'stick', emoji: '🧸', name: 'Stickers', buy: 1, maxQty: 10 },
+            { id: 'pencil', emoji: '✏️', name: 'Pencils', buy: 3, maxQty: 10 },
+            { id: 'laptop', emoji: '💻', name: 'Laptops', buy: 15, maxQty: 5 },
+            { id: 'phone', emoji: '📱', name: 'Phones', buy: 10, maxQty: 5 },
+            { id: 'tv', emoji: '📺', name: 'TVs', buy: 40, maxQty: 3 },
+            { id: 'bike', emoji: '🚲', name: 'Bikes', buy: 50, maxQty: 3 },
+            { id: 'watch', emoji: '⌚', name: 'Watches', buy: 60, maxQty: 2 },
+            { id: 'drone', emoji: '🛸', name: 'Drones', buy: 80, maxQty: 2 },
+            { id: 'car', emoji: '🚗', name: 'Cars', buy: 100, maxQty: 1 },
+        ];
+
+        let cdState = {
+            cash: 10,
+            round: 1,
+            maxRounds: 6,
+            history: [],
+            sellPrices: {},
+            gameActive: false,
+            timerInterval: null,
+            timeLeft: 180,
+            startTime: null,
+            startTimestamp: null,
+            rollsLeft: 5,
+            totalRolls: 0,
+            infiniteMode: false,
+            boostUsed: false,
+            boostActive: false,
+            infiniteTimer: 180,
+            gameEnded: false
+        };
+
+        function cdInitGame() {
+            cdState.infiniteMode = isInfiniteMode;
+            cdState.maxRounds = isInfiniteMode ? Infinity : 6;
+            cdState.rollsLeft = isInfiniteMode ? Infinity : 5;
+            cdState.timeLeft = 180;
+            cdState.boostUsed = false;
+            cdState.boostActive = false;
+            cdState.gameEnded = false;
+            
+            cdState.cash = 10;
+            cdState.round = 1;
+            cdState.history = [];
+            cdState.sellPrices = {};
+            cdState.gameActive = true;
+            cdState.startTimestamp = Date.now();
+            cdState.totalRolls = 0;
+            
+            document.getElementById('cd-cash').textContent = '$10';
+            document.getElementById('cd-round').textContent = '1' + (isInfiniteMode ? ' ♾️' : '/6');
+            document.getElementById('cd-current-cash').textContent = '$10';
+            document.getElementById('cd-profit').textContent = '$0';
+            document.getElementById('cd-price-level').textContent = '—';
+            document.getElementById('cd-execute-round').textContent = '1';
+            document.getElementById('cd-stars').textContent = '☆☆☆☆☆';
+            document.getElementById('cd-execute-btn').disabled = false;
+            document.getElementById('cd-roll-btn').disabled = false;
+            document.getElementById('cd-rolls-left').textContent = isInfiniteMode ? '♾️' : '5';
+            document.getElementById('cd-max-rounds').textContent = isInfiniteMode ? ' ♾️' : '/6';
+            document.getElementById('cd-mode-display').textContent = isInfiniteMode ? '♾️ Infinite' : 'Classic';
+            
+            // Update boost button
+            const boostBtn = document.getElementById('cd-boost-btn');
+            const hasBoost = userInventory.cashdash_boost && userInventory.cashdash_boost > 0;
+            if (hasBoost && !cdState.boostUsed) {
+                boostBtn.disabled = false;
+                boostBtn.textContent = '📊 Use Boost';
+                boostBtn.className = 'boost-btn';
+            } else if (cdState.boostUsed) {
+                boostBtn.disabled = true;
+                boostBtn.textContent = '✅ Used';
+                boostBtn.className = 'boost-btn used';
+            } else {
+                boostBtn.disabled = true;
+                boostBtn.textContent = '📊 No Boost';
+                boostBtn.className = 'boost-btn used';
+            }
+            
+            document.getElementById('cd-timer-container').style.display = 'inline';
+            
+            const card = document.getElementById('cashdash-card');
+            if (isInfiniteMode) {
+                card.classList.add('infinite-mode-active');
+                document.getElementById('cashdash-title').innerHTML = '🎮 Cash Dash <span class="infinite-badge">♾️ INFINITE</span>';
+                document.getElementById('cd-description').textContent = '♾️ INFINITE MODE: Unlimited rounds and rolls! 3 minute timer! Go for the highest profit!';
+                document.getElementById('cd-roll-btn').disabled = false;
+            } else {
+                card.classList.remove('infinite-mode-active');
+                document.getElementById('cashdash-title').innerHTML = '🎮 Cash Dash <span id="infinite-mode-indicator"></span>';
+                document.getElementById('cd-description').textContent = 'Buy items, roll for sell prices, make profit! (5 rolls per round limit)';
+            }
+            
+            cdStartTimer();
+            cdRenderItems();
+            cdUpdateHistory();
+        }
+
+        function cdRenderItems() {
+            const grid = document.getElementById('cd-items-grid');
+            grid.innerHTML = '';
+            
+            CD_ITEMS.forEach(item => {
+                const sellPrice = cdState.sellPrices[item.id] || '?';
+                const buyPrice = item.buy;
+                let percentage = '?';
+                let percentageClass = '';
+                
+                if (sellPrice !== '?') {
+                    const pct = ((sellPrice - buyPrice) / buyPrice * 100);
+                    percentage = pct.toFixed(0) + '%';
+                    percentageClass = pct >= 0 ? '' : 'negative';
+                }
+                
+                const card = document.createElement('div');
+                card.className = 'cashdash-card';
+                card.innerHTML = `
+                    <div class="emoji">${item.emoji}</div>
+                    <div style="font-weight:700; font-size:13px;">${item.name}</div>
+                    <div class="price">Buy: $${buyPrice}</div>
+                    <div class="sub">Sell: $${sellPrice}</div>
+                    ${sellPrice !== '?' ? `<div class="percentage-display ${percentageClass}">${percentage}</div>` : ''}
+                    <div style="margin-top:6px;">
+                        <label style="font-size:12px; color:var(--text-secondary);">Buy:</label>
+                        <input type="number" id="cd-${item.id}-qty" class="cashdash-input" value="0" min="0" max="${item.maxQty}">
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function cdStartTimer() {
+            if (cdState.timerInterval) {
+                clearInterval(cdState.timerInterval);
+            }
+            cdState.timeLeft = 180;
+            cdState.timerInterval = setInterval(() => {
+                if (cdState.gameEnded) {
+                    clearInterval(cdState.timerInterval);
+                    return;
+                }
+                cdState.timeLeft--;
+                const mins = Math.floor(cdState.timeLeft / 60);
+                const secs = cdState.timeLeft % 60;
+                document.getElementById('cd-timer').textContent = 
+                    String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+                
+                if (cdState.timeLeft <= 0) {
+                    clearInterval(cdState.timerInterval);
+                    cdState.gameActive = false;
+                    cdState.gameEnded = true;
+                    document.getElementById('cd-execute-btn').disabled = true;
+                    document.getElementById('cd-roll-btn').disabled = true;
+                    const boostBtn = document.getElementById('cd-boost-btn');
+                    boostBtn.disabled = true;
+                    showFeedback("⏰ Time's up! Check your final profit!", 'success');
+                    cdUpdateStars();
+                    cdSaveBest();
+                }
+            }, 1000);
+        }
+
+        function cdUseBoost() {
+            if (!cdState.gameActive) {
+                showFeedback('Game is not active!', 'danger');
+                return;
+            }
+            if (cdState.boostUsed) {
+                showFeedback('Boost already used this game!', 'danger');
+                return;
+            }
+            if (!userInventory.cashdash_boost || userInventory.cashdash_boost < 1) {
+                showFeedback('You don\'t have any Cash Dash Boosts!', 'danger');
+                return;
+            }
+            
+            // Use the boost
+            cdState.boostUsed = true;
+            cdState.boostActive = true;
+            userInventory.cashdash_boost--;
+            saveUserInventory(currentUser, userInventory);
+            
+            // Update button
+            const boostBtn = document.getElementById('cd-boost-btn');
+            boostBtn.disabled = true;
+            boostBtn.textContent = '✅ Boost Active';
+            boostBtn.className = 'boost-btn used';
+            
+            showFeedback('📊 Boost Activated! Percentage increase will be shown after each round!', 'success');
+        }
+
+        function cdRollPrice() {
+            if (!cdState.gameActive || cdState.gameEnded) {
+                showFeedback('Game is over! Start a new game.', 'danger');
+                return;
+            }
+            if (!cdState.infiniteMode && cdState.rollsLeft <= 0) {
+                showFeedback('No rolls left for this round! Complete the round to get more rolls.', 'danger');
+                return;
+            }
+            
+            CD_ITEMS.forEach(item => {
+                const roll = Math.random();
+                let multiplier;
+                if (roll < 0.25) {
+                    multiplier = 0.5 + Math.random() * 0.5;
+                } else if (roll < 0.65) {
+                    multiplier = 1.01 + Math.random() * 0.99;
+                } else if (roll < 0.93) {
+                    multiplier = 2.01 + Math.random() * 0.99;
+                } else {
+                    multiplier = 3.01 + Math.random() * 0.99;
+                }
+                const sellPrice = Math.round(item.buy * multiplier);
+                cdState.sellPrices[item.id] = sellPrice;
+            });
+            
+            if (!cdState.infiniteMode) {
+                cdState.rollsLeft--;
+                document.getElementById('cd-rolls-left').textContent = cdState.rollsLeft;
+                if (cdState.rollsLeft <= 0) {
+                    document.getElementById('cd-roll-btn').disabled = true;
+                }
+            }
+            cdState.totalRolls++;
+            
+            document.getElementById('cd-price-level').textContent = '✓';
+            cdRenderItems();
+            showFeedback(`🎲 Prices rolled! (${cdState.totalRolls} total rolls)`, 'success');
+        }
+
+        function cdExecuteRound() {
+            if (!cdState.gameActive || cdState.gameEnded) {
+                showFeedback('Game is over! Start a new game.', 'danger');
+                return;
+            }
+            
+            const hasPrices = CD_ITEMS.every(item => cdState.sellPrices[item.id] !== undefined);
+            if (!hasPrices) {
+                showFeedback('Roll the prices first! 🎲', 'danger');
+                return;
+            }
+
+            let totalSpent = 0;
+            let totalRevenue = 0;
+            let itemsBought = [];
+            
+            CD_ITEMS.forEach(item => {
+                const qty = parseInt(document.getElementById(`cd-${item.id}-qty`).value) || 0;
+                if (qty > 0) {
+                    const spent = qty * item.buy;
+                    const revenue = qty * cdState.sellPrices[item.id];
+                    totalSpent += spent;
+                    totalRevenue += revenue;
+                    itemsBought.push(`${qty}${item.emoji}`);
+                }
+            });
+            
+            if (itemsBought.length === 0) {
+                showFeedback('Buy at least 1 item!', 'danger');
+                return;
+            }
+            
+            if (totalSpent > cdState.cash) {
+                showFeedback(`Not enough cash! You have $${cdState.cash}, need $${totalSpent}`, 'danger');
+                return;
+            }
+            
+            cdState.cash = cdState.cash - totalSpent + totalRevenue;
+            const roundProfit = totalRevenue - totalSpent;
+            
+            cdState.history.push({
+                round: cdState.round,
+                items: itemsBought.join(' '),
+                spent: totalSpent,
+                revenue: totalRevenue,
+                cashAfter: cdState.cash,
+                profit: roundProfit
+            });
+
+            cdState.round++;
+            if (!cdState.infiniteMode) {
+                cdState.rollsLeft = 5;
+                document.getElementById('cd-rolls-left').textContent = '5';
+                document.getElementById('cd-roll-btn').disabled = false;
+            }
+            document.getElementById('cd-round').textContent = cdState.round + (cdState.infiniteMode ? ' ♾️' : '/6');
+            document.getElementById('cd-execute-round').textContent = cdState.round;
+            document.getElementById('cd-cash').textContent = '$' + cdState.cash;
+            document.getElementById('cd-current-cash').textContent = '$' + cdState.cash;
+            
+            const totalProfit = cdState.cash - 10;
+            document.getElementById('cd-profit').textContent = '$' + totalProfit;
+            
+            // Show percentage increase if boost is active
+            if (cdState.boostActive) {
+                const percentage = ((totalProfit) / 10 * 100).toFixed(1);
+                showFeedback(`📊 Profit: $${totalProfit} (${percentage}% increase from starting cash)`, 'success');
+            }
+            
+            CD_ITEMS.forEach(item => {
+                document.getElementById(`cd-${item.id}-qty`).value = 0;
+            });
+            cdState.sellPrices = {};
+            document.getElementById('cd-price-level').textContent = '—';
+            cdRenderItems();
+            cdUpdateHistory();
+            cdUpdateStars();
+
+            showFeedback(`✅ Round ${cdState.round-1} complete! Profit: $${roundProfit}`, 'success');
+
+            if (!cdState.infiniteMode && cdState.round > cdState.maxRounds) {
+                cdState.gameActive = false;
+                cdState.gameEnded = true;
+                document.getElementById('cd-execute-btn').disabled = true;
+                document.getElementById('cd-roll-btn').disabled = true;
+                document.getElementById('cd-boost-btn').disabled = true;
+                if (cdState.timerInterval) {
+                    clearInterval(cdState.timerInterval);
+                }
+                const timeTaken = Math.floor((Date.now() - cdState.startTimestamp) / 1000);
+                showFeedback(`🏁 Game Over! Final Profit: $${cdState.cash - 10}! Time: ${timeTaken}s`, 'success');
+                cdSaveBest();
+            }
+        }
+
+        function cdSaveBest() {
+            const profit = cdState.cash - 10;
+            const timeTaken = Math.floor((Date.now() - cdState.startTimestamp) / 1000);
+            
+            if (cdState.infiniteMode) {
+                const rounds = cdState.round - 1;
+                if (profit > infiniteBest.profit || (profit === infiniteBest.profit && rounds > infiniteBest.rounds && profit > 0)) {
+                    infiniteBest = { profit: profit, time: timeTaken, rounds: rounds };
+                    
+                    const data = loadUserGameData(currentUser);
+                    data.infiniteBest = infiniteBest;
+                    
+                    const infEntries = getInfiniteLeaderboard();
+                    const userEntry = infEntries.find(e => e.username === currentUser);
+                    let rank = 0;
+                    if (userEntry) {
+                        rank = infEntries.indexOf(userEntry) + 1;
+                    }
+                    if (rank === 1) {
+                        data.infiniteRank = 1;
+                        if (!userInventory['theme_speed_god']) {
+                            userInventory['theme_speed_god'] = 1;
+                            saveUserInventory(currentUser, userInventory);
+                            showFeedback('⚡ You are the SPEED GOD! Unlocked Speed God theme!', 'success');
+                        }
+                    } else {
+                        data.infiniteRank = rank;
+                    }
+                    
+                    saveUserGameData(currentUser, data);
+                    showFeedback(`♾️ New Infinite Best: $${profit} in ${rounds} rounds (${timeTaken}s)!`, 'success');
+                    
+                    if (document.getElementById('leaderboard-screen').style.display !== 'none') {
+                        renderInfiniteLeaderboard();
+                    }
+                    if (document.getElementById('adminView').style.display !== 'none') {
+                        renderAdminTable();
+                    }
+                }
+            } else {
+                if (profit > cashdashBest.profit || (profit === cashdashBest.profit && timeTaken < cashdashBest.time && profit > 0)) {
+                    cashdashBest = { profit: profit, time: timeTaken };
+                    
+                    const allData = getAllUserGameData();
+                    let isTop1 = true;
+                    Object.keys(allData).forEach(other => {
+                        if (other !== currentUser) {
+                            const otherBest = allData[other].cashdashBest || { profit: 0, time: 0 };
+                            if (otherBest.profit > cashdashBest.profit || 
+                                (otherBest.profit === cashdashBest.profit && otherBest.time < cashdashBest.time && otherBest.profit > 0)) {
+                                isTop1 = false;
+                            }
+                        }
+                    });
+                    
+                    if (isTop1 && cashdashBest.profit > 0) {
+                        cashdashRank = 1;
+                        if (!userInventory['theme_cash']) {
+                            userInventory['theme_cash'] = 1;
+                            saveUserInventory(currentUser, userInventory);
+                            showFeedback('💰 You unlocked the exclusive CASH THEME for being #1 in Cash Dash!', 'success');
+                        }
+                    } else {
+                        cashdashRank = 0;
+                    }
+                    
+                    const data = loadUserGameData(currentUser);
+                    data.cashdashBest = cashdashBest;
+                    data.cashdashRank = cashdashRank;
+                    saveUserGameData(currentUser, data);
+                    
+                    showFeedback(`🏆 New Cash Dash Best: $${profit} in ${timeTaken}s!`, 'success');
+                    if (document.getElementById('leaderboard-screen').style.display !== 'none') {
+                        renderCashdashLeaderboard();
+                    }
+                    if (document.getElementById('adminView').style.display !== 'none') {
+                        renderAdminTable();
+                    }
+                }
+            }
+            checkAndUpdateRanks();
+        }
+
+        function cdUpdateHistory() {
+            const tbody = document.getElementById('cd-history-body');
+            if (cdState.history.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="color:var(--text-secondary);">No transactions yet</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = '';
+            const historyToShow = cdState.infiniteMode ? cdState.history.slice(-20) : cdState.history;
+            historyToShow.forEach(h => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${h.round}</td>
+                    <td>${h.items}</td>
+                    <td>$${h.spent}</td>
+                    <td>$${h.revenue}</td>
+                    <td style="font-weight:bold; color:${h.profit >= 0 ? 'var(--success)' : 'var(--danger)'};">$${h.cashAfter}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cdUpdateStars() {
+            const profit = cdState.cash - 10;
+            let stars = 0;
+            if (profit <= 0) stars = 0;
+            else if (profit <= 5) stars = 1;
+            else if (profit <= 10) stars = 2;
+            else if (profit <= 15) stars = 3;
+            else if (profit <= 20) stars = 4;
+            else stars = 5;
+            
+            document.getElementById('cd-stars').textContent = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+        }
+
+        function cdResetGame() {
+            if (cdState.timerInterval) {
+                clearInterval(cdState.timerInterval);
+            }
+            cdState.gameActive = false;
+            cdState.gameEnded = true;
+            cdInitGame();
+            showFeedback('🔄 Game reset! Start fresh!', 'success');
+        }
+
+        // FIX #10: Fixed Infinite Mode toggle and ticket management
+        function cdToggleInfiniteMode() {
+            if (!isInfiniteMode && (!userInventory.infinite_ticket || userInventory.infinite_ticket < 1)) {
+                showFeedback('♾️ You need an Infinite Mode Ticket from the shop to play Infinite Mode!', 'danger');
+                return;
+            }
+            
+            const wasInfinite = isInfiniteMode;
+            isInfiniteMode = !isInfiniteMode;
+            
+            // Only consume ticket when switching TO infinite mode
+            if (!wasInfinite && isInfiniteMode && userInventory.infinite_ticket && userInventory.infinite_ticket > 0) {
+                userInventory.infinite_ticket--;
+                saveUserInventory(currentUser, userInventory);
+                showFeedback('🎟️ Infinite Mode ticket used!', 'success');
+            }
+            
+            if (cdState.timerInterval) {
+                clearInterval(cdState.timerInterval);
+            }
+            cdState.gameActive = false;
+            cdState.gameEnded = true;
+            cdInitGame();
+            
+            const btn = document.getElementById('cd-toggle-infinite-btn');
+            if (isInfiniteMode) {
+                btn.textContent = '🎮 Switch to Classic';
+                btn.style.background = 'linear-gradient(135deg, #ff6b6b, #cc4444)';
+                btn.style.color = 'white';
+            } else {
+                btn.textContent = '♾️ Toggle Infinite Mode';
+                btn.style.background = 'var(--border-color)';
+                btn.style.color = 'white';
+            }
+            
+            showFeedback(isInfiniteMode ? '♾️ Infinite Mode Activated! Unlimited rounds and rolls! 3 minute timer!' : '🔄 Switched to Classic Mode', 'success');
+        }
+
+        // ============================================================
+        // SHOP FUNCTIONS
+        // ============================================================
+        function renderShop() {
+            const container = document.getElementById('shop-items');
+            container.innerHTML = '';
+            
+            const exclusiveThemes = [
+                { id: 'theme_gold', name: '👑 Gold Theme', desc: '🏆 Champion Exclusive', theme: 'gold', price: 0 },
+                { id: 'theme_silver', name: '🥈 Silver Theme', desc: '🥈 Runner-Up Exclusive', theme: 'silver', price: 0 },
+                { id: 'theme_bronze', name: '🥉 Bronze Theme', desc: '🥉 Bronze Exclusive', theme: 'bronze', price: 0 },
+                { id: 'theme_cash', name: '💰 Cash Theme', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash', price: 0 },
+                { id: 'theme_diamond', name: '💎 Diamond Theme', desc: '💎 Diamond Achievement - 2 #1 Rankings', theme: 'diamond', price: 0 },
+                { id: 'theme_legendary', name: '👑 Legendary Theme', desc: '👑 Legendary Achievement - 3 #1 Rankings', theme: 'legendary', price: 0 },
+                { id: 'theme_speed_god', name: '⚡ Speed God Theme', desc: '⚡ Infinite Mode Champion - #1 in Infinite Mode', theme: 'speed_god', price: 0 }
+            ];
+            
+            const ownedExclusives = exclusiveThemes.filter(item => userInventory[item.id]);
+            if (ownedExclusives.length > 0) {
+                const exclusiveSection = document.createElement('div');
+                exclusiveSection.style.cssText = 'margin-bottom:20px; padding:16px; background:rgba(255,215,0,0.05); border-radius:12px; border:1px solid var(--gold);';
+                exclusiveSection.innerHTML = `
+                    <h3 style="color:var(--gold); margin-bottom:12px;">🏆 Exclusive Rewards</h3>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                        ${ownedExclusives.map(item => `
+                            <button class="theme-btn ${item.theme}" onclick="setTheme('${item.theme}')" style="border-color: var(--accent);">
+                                ${item.emoji} ${item.name}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div style="margin-top:8px; font-size:12px; color:var(--text-secondary);">Earned from leaderboard achievements!</div>
+                `;
+                container.appendChild(exclusiveSection);
+            }
+            
+            const themeSection = document.createElement('div');
+            themeSection.style.cssText = 'margin-bottom:20px;';
+            themeSection.innerHTML = `<h3 style="color:var(--accent); margin-bottom:12px;">🎨 Themes</h3>
+                <div class="theme-selector">
+                    ${SHOP_ITEMS.filter(item => item.type === 'theme').map(item => {
+                        const owned = userInventory[item.id] || (item.price === 0);
+                        const isActive = loadUserGameData(currentUser).currentTheme === item.theme;
+                        return `<button class="theme-btn ${item.theme} ${isActive ? 'active-theme' : ''}" 
+                                    onclick="buyTheme('${item.id}', '${item.theme}')" 
+                                    style="border-color: ${isActive ? 'var(--accent)' : 'var(--border-color)'};">
+                                    ${item.emoji} ${item.name}
+                                    ${owned ? (isActive ? ' ✅' : ' ✓') : ` ${item.price}🪙`}
+                                </button>`;
+                    }).join('')}
+                    <button class="theme-btn speed_god" onclick="setTheme('speed_god')" style="border-color: var(--gold);">
+                        ⚡ Speed God Theme
+                        ${userInventory['theme_speed_god'] ? ' ✅' : ' 🔒'}
+                    </button>
+                </div>
+            `;
+            container.appendChild(themeSection);
+            
+            const itemsSection = document.createElement('div');
+            itemsSection.innerHTML = `<h3 style="color:var(--accent); margin-bottom:12px;">🛍️ Items</h3>`;
+            container.appendChild(itemsSection);
+            
+            SHOP_ITEMS.filter(item => item.type !== 'theme').forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'shop-item';
+                const owned = userInventory[item.id] && userInventory[item.id] > 0;
+                const count = userInventory[item.id] || 0;
+                const canAfford = coins >= item.price;
+                
+                const descText = item.id === 'cashdash_boost' ? `${item.desc} (${owned ? count + ' left' : 'Buy now'})` : item.desc;
+                
+                div.innerHTML = `
+                    <div class="item-info">
+                        <div class="item-name">${item.emoji} ${item.name}
+                            ${owned ? `<span class="item-badge owned">Owned x${count}</span>` : ''}
+                            ${item.id === 'ultra_ticket' ? `<span class="item-badge limited">🔥 Limited</span>` : ''}
+                            ${item.id === 'infinite_ticket' ? `<span class="item-badge limited">♾️ Limited</span>` : ''}
+                            ${item.id === 'cashdash_boost' && owned ? `<span class="item-badge owned">📊 Active</span>` : ''}
+                        </div>
+                        <div class="item-desc">${descText}</div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div class="item-price">${item.price === 0 ? 'FREE' : item.price + ' 🪙'}</div>
+                        <button onclick="buyItem('${item.id}')" ${!canAfford ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+                            ${owned ? 'Buy More' : 'Buy'}
+                        </button>
+                    </div>
+                `;
+                itemsSection.appendChild(div);
+            });
+        }
+
+        function buyTheme(itemId, themeName) {
+            if (!currentUser) {
+                showAuthAlert('Please login to buy themes!');
+                return;
+            }
+            const item = SHOP_ITEMS.find(i => i.id === itemId);
+            if (!item) return;
+            
+            if (userInventory[itemId] || item.price === 0) {
+                setTheme(themeName);
+                return;
+            }
+            
+            if (coins < item.price) {
+                showFeedback(`Not enough coins! Need ${item.price} 🪙`, 'danger');
+                return;
+            }
+            
+            coins -= item.price;
+            userInventory[itemId] = 1;
+            saveGameProgress();
+            renderShop();
+            updateDisplay();
+            setTheme(themeName);
+            showFeedback(`✅ Purchased ${item.name} theme!`, 'success');
+        }
+
+        function buyItem(itemId) {
+            if (!currentUser) {
+                showAuthAlert('Please login to shop!');
+                return;
+            }
+            const item = SHOP_ITEMS.find(i => i.id === itemId);
+            if (!item) return;
+            
+            if (coins < item.price) {
+                showFeedback(`Not enough coins! Need ${item.price} 🪙`, 'danger');
+                return;
+            }
+            
+            coins -= item.price;
+            if (!userInventory[itemId]) userInventory[itemId] = 0;
+            userInventory[itemId]++;
+            saveGameProgress();
+            renderShop();
+            updateDisplay();
+            
+            if (itemId === 'infinite_ticket') {
+                showFeedback(`🎟️ Purchased Infinite Mode Ticket! Use it in Cash Dash to play Infinite Mode!`, 'success');
+            } else if (itemId === 'cashdash_boost') {
+                showFeedback(`📊 Purchased Cash Dash Boost! Click the "Use Boost" button in Cash Dash to activate it!`, 'success');
+            } else {
+                showFeedback(`✅ Purchased ${item.name}!`, 'success');
+            }
+        }
+
+        function renderInventory() {
+            const container = document.getElementById('inventory-content');
+            container.innerHTML = '';
+            
+            const inventoryItems = Object.keys(userInventory).filter(key => userInventory[key] > 0);
+            
+            if (inventoryItems.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:40px; color:var(--text-secondary);">
+                        <div style="font-size:48px; margin-bottom:16px;">📦</div>
+                        <div>Your inventory is empty.</div>
+                        <div style="font-size:14px; margin-top:8px;">Visit the shop to buy items!</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            const itemMap = {};
+            SHOP_ITEMS.forEach(item => {
+                itemMap[item.id] = item;
+            });
+            Object.values(EXCLUSIVE_ITEMS).forEach(item => {
+                itemMap[item.id] = item;
+            });
+            itemMap['theme_diamond'] = { id: 'theme_diamond', name: 'Diamond Theme', emoji: '💎', desc: '💎 Diamond Achievement - 2 #1 Rankings', theme: 'diamond', type: 'theme' };
+            itemMap['theme_legendary'] = { id: 'theme_legendary', name: 'Legendary Theme', emoji: '👑', desc: '👑 Legendary Achievement - 3 #1 Rankings', theme: 'legendary', type: 'theme' };
+            itemMap['theme_cash'] = { id: 'theme_cash', name: 'Cash Theme', emoji: '💰', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash', type: 'theme' };
+            itemMap['theme_speed_god'] = { id: 'theme_speed_god', name: '⚡ Speed God Theme', emoji: '⚡', desc: '⚡ Infinite Mode Champion - #1 in Infinite Mode', theme: 'speed_god', type: 'theme' };
+            
+            let html = `<div class="inventory-grid">`;
+            
+            inventoryItems.forEach(id => {
+                const count = userInventory[id];
+                const item = itemMap[id];
+                if (!item) return;
+                
+                const isTheme = item.type === 'theme' || id.startsWith('theme_');
+                const isExclusive = id === 'theme_gold' || id === 'theme_silver' || id === 'theme_bronze' || id === 'theme_cash' || id === 'theme_diamond' || id === 'theme_legendary' || id === 'theme_speed_god';
+                const emoji = item.emoji || '📦';
+                const name = item.name || id;
+                const desc = item.desc || 'No description';
+                
+                html += `
+                    <div class="inventory-item">
+                        <div class="item-emoji">${emoji}</div>
+                        <div class="item-name">${name}</div>
+                        <div class="item-count">x${count}</div>
+                        <div class="item-desc">${desc}</div>
+                        ${isTheme ? `<div style="margin-top:8px;"><button onclick="setTheme('${item.theme || id.replace('theme_', '')}')" style="padding:6px 12px; font-size:12px; background:var(--primary); color:white; border:none; border-radius:6px; cursor:pointer;">Apply Theme</button></div>` : ''}
+                        ${isExclusive ? `<div style="margin-top:8px; font-size:12px; color:var(--gold);">🏆 Exclusive Reward</div>` : ''}
+                        ${id === 'cashdash_boost' ? `<div style="margin-top:8px; font-size:12px; color:var(--accent);">📊 Click "Use Boost" in Cash Dash to activate (1 use per game)</div>` : ''}
+                        ${id === 'infinite_ticket' ? `<div style="margin-top:8px; font-size:12px; color:#ff6b6b;">♾️ Use to play Infinite Mode in Cash Dash (3 min timer)</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        // ============================================================
+        // SCREEN NAVIGATION
+        // ============================================================
+        function showScreen(screen) {
+            document.querySelectorAll('#game-area > div').forEach(div => div.style.display = 'none');
+            const target = document.getElementById(screen + '-screen');
+            if (target) target.style.display = 'block';
+            
+            document.querySelectorAll('.sidebar .nav-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = Array.from(document.querySelectorAll('.sidebar .nav-btn')).find(btn => btn.getAttribute('onclick').includes(`'${screen}'`));
+            if (activeBtn) activeBtn.classList.add('active');
+            
+            if (screen === 'shop') renderShop();
+            if (screen === 'inventory') renderInventory();
+            if (screen === 'stats') renderStats();
+            if (screen === 'ledger') renderTAccounts();
+            if (screen === 'trialbalance') renderTrialBalance();
+            if (screen === 'mission') updateAvgTimeDisplay();
+            if (screen === 'cashdash') {
+                const btn = document.getElementById('cd-toggle-infinite-btn');
+                if (btn) {
+                    if (isInfiniteMode) {
+                        btn.textContent = '🎮 Switch to Classic';
+                        btn.style.background = 'linear-gradient(135deg, #ff6b6b, #cc4444)';
+                        btn.style.color = 'white';
+                    } else {
+                        btn.textContent = '♾️ Toggle Infinite Mode';
+                        btn.style.background = 'var(--border-color)';
+                        btn.style.color = 'white';
+                    }
+                }
+                cdInitGame();
+            }
+            if (screen === 'leaderboard') {
+                const tabs = document.querySelectorAll('#leaderboard-tabs button');
+                tabs.forEach(b => b.classList.remove('active'));
+                const babyTab = document.querySelector('#leaderboard-tabs button[data-diff="baby"]');
+                if (babyTab) babyTab.classList.add('active');
+                renderLeaderboard('baby');
+                renderCashdashLeaderboard();
+                renderInfiniteLeaderboard();
+            }
+        }
+
+        // ============================================================
+        // TRIAL BALANCE (Reworked from #8)
+        // ============================================================
+        function renderTrialBalance() {
+            const container = document.getElementById('trial-balance-content');
+            
+            if (transactionHistory.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:40px; color:var(--text-secondary);">
+                        <div style="font-size:48px; margin-bottom:16px;">⚖️</div>
+                        <div>Complete a mission first to generate a Trial Balance!</div>
+                        <div style="font-size:14px; margin-top:8px;">The Trial Balance is a list of all accounts with their debit or credit balances.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Calculate balances from all transactions
+            const balances = {};
+            
+            transactionHistory.forEach(mission => {
+                mission.transactions.forEach(entry => {
+                    if (!balances[entry.debit]) balances[entry.debit] = { debit: 0, credit: 0 };
+                    if (!balances[entry.credit]) balances[entry.credit] = { debit: 0, credit: 0 };
+                    
+                    balances[entry.debit].debit += entry.amount;
+                    balances[entry.credit].credit += entry.amount;
+                });
+            });
+
+            // Determine the normal balance for each account type
+            function getNormalBalance(account) {
+                const assetAccounts = ["Cash", "Accounts Receivable", "Equipment", "Prepaid Insurance", "Supplies", 
+                    "Inventory", "Prepaid Rent", "Office Supplies", "Prepaid Advertising", "Notes Receivable",
+                    "Prepaid Expenses", "Merchandise Inventory", "Building", "Land", "Office Furniture"];
+                const expenseAccounts = ["Expense", "Cost of Goods Sold", "Depreciation Expense", "Interest Expense", 
+                    "Bad Debt Expense", "Salary Expense", "Rent Expense"];
+                const liabilityAccounts = ["Accounts Payable", "Unearned Revenue", "Notes Payable", "Accrued Salaries",
+                    "Accrued Interest", "Unearned Service Revenue", "Accrued Expenses", "Bonds Payable", "Bank Overdraft", "Bank Loan"];
+                const equityAccounts = ["Owner's Capital", "Retained Earnings"];
+                const revenueAccounts = ["Service Revenue", "Interest Revenue", "Sales Revenue", "Rent Revenue",
+                    "Bad Debt Recovery", "Gain on Lawsuit Settlement", "Commission Revenue"];
+                const contraAssetAccounts = ["Accumulated Depreciation", "Allowance for Doubtful Accounts"];
+                const contraEquityAccounts = ["Dividends", "Treasury Stock", "Drawings"];
+                
+                if (assetAccounts.includes(account) || expenseAccounts.includes(account)) return "debit";
+                if (liabilityAccounts.includes(account) || equityAccounts.includes(account) || revenueAccounts.includes(account)) return "credit";
+                if (contraAssetAccounts.includes(account)) return "credit";
+                if (contraEquityAccounts.includes(account)) return "debit";
+                return "debit"; // Default
+            }
+
+            let totalDebits = 0;
+            let totalCredits = 0;
+            let rows = '';
+            
+            // Sort accounts alphabetically
+            const sortedAccounts = Object.keys(balances).sort();
+            
+            sortedAccounts.forEach(account => {
+                const data = balances[account];
+                const netBalance = data.debit - data.credit;
+                const normalBalance = getNormalBalance(account);
+                
+                // Determine if this account should show a debit or credit balance
+                let displayDebit = 0;
+                let displayCredit = 0;
+                
+                if (netBalance > 0) {
+                    if (normalBalance === "debit") {
+                        displayDebit = netBalance;
+                    } else {
+                        displayCredit = Math.abs(netBalance);
+                    }
+                } else if (netBalance < 0) {
+                    if (normalBalance === "credit") {
+                        displayCredit = Math.abs(netBalance);
+                    } else {
+                        displayDebit = Math.abs(netBalance);
+                    }
+                }
+                
+                // If the account has a normal credit balance but net debit, we show it as credit
+                // This is the proper accounting treatment
+                if (normalBalance === "debit") {
+                    displayDebit = Math.max(0, netBalance);
+                    displayCredit = Math.max(0, -netBalance);
+                } else {
+                    displayCredit = Math.max(0, -netBalance);
+                    displayDebit = Math.max(0, netBalance);
+                }
+                
+                // Special case: zero balance
+                if (netBalance === 0) {
+                    displayDebit = 0;
+                    displayCredit = 0;
+                }
+                
+                totalDebits += displayDebit;
+                totalCredits += displayCredit;
+                
+                const hasBalance = displayDebit > 0 || displayCredit > 0;
+                if (!hasBalance) return;
+                
+                const accountType = getAccountType(account);
+                const typeColors = {
+                    'Asset': '#4ade80',
+                    'Liability': '#f87171',
+                    'Equity': '#60a5fa',
+                    'Revenue': '#fbbf24',
+                    'Expense': '#f472b6',
+                    'Account': '#94a3b8'
+                };
+                
+                rows += `
+                    <tr>
+                        <td style="padding:10px; font-weight:600; color:${typeColors[accountType] || '#e2e8f0'};">${account}</td>
+                        <td style="padding:10px; text-align:right; color:${displayDebit > 0 ? '#4ade80' : '#94a3b8'};">
+                            ${displayDebit > 0 ? '$' + displayDebit.toFixed(2) : '—'}
+                        </td>
+                        <td style="padding:10px; text-align:right; color:${displayCredit > 0 ? '#f87171' : '#94a3b8'};">
+                            ${displayCredit > 0 ? '$' + displayCredit.toFixed(2) : '—'}
+                        </td>
+                        <td style="padding:10px; text-align:center; font-size:12px; color:var(--text-secondary);">
+                            <span style="background:rgba(15,23,42,0.8); padding:2px 10px; border-radius:12px;">${accountType}</span>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            const isBalanced = Math.abs(totalDebits - totalCredits) < 0.01;
+            
+            let html = `
+                <div style="overflow-x:auto;">
+                    <table class="trial-balance-table">
+                        <thead>
+                            <tr>
+                                <th style="padding:10px;">Account</th>
+                                <th style="padding:10px; text-align:right; color:#4ade80;">Debit</th>
+                                <th style="padding:10px; text-align:right; color:#f87171;">Credit</th>
+                                <th style="padding:10px; text-align:center;">Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows || '<tr><td colspan="4" style="text-align:center; color:var(--text-secondary); padding:20px;">No accounts with balances yet.</td></tr>'}
+                            <tr class="total-row">
+                                <td style="padding:10px; font-size:18px;">TOTAL</td>
+                                <td style="padding:10px; text-align:right; font-size:18px; color:#4ade80;">
+                                    $${totalDebits.toFixed(2)}
+                                </td>
+                                <td style="padding:10px; text-align:right; font-size:18px; color:#f87171;">
+                                    $${totalCredits.toFixed(2)}
+                                </td>
+                                <td style="padding:10px; text-align:center;">
+                                    <span class="${isBalanced ? 'balanced' : 'unbalanced'}" style="font-weight:700; font-size:16px;">
+                                        ${isBalanced ? '✅ BALANCED' : '❌ NOT BALANCED'}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px; padding:16px; background:rgba(15,23,42,0.8); border-radius:12px; border:2px solid ${isBalanced ? 'var(--success)' : 'var(--danger)'};">
+                    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+                        <div>
+                            <span style="color:var(--text-secondary);">Total Debits:</span>
+                            <span style="color:#4ade80; font-weight:700; font-size:18px;">$${totalDebits.toFixed(2)}</span>
+                        </div>
+                        <div>
+                            <span style="color:var(--text-secondary);">Total Credits:</span>
+                            <span style="color:#f87171; font-weight:700; font-size:18px;">$${totalCredits.toFixed(2)}</span>
+                        </div>
+                        <div>
+                            <span style="color:var(--text-secondary);">Difference:</span>
+                            <span style="font-weight:700; font-size:18px; color:${isBalanced ? 'var(--success)' : 'var(--danger)'};">
+                                $${Math.abs(totalDebits - totalCredits).toFixed(2)}
+                            </span>
+                        </div>
+                        <div>
+                            <span style="color:var(--text-secondary);">Status:</span>
+                            <span style="font-weight:700; font-size:18px; color:${isBalanced ? 'var(--success)' : 'var(--danger)'};">
+                                ${isBalanced ? '⚖️ BALANCED' : '⚠️ OUT OF BALANCE'}
+                            </span>
+                        </div>
+                    </div>
+                    <div style="margin-top:12px; font-size:13px; color:var(--text-secondary); text-align:center;">
+                        📊 The Trial Balance ensures that total debits equal total credits. 
+                        ${isBalanced ? '✅ Your books are in balance!' : '❌ There is a discrepancy that needs to be investigated.'}
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // ============================================================
+        // MISSION FUNCTIONS (Full implementation)
+        // ============================================================
         const ALL_ACCOUNTS = [
             "Cash", "Accounts Receivable", "Equipment", "Accumulated Depreciation",
             "Prepaid Insurance", "Supplies", "Inventory", "Prepaid Rent",
@@ -3622,22 +5041,26 @@
             "Bank Loan", "Commission Revenue"
         ];
 
+        // FIX #7: Improved account type detection
         function getAccountType(account) {
             const assetAccounts = ["Cash", "Accounts Receivable", "Equipment", "Prepaid Insurance", "Supplies", 
                 "Inventory", "Prepaid Rent", "Office Supplies", "Prepaid Advertising", "Notes Receivable",
-                "Prepaid Expenses", "Merchandise Inventory", "Building", "Land", "Allowance for Doubtful Accounts",
-                "Accumulated Depreciation", "Office Furniture", "Drawings"];
+                "Prepaid Expenses", "Merchandise Inventory", "Building", "Land", "Office Furniture"];
+            const contraAssetAccounts = ["Accumulated Depreciation", "Allowance for Doubtful Accounts"];
             const liabilityAccounts = ["Accounts Payable", "Unearned Revenue", "Notes Payable", "Accrued Salaries",
                 "Accrued Interest", "Unearned Service Revenue", "Accrued Expenses", "Bonds Payable", "Bank Overdraft", "Bank Loan"];
-            const equityAccounts = ["Owner's Capital", "Dividends", "Retained Earnings", "Treasury Stock"];
+            const equityAccounts = ["Owner's Capital", "Retained Earnings"];
+            const contraEquityAccounts = ["Dividends", "Treasury Stock", "Drawings"];
             const revenueAccounts = ["Service Revenue", "Interest Revenue", "Sales Revenue", "Rent Revenue",
                 "Bad Debt Recovery", "Gain on Lawsuit Settlement", "Commission Revenue"];
-            const expenseAccounts = ["Expense", "Cost of Goods Sold", "Depreciation Expense", "Interest Expense", "Bad Debt Expense",
-                "Salary Expense", "Rent Expense"];
+            const expenseAccounts = ["Expense", "Cost of Goods Sold", "Depreciation Expense", "Interest Expense", 
+                "Bad Debt Expense", "Salary Expense", "Rent Expense"];
             
             if (assetAccounts.includes(account)) return "Asset";
+            if (contraAssetAccounts.includes(account)) return "Contra-Asset";
             if (liabilityAccounts.includes(account)) return "Liability";
             if (equityAccounts.includes(account)) return "Equity";
+            if (contraEquityAccounts.includes(account)) return "Contra-Equity";
             if (revenueAccounts.includes(account)) return "Revenue";
             if (expenseAccounts.includes(account)) return "Expense";
             return "Account";
@@ -3823,6 +5246,7 @@
             });
         }
 
+        // Initialize pools
         buildBabyPool();
         buildEasyPool();
         buildMediumPool();
@@ -3834,6 +5258,7 @@
             return match ? parseInt(match[1]) : null;
         }
 
+        // FIX #6: Fixed version system to properly generate new versions
         function generateDailyTransactions(day, difficulty, version) {
             const diffCode = difficulty === 'baby' ? 3 : difficulty === 'easy' ? 7 : difficulty === 'medium' ? 13 : difficulty === 'hard' ? 23 : 31;
             const seed = day * 7919 + version * 6271 + diffCode * 5437;
@@ -3868,11 +5293,15 @@
             
             const numTransactions = difficulty === 'baby' ? 2 : difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : difficulty === 'hard' ? 5 : 6;
             
-            const trackerKey = `${difficulty}_${version}`;
+            // Use a version-specific tracker to ensure different versions get different scenarios
+            const trackerKey = `${difficulty}`;
             if (!usedScenarioTracker[trackerKey]) {
-                usedScenarioTracker[trackerKey] = new Set();
+                usedScenarioTracker[trackerKey] = {};
             }
-            const usedSet = usedScenarioTracker[trackerKey];
+            if (!usedScenarioTracker[trackerKey][version]) {
+                usedScenarioTracker[trackerKey][version] = new Set();
+            }
+            const usedSet = usedScenarioTracker[trackerKey][version];
             
             const uniqueScenarios = [];
             const seenPairs = new Set();
@@ -3884,8 +5313,10 @@
                 }
             }
             
+            // Shuffle with version-specific seed
             const shuffledPool = shuffleArray(uniqueScenarios, version * 97 + day * 83);
             
+            // Filter out used scenarios for this version
             const availableScenarios = shuffledPool.filter(s => {
                 const key = `${s.debit}|${s.credit}`;
                 return !usedSet.has(key);
@@ -3893,19 +5324,20 @@
             
             let selectedScenarios;
             if (availableScenarios.length < numTransactions) {
-                usedScenarioTracker[trackerKey] = new Set();
+                // If we've used all scenarios, reset for this version
+                usedScenarioTracker[trackerKey][version] = new Set();
                 const resetAvailable = shuffledPool.filter(s => {
                     const key = `${s.debit}|${s.credit}`;
                     return !usedSet.has(key);
                 });
                 selectedScenarios = resetAvailable.slice(0, numTransactions);
                 selectedScenarios.forEach(s => {
-                    usedScenarioTracker[trackerKey].add(`${s.debit}|${s.credit}`);
+                    usedScenarioTracker[trackerKey][version].add(`${s.debit}|${s.credit}`);
                 });
             } else {
                 selectedScenarios = availableScenarios.slice(0, numTransactions);
                 selectedScenarios.forEach(s => {
-                    usedScenarioTracker[trackerKey].add(`${s.debit}|${s.credit}`);
+                    usedScenarioTracker[trackerKey][version].add(`${s.debit}|${s.credit}`);
                 });
             }
             
@@ -3956,12 +5388,32 @@
                     d.classList.add('selected');
                     selectedDate = day;
                     document.getElementById('selected-date').textContent = `Selected: June ${day}, 2026`;
+                    // Clear version cache when selecting a new date
                     versionCache = {};
                     usedScenarioTracker = {};
                     updateAvgTimeDisplay();
+                    // Reset difficulty selection highlight
+                    document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
                 };
                 cal.appendChild(d);
             }
+        }
+
+        // FIX #13: Difficulty selection highlight
+        function selectDifficulty(diff) {
+            // Check if date is selected
+            if (!selectedDate) {
+                showFeedback("Please select a date first!", "danger");
+                return;
+            }
+            
+            // Highlight the selected difficulty
+            document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('selected'));
+            const btn = document.querySelector(`.difficulty-btn.${diff}`);
+            if (btn) btn.classList.add('selected');
+            
+            // Start the mission
+            startMission(diff);
         }
 
         function updateAvgTimeDisplay() {
@@ -3986,6 +5438,11 @@
             journal = [];
             playerEntries = {};
             transactions = [];
+            // Reset retry state
+            missionRetryState = { retrying: false, originalDay: null, originalDiff: null, originalVersion: null };
+            // Reset mistakes and attempts for new mission
+            incorrectAttempts = 0;
+            mistakes = {};
             showScreen('mission');
             document.querySelectorAll('.day').forEach(el => el.classList.remove('selected'));
             selectedDate = null;
@@ -3994,6 +5451,8 @@
             document.getElementById('mission-content').style.display = 'none';
             updateAvgTimeDisplay();
             usedScenarioTracker = {};
+            // Clear difficulty highlights
+            document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
         }
 
         function startMission(diff) {
@@ -4004,17 +5463,21 @@
             
             if (diff === 'ultra' && (!userInventory.ultra_ticket || userInventory.ultra_ticket < 1)) {
                 showFeedback('🔥 You need an Ultra Challenge Ticket from the shop to play Ultra difficulty!', 'danger');
+                document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
                 return;
             }
             
             if (!selectedDate) {
                 showFeedback("Please select a date first!", "danger");
+                document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
                 return;
             }
             
             currentDifficulty = diff;
             currentDay = selectedDate;
             currentDiff = diff;
+            
+            // Generate a new version - use a random version 1-3
             currentVersion = Math.floor(Math.random() * 3) + 1;
             
             const cacheKey = `${selectedDate}_${diff}`;
@@ -4056,8 +5519,14 @@
             missionSubmitted = false;
             editingId = null;
             startTime = Date.now();
+            // Reset mistakes and attempts
             incorrectAttempts = 0;
             mistakes = {};
+            // Clear any existing timer
+            if (missionTimerInterval) {
+                clearInterval(missionTimerInterval);
+                missionTimerInterval = null;
+            }
             renderTransactions();
             renderJournal();
             updateJournalBalance();
@@ -4074,6 +5543,30 @@
             versionCache = {};
             usedScenarioTracker = {};
             updateAvgTimeDisplay();
+            // Clear difficulty highlights
+            document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
+        }
+
+        // FIX #4: Fixed explanation function with proper transaction lookup
+        function showExplanation(transactionId, wasCorrect) {
+            // Find the transaction by its unique ID
+            const t = transactions.find(tr => tr.id === transactionId);
+            if (!t) {
+                showFeedback("Transaction not found!", "danger");
+                return;
+            }
+            document.getElementById('explain-title').textContent = `Transaction - ${wasCorrect ? '✅ Correct' : '❌ Wrong'}`;
+            let explanationText = t.explanation || 'No detailed explanation available.';
+            // Add extra context if the transaction was wrong
+            if (!wasCorrect) {
+                const recorded = journal.find(j => j.id === transactionId);
+                if (recorded) {
+                    explanationText += `<br><br><strong>Your entry:</strong> Dr ${recorded.debit} / Cr ${recorded.credit} $${recorded.amount}`;
+                    explanationText += `<br><strong>Correct entry:</strong> Dr ${t.correctDebit} / Cr ${t.correctCredit} $${t.amount}`;
+                }
+            }
+            document.getElementById('explain-body').innerHTML = explanationText;
+            document.getElementById('explain-modal').style.display = 'flex';
         }
 
         function renderTransactions() {
@@ -4090,19 +5583,24 @@
                 const div = document.createElement('div');
                 let isIncorrect = false;
                 if (recorded && missionSubmitted) {
-                    isIncorrect = !(recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === t.amount);
+                    const descAmount = extractAmountFromDesc(t.desc);
+                    const correctAmount = descAmount !== null ? descAmount : t.amount;
+                    isIncorrect = !(recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === correctAmount);
                 }
                 div.className = `transaction ${isRecorded ? 'recorded' : ''} ${isIncorrect ? 'incorrect' : ''}`;
                 
                 let html = `<div style="flex:1;min-width:180px;"><strong>Transaction ${index + 1}:</strong><br><span>${t.desc}</span></div>`;
 
                 if (isRecorded && !isEditing) {
+                    const descAmount = extractAmountFromDesc(t.desc);
+                    const correctAmount = descAmount !== null ? descAmount : t.amount;
+                    const isCorrect = recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === correctAmount;
                     html += `<div style="flex:1;min-width:200px;"><div style="background:rgba(15,23,42,0.8);padding:12px;border-radius:8px;">Recorded: ${recorded.debit} (Dr) / ${recorded.credit} (Cr) $${recorded.amount}</div>`;
                     if (missionSubmitted) {
-                        const correct = recorded.debit === t.correctDebit && recorded.credit === t.correctCredit && recorded.amount === t.amount;
-                        html += `<div class="correct-answer" style="margin-top:10px;color:${correct ? '#4ade80' : '#f87171'}">
-                            <strong>${correct ? '✅ Correct' : '❌ Wrong'}</strong>
-                            ${!correct ? `<br><small style="color:var(--text-secondary);">Correct: Dr ${t.correctDebit} / Cr ${t.correctCredit}</small>` : ''}
+                        html += `<div class="correct-answer" style="margin-top:10px;color:${isCorrect ? '#4ade80' : '#f87171'}">
+                            <strong>${isCorrect ? '✅ Correct' : '❌ Wrong'}</strong>
+                            ${!isCorrect ? `<br><small style="color:var(--text-secondary);">Correct: Dr ${t.correctDebit} / Cr ${t.correctCredit}</small>` : ''}
+                            ${!isCorrect ? `<button onclick="showExplanation(${t.id}, false)" class="explain-btn" style="margin-top:8px; padding:6px 14px; font-size:13px;">📖 Learn</button>` : ''}
                         </div>`;
                     } else {
                         html += `<button onclick="startEdit(${t.id})" class="edit-btn" style="margin-top:10px;">✏️ Edit</button>`;
@@ -4118,23 +5616,22 @@
                         <div style="flex:1;min-width:280px;">
                             <div class="entry-form">
                                 <div><div class="entry-label">Debit Account</div>
-                                    <select onchange="updateEntry(${t.id},this)">
+                                    <select onchange="updateEntry(${t.id},this)" id="debit-select-${t.id}">
                                         <option value="">Select</option>
                                         ${accountOptions}
                                     </select>
                                 </div>
                                 <div><div class="entry-label">Credit Account</div>
-                                    <select onchange="updateEntry(${t.id},this)">
+                                    <select onchange="updateEntry(${t.id},this)" id="credit-select-${t.id}">
                                         <option value="">Select</option>
                                         ${accountOptions}
                                     </select>
                                 </div>
                                 <div><div class="entry-label">Amount</div>
-                                    <input type="number" value="${cur.amount||''}" onchange="updateEntry(${t.id},this)" style="width:100%">
+                                    <input type="number" value="${cur.amount||''}" onchange="updateEntry(${t.id},this)" style="width:100%" id="amount-input-${t.id}">
                                 </div>
                                 <div style="display:flex;align-items:flex-end;gap:6px;">
                                     <button onclick="saveEntry(${t.id})" style="white-space:nowrap;">${isEditing ? 'Save' : 'Record'}</button>
-                                    <button class="hint-btn" onclick="showAnswer(${t.id})" aria-label="Show answer"></button>
                                 </div>
                             </div>
                         </div>`;
@@ -4144,24 +5641,7 @@
             });
         }
 
-        function showAnswer(id) {
-            const t = transactions.find(tr => tr.id === id);
-            if (!t) return;
-            const descAmount = extractAmountFromDesc(t.desc);
-            const displayAmount = descAmount !== null ? descAmount : t.amount;
-            document.getElementById('answer-body').innerHTML = `
-                <p><strong>Transaction:</strong> ${t.desc}</p>
-                <p><strong>Correct Debit:</strong> ${t.correctDebit}</p>
-                <p><strong>Correct Credit:</strong> ${t.correctCredit}</p>
-                <p><strong>Amount:</strong> $${displayAmount}</p>
-                <div style="margin-top:15px;padding-top:15px;border-top:1px solid var(--border-color);text-align:left;">
-                    <h4 style="color:var(--accent);">📚 Explanation</h4>
-                    <p style="color:var(--text-secondary);line-height:1.6;">${t.explanation || 'No detailed explanation available.'}</p>
-                </div>
-            `;
-            document.getElementById('answer-modal').style.display = 'flex';
-        }
-
+        // FIX #9: Fixed timer tracking - properly track elapsed time
         function updateEntry(id, el) {
             if (!playerEntries[id]) playerEntries[id] = {};
             if (el.tagName === "SELECT") {
@@ -4273,6 +5753,7 @@
             });
         }
 
+        // FIX #8: Reworked journal balance to show meaningful accounting information
         function updateJournalBalance() {
             const container = document.getElementById('journal-balance');
             if (!container) return;
@@ -4286,20 +5767,58 @@
 
             let totalDebits = 0;
             let totalCredits = 0;
+            let accountBalances = {};
             
             journal.forEach(entry => {
                 totalDebits += entry.amount;
                 totalCredits += entry.amount;
+                
+                if (!accountBalances[entry.debit]) accountBalances[entry.debit] = 0;
+                if (!accountBalances[entry.credit]) accountBalances[entry.credit] = 0;
+                accountBalances[entry.debit] += entry.amount;
+                accountBalances[entry.credit] -= entry.amount;
             });
             
             const isBalanced = totalDebits === totalCredits;
             
+            // Get top 5 accounts by balance
+            const sortedAccounts = Object.entries(accountBalances)
+                .filter(([_, bal]) => bal !== 0)
+                .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
+                .slice(0, 5);
+            
+            let topAccountsHtml = '';
+            if (sortedAccounts.length > 0) {
+                topAccountsHtml = `
+                    <div style="margin-top:12px; padding:12px; background:rgba(15,23,42,0.6); border-radius:8px;">
+                        <div style="font-size:13px; color:var(--text-secondary); margin-bottom:6px;">📊 Top 5 Account Balances:</div>
+                        ${sortedAccounts.map(([account, balance]) => `
+                            <div style="display:flex; justify-content:space-between; padding:2px 0; font-size:14px; border-bottom:1px solid rgba(71,85,105,0.3);">
+                                <span>${account}</span>
+                                <span style="color:${balance > 0 ? '#4ade80' : '#f87171'}; font-weight:600;">
+                                    ${balance > 0 ? 'Dr' : 'Cr'} $${Math.abs(balance).toFixed(2)}
+                                </span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
             container.innerHTML = `
-                <div class="balance-display" style="border-color:#475569;">
+                <div class="balance-display" style="border-color:${isBalanced ? 'var(--success)' : 'var(--danger)'};">
                     <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
                         <span>Total Debits: <strong style="color:#4ade80;">$${totalDebits.toFixed(2)}</strong></span>
                         <span>Total Credits: <strong style="color:#f87171;">$${totalCredits.toFixed(2)}</strong></span>
-                        ${!isBalanced ? '<span style="color:#f87171;font-weight:bold;">❌ NOT BALANCED</span>' : '<span style="color:#4ade80;font-weight:bold;">✅ BALANCED</span>'}
+                        <span style="font-weight:bold; color:${isBalanced ? 'var(--success)' : 'var(--danger)'};">
+                            ${isBalanced ? '✅ BALANCED' : '❌ NOT BALANCED'}
+                        </span>
+                        <span style="font-size:13px; color:var(--text-secondary);">
+                            ${journal.length} entries recorded
+                        </span>
+                    </div>
+                    ${topAccountsHtml}
+                    <div style="margin-top:10px; font-size:12px; color:var(--text-secondary); text-align:center; border-top:1px solid var(--border-color); padding-top:8px;">
+                        💡 The journal is balanced when total debits equal total credits.
                     </div>
                 </div>
             `;
@@ -4352,10 +5871,14 @@
             missionSubmitted = true;
             lastMissionJournal = [...journal];
             
+            // FIX #9: Properly capture elapsed time
+            const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+            
             const missionRecord = {
                 date: new Date().toISOString(),
                 difficulty: currentDifficulty,
                 version: currentVersion,
+                timeTaken: timeTaken,
                 transactions: journal.map(j => ({
                     desc: j.desc,
                     debit: j.debit,
@@ -4366,8 +5889,7 @@
             transactionHistory.push(missionRecord);
             saveGameProgress();
 
-            const timeTaken = Math.floor((Date.now() - startTime) / 1000);
-            
+            // Update time tracking
             if (currentDifficulty && timeData[currentDifficulty]) {
                 timeData[currentDifficulty].totalTime += timeTaken;
                 timeData[currentDifficulty].count++;
@@ -4394,11 +5916,6 @@
             const finalScore = Math.max(0, score - penalty);
             
             let coinMultiplier = 1;
-            if (userInventory.coin_boost && userInventory.coin_boost > 0) {
-                coinMultiplier = 1.5;
-                userInventory.coin_boost--;
-                showFeedback('🧲 Coin Magnet activated! 50% more coins!', 'success');
-            }
             
             const diffMultiplier = currentDifficulty === 'baby' ? 0.5 : currentDifficulty === 'easy' ? 1 : currentDifficulty === 'medium' ? 2 : currentDifficulty === 'hard' ? 3 : 5;
             const baseExp = Math.floor((5 + diffMultiplier * 3) * (finalScore / 100));
@@ -4419,6 +5936,9 @@
 
             renderResults(timeTaken, score, finalScore, expEarned, coinEarned, leveledUp, avgTime, bestTime);
             showScreen('results');
+            
+            // FIX #3: Check and claim leaderboard rewards after mission completion
+            checkAndClaimLeaderboardReward(currentDifficulty, getLeaderboardRank(currentDifficulty));
             
             const message = finalScore === 100 ? "🌟 PERFECT DAY!" : 
                            finalScore >= 80 ? "👍 Good job!" : 
@@ -4444,6 +5964,16 @@
             `);
         }
 
+        // Helper function to get leaderboard rank
+        function getLeaderboardRank(difficulty) {
+            const entries = getLeaderboard(difficulty);
+            const userEntry = entries.find(e => e.username === currentUser);
+            if (userEntry) {
+                return entries.indexOf(userEntry) + 1;
+            }
+            return 0;
+        }
+
         function renderResults(timeTaken, score, finalScore, expEarned, coinEarned, leveledUp, avgTime, bestTime) {
             const container = document.getElementById('results-list');
             container.innerHTML = '';
@@ -4459,6 +5989,7 @@
                             return `<div style="padding:8px 0;border-bottom:1px solid var(--border-color);">
                                 <strong>Transaction:</strong> ${t ? t.desc : 'Unknown'}<br>
                                 <span style="color:#f87171;">Attempted ${count} time${count > 1 ? 's' : ''} incorrectly</span>
+                                <button onclick="showExplanation(${id}, false)" class="explain-btn" style="margin-top:4px; padding:4px 12px; font-size:12px;">📖 Learn</button>
                             </div>`;
                         }).join('')}
                     </div>
@@ -4500,7 +6031,7 @@
                                 Correct: Dr ${t.correctDebit} / Cr ${t.correctCredit}
                             </div>
                         </div>
-                        <button class="explain-btn" onclick="showExplanation(${t.id}, ${isCorrect})">📖 Explanation</button>
+                        <button onclick="showExplanation(${t.id}, ${isCorrect})" class="explain-btn">📖 Explanation</button>
                     </div>`;
                 const div = document.createElement('div');
                 div.innerHTML = html;
@@ -4533,8 +6064,12 @@
             container.appendChild(statsDiv);
         }
 
+        // FIX #5: Properly reset mistakes on retry
         function retryMission() {
             missionSubmitted = false;
+            // Reset mistakes and attempts for retry
+            incorrectAttempts = 0;
+            mistakes = {};
             document.getElementById('setup-card').style.display = 'none';
             document.getElementById('mission-content').style.display = 'block';
             resetMission();
@@ -4569,13 +6104,15 @@
                         type: 'debit',
                         amount: entry.amount,
                         desc: entry.desc,
-                        date: mission.date
+                        date: mission.date,
+                        timeTaken: mission.timeTaken || 0
                     });
                     accountTransactions[entry.credit].push({
                         type: 'credit',
                         amount: entry.amount,
                         desc: entry.desc,
-                        date: mission.date
+                        date: mission.date,
+                        timeTaken: mission.timeTaken || 0
                     });
                     
                     if (!balances[entry.debit]) balances[entry.debit] = 0;
@@ -4655,15 +6192,6 @@
 
         function showTips() { document.getElementById('tips-modal').style.display = 'flex'; }
         function closeTipsModal() { document.getElementById('tips-modal').style.display = 'none'; }
-        
-        function showExplanation(id, wasCorrect) {
-            const t = transactions.find(tr => tr.id === id);
-            if (!t) return;
-            document.getElementById('explain-title').textContent = `Transaction - ${wasCorrect ? '✅ Correct' : '❌ Wrong'}`;
-            document.getElementById('explain-body').innerHTML = t.explanation || 'No detailed explanation available.';
-            document.getElementById('explain-modal').style.display = 'flex';
-        }
-        
         function closeExplainModal() { document.getElementById('explain-modal').style.display = 'none'; }
 
         function showModal(title, text) {
@@ -4673,213 +6201,20 @@
         }
         function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-        function renderShop() {
-            const container = document.getElementById('shop-items');
-            container.innerHTML = '';
-            
-            const exclusiveThemes = [
-                { id: 'theme_gold', name: '👑 Gold Theme', desc: '🏆 Champion Exclusive', theme: 'gold', price: 0 },
-                { id: 'theme_silver', name: '🥈 Silver Theme', desc: '🥈 Runner-Up Exclusive', theme: 'silver', price: 0 },
-                { id: 'theme_bronze', name: '🥉 Bronze Theme', desc: '🥉 Bronze Exclusive', theme: 'bronze', price: 0 },
-                { id: 'theme_cash', name: '💰 Cash Theme', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash', price: 0 },
-                { id: 'theme_diamond', name: '💎 Diamond Theme', desc: '💎 Diamond Achievement - 2 #1 Rankings', theme: 'diamond', price: 0 },
-                { id: 'theme_legendary', name: '👑 Legendary Theme', desc: '👑 Legendary Achievement - 3 #1 Rankings', theme: 'legendary', price: 0 }
-            ];
-            
-            const ownedExclusives = exclusiveThemes.filter(item => userInventory[item.id]);
-            if (ownedExclusives.length > 0) {
-                const exclusiveSection = document.createElement('div');
-                exclusiveSection.style.cssText = 'margin-bottom:20px; padding:16px; background:rgba(255,215,0,0.05); border-radius:12px; border:1px solid var(--gold);';
-                exclusiveSection.innerHTML = `
-                    <h3 style="color:var(--gold); margin-bottom:12px;">🏆 Exclusive Rewards</h3>
-                    <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                        ${ownedExclusives.map(item => `
-                            <button class="theme-btn ${item.theme}" onclick="setTheme('${item.theme}')" style="border-color: var(--accent);">
-                                ${item.emoji || '👑'} ${item.name}
-                            </button>
-                        `).join('')}
-                    </div>
-                    <div style="margin-top:8px; font-size:12px; color:var(--text-secondary);">Earned from leaderboard achievements!</div>
-                `;
-                container.appendChild(exclusiveSection);
-            }
-            
-            const themeSection = document.createElement('div');
-            themeSection.style.cssText = 'margin-bottom:20px;';
-            themeSection.innerHTML = `<h3 style="color:var(--accent); margin-bottom:12px;">🎨 Themes</h3>
-                <div class="theme-selector">
-                    ${SHOP_ITEMS.filter(item => item.type === 'theme').map(item => {
-                        const owned = userInventory[item.id] || (item.price === 0);
-                        const isActive = loadUserGameData(currentUser).currentTheme === item.theme;
-                        return `<button class="theme-btn ${item.theme} ${isActive ? 'active-theme' : ''}" 
-                                    onclick="buyTheme('${item.id}', '${item.theme}')" 
-                                    style="border-color: ${isActive ? 'var(--accent)' : 'var(--border-color)'};">
-                                    ${item.emoji} ${item.name}
-                                    ${owned ? (isActive ? ' ✅' : ' ✓') : ` ${item.price}🪙`}
-                                </button>`;
-                    }).join('')}
-                </div>
-            `;
-            container.appendChild(themeSection);
-            
-            const itemsSection = document.createElement('div');
-            itemsSection.innerHTML = `<h3 style="color:var(--accent); margin-bottom:12px;">🛍️ Items</h3>`;
-            container.appendChild(itemsSection);
-            
-            SHOP_ITEMS.filter(item => item.type !== 'theme').forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'shop-item';
-                const owned = userInventory[item.id] && userInventory[item.id] > 0;
-                const count = userInventory[item.id] || 0;
-                const canAfford = coins >= item.price;
-                
-                div.innerHTML = `
-                    <div class="item-info">
-                        <div class="item-name">${item.emoji} ${item.name}
-                            ${owned ? `<span class="item-badge owned">Owned x${count}</span>` : ''}
-                            ${item.id === 'ultra_ticket' ? `<span class="item-badge limited">🔥 Limited</span>` : ''}
-                        </div>
-                        <div class="item-desc">${item.desc}</div>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <div class="item-price">${item.price === 0 ? 'FREE' : item.price + ' 🪙'}</div>
-                        <button onclick="buyItem('${item.id}')" ${!canAfford ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
-                            ${owned ? 'Buy More' : 'Buy'}
-                        </button>
-                    </div>
-                `;
-                itemsSection.appendChild(div);
-            });
+        // ============================================================
+        // SHOW FEEDBACK
+        // ============================================================
+        function showFeedback(text, type) {
+            const fb = document.getElementById('feedback');
+            fb.textContent = text;
+            fb.style.display = 'block';
+            fb.style.background = type === 'success' ? '#10b981' : '#ef4444';
+            setTimeout(() => fb.style.display = 'none', 2500);
         }
 
-        function buyTheme(itemId, themeName) {
-            if (!currentUser) {
-                showAuthAlert('Please login to buy themes!');
-                return;
-            }
-            const item = SHOP_ITEMS.find(i => i.id === itemId);
-            if (!item) return;
-            
-            if (userInventory[itemId] || item.price === 0) {
-                setTheme(themeName);
-                return;
-            }
-            
-            if (coins < item.price) {
-                showFeedback(`Not enough coins! Need ${item.price} 🪙`, 'danger');
-                return;
-            }
-            
-            coins -= item.price;
-            userInventory[itemId] = 1;
-            saveGameProgress();
-            renderShop();
-            updateDisplay();
-            setTheme(themeName);
-            showFeedback(`✅ Purchased ${item.name} theme!`, 'success');
-        }
-
-        function buyItem(itemId) {
-            if (!currentUser) {
-                showAuthAlert('Please login to shop!');
-                return;
-            }
-            const item = SHOP_ITEMS.find(i => i.id === itemId);
-            if (!item) return;
-            
-            if (coins < item.price) {
-                showFeedback(`Not enough coins! Need ${item.price} 🪙`, 'danger');
-                return;
-            }
-            
-            coins -= item.price;
-            if (!userInventory[itemId]) userInventory[itemId] = 0;
-            userInventory[itemId]++;
-            saveGameProgress();
-            renderShop();
-            updateDisplay();
-            showFeedback(`✅ Purchased ${item.name}!`, 'success');
-        }
-
-        function renderInventory() {
-            const container = document.getElementById('inventory-content');
-            container.innerHTML = '';
-            
-            const inventoryItems = Object.keys(userInventory).filter(key => userInventory[key] > 0);
-            
-            if (inventoryItems.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align:center; padding:40px; color:var(--text-secondary);">
-                        <div style="font-size:48px; margin-bottom:16px;">📦</div>
-                        <div>Your inventory is empty.</div>
-                        <div style="font-size:14px; margin-top:8px;">Visit the shop to buy items!</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            const itemMap = {};
-            SHOP_ITEMS.forEach(item => {
-                itemMap[item.id] = item;
-            });
-            Object.values(EXCLUSIVE_ITEMS).forEach(item => {
-                itemMap[item.id] = item;
-            });
-            itemMap['theme_diamond'] = { id: 'theme_diamond', name: 'Diamond Theme', emoji: '💎', desc: '💎 Diamond Achievement - 2 #1 Rankings', theme: 'diamond', type: 'theme' };
-            itemMap['theme_legendary'] = { id: 'theme_legendary', name: 'Legendary Theme', emoji: '👑', desc: '👑 Legendary Achievement - 3 #1 Rankings', theme: 'legendary', type: 'theme' };
-            itemMap['theme_cash'] = { id: 'theme_cash', name: 'Cash Theme', emoji: '💰', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash', type: 'theme' };
-            
-            let html = `<div class="inventory-grid">`;
-            
-            inventoryItems.forEach(id => {
-                const count = userInventory[id];
-                const item = itemMap[id];
-                if (!item) return;
-                
-                const isTheme = item.type === 'theme' || id.startsWith('theme_');
-                const isExclusive = id === 'theme_gold' || id === 'theme_silver' || id === 'theme_bronze' || id === 'theme_cash' || id === 'theme_diamond' || id === 'theme_legendary';
-                const emoji = item.emoji || '📦';
-                const name = item.name || id;
-                const desc = item.desc || 'No description';
-                
-                html += `
-                    <div class="inventory-item">
-                        <div class="item-emoji">${emoji}</div>
-                        <div class="item-name">${name}</div>
-                        <div class="item-count">x${count}</div>
-                        <div class="item-desc">${desc}</div>
-                        ${isTheme ? `<div style="margin-top:8px;"><button onclick="setTheme('${item.theme || id.replace('theme_', '')}')" style="padding:6px 12px; font-size:12px; background:var(--primary); color:white; border:none; border-radius:6px; cursor:pointer;">Apply Theme</button></div>` : ''}
-                        ${isExclusive ? `<div style="margin-top:8px; font-size:12px; color:var(--gold);">🏆 Exclusive Reward</div>` : ''}
-                    </div>
-                `;
-            });
-            
-            html += `</div>`;
-            container.innerHTML = html;
-        }
-
-        function showScreen(screen) {
-            document.querySelectorAll('#game-area > div').forEach(div => div.style.display = 'none');
-            document.getElementById(screen + '-screen').style.display = 'block';
-            document.querySelectorAll('.sidebar .nav-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = Array.from(document.querySelectorAll('.sidebar .nav-btn')).find(btn => btn.getAttribute('onclick').includes(`'${screen}'`));
-            if (activeBtn) activeBtn.classList.add('active');
-            if (screen === 'shop') renderShop();
-            if (screen === 'inventory') renderInventory();
-            if (screen === 'stats') renderStats();
-            if (screen === 'ledger') renderTAccounts();
-            if (screen === 'mission') updateAvgTimeDisplay();
-            if (screen === 'cashdash') cdInitGame();
-            if (screen === 'leaderboard') {
-                const tabs = document.querySelectorAll('#leaderboard-tabs button');
-                tabs.forEach(b => b.classList.remove('active'));
-                const babyTab = document.querySelector('#leaderboard-tabs button[data-diff="baby"]');
-                if (babyTab) babyTab.classList.add('active');
-                renderLeaderboard('baby');
-                renderCashdashLeaderboard();
-            }
-        }
-
+        // ============================================================
+        // STATS RENDER
+        // ============================================================
         function renderStats() {
             const container = document.getElementById('stats-content');
             
@@ -4940,8 +6275,9 @@
                 
                 const rankDisplay = displayRank > 0 ? `#${displayRank}` : '—';
                 const diffLabel = diff === 'overall' ? 'Overall' : diffNames[diff];
+                const borderColor = displayRank === 1 ? 'var(--gold)' : displayRank === 2 ? 'var(--silver)' : displayRank === 3 ? 'var(--bronze)' : 'var(--border-color)';
                 rankingHtml += `
-                    <div style="background:rgba(15,23,42,0.8); padding:8px 12px; border-radius:8px; text-align:center; border:1px solid ${displayRank === 1 ? 'var(--gold)' : displayRank === 2 ? 'var(--silver)' : displayRank === 3 ? 'var(--bronze)' : 'var(--border-color)'};">
+                    <div style="background:rgba(15,23,42,0.8); padding:8px 12px; border-radius:8px; text-align:center; border:1px solid ${borderColor};">
                         <div style="font-size:14px; color:var(--text-secondary);">${diffLabel}</div>
                         <div style="font-size:20px; font-weight:bold; color:${displayRank === 1 ? 'var(--gold)' : displayRank === 2 ? 'var(--silver)' : displayRank === 3 ? 'var(--bronze)' : 'var(--text-secondary)'};">${rankDisplay}</div>
                     </div>
@@ -4956,6 +6292,17 @@
             }
             const cdRankDisplay = cdRank > 0 ? `#${cdRank}` : '—';
             const isCdTop1 = cdRank === 1;
+            
+            // Infinite mode stat
+            const infEntries = getInfiniteLeaderboard();
+            const infUserEntry = infEntries.find(e => e.username === currentUser);
+            let infRankDisplay = '—';
+            let infProfitDisplay = '—';
+            if (infUserEntry) {
+                const rank = infEntries.indexOf(infUserEntry) + 1;
+                infRankDisplay = `#${rank}`;
+                infProfitDisplay = `$${infUserEntry.profit} (${infUserEntry.rounds} rounds, ${infUserEntry.time}s)`;
+            }
             
             let rankBadge = '';
             if (achievements.legendary) {
@@ -5006,6 +6353,12 @@
                         <div style="font-size:22px; font-weight:bold; color:var(--gold);">${cashdashBest.profit > 0 ? `$${cashdashBest.profit} (${cashdashBest.time}s)` : '—'}</div>
                         ${rankBadge ? `<div style="margin-top:4px;">${rankBadge}</div>` : ''}
                     </div>
+                    <div style="background:rgba(30,41,59,0.8); padding:20px; border-radius:12px; text-align:center; border:2px solid #ffd700;">
+                        <div style="color:var(--text-secondary); font-size:14px;">♾️ Infinite Best</div>
+                        <div style="font-size:22px; font-weight:bold; color:#ffd700;">${infiniteBest.profit > 0 ? `$${infiniteBest.profit}` : '—'}</div>
+                        <div style="font-size:13px; color:var(--text-secondary);">${infiniteBest.profit > 0 ? `${infiniteBest.rounds} rounds • ${infiniteBest.time}s` : ''}</div>
+                        <div style="font-size:13px; color:var(--text-secondary);">Rank: ${infRankDisplay}</div>
+                    </div>
                 </div>
                 
                 <div style="margin-top:20px; padding:20px; background:rgba(30,41,59,0.8); border-radius:12px;">
@@ -5030,6 +6383,10 @@
                             <div style="font-size:20px;">💰 Cash Dash Rank</div>
                             <div style="font-size:28px; font-weight:bold; color:var(--gold);">${cdRankDisplay}</div>
                         </div>
+                        <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center; border:2px solid #ffd700;">
+                            <div style="font-size:20px;">♾️ Infinite Rank</div>
+                            <div style="font-size:28px; font-weight:bold; color:#ffd700;">${infRankDisplay}</div>
+                        </div>
                     </div>
                 </div>
                 
@@ -5053,6 +6410,7 @@
                                     }
                                     return null;
                                 }).filter(Boolean).join('') || 'No rankings yet'}
+                                ${infiniteRank > 0 ? `<div>♾️ Infinite: #${infiniteRank} (${infiniteRank === 1 ? '10pts' : infiniteRank === 2 ? '5pts' : '3pts'})</div>` : ''}
                             </div>
                         </div>
                     </div>
@@ -5067,362 +6425,12 @@
                         💡 Faster times indicate better mastery of the material! 🏆 Top 3 get exclusive rewards!
                     </div>
                 </div>
-                
-                <div style="margin-top:20px; padding:20px; background:rgba(30,41,59,0.8); border-radius:12px;">
-                    <h3 style="margin-bottom:10px;">📊 Reward System</h3>
-                    <p style="color:var(--text-secondary);">Your rewards are based on your accuracy score. Higher accuracy = more coins and EXP!</p>
-                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px; margin-top:12px;">
-                        <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center;">
-                            <div style="color:#4ade80; font-size:20px;">🎯</div>
-                            <div style="font-size:14px; color:var(--text-secondary);">Accuracy</div>
-                            <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round((missionsCompleted / (missionsCompleted + incorrectAttempts)) * 100) : 0}%</div>
-                        </div>
-                        <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center;">
-                            <div style="color:#f1c40f; font-size:20px;">🪙</div>
-                            <div style="font-size:14px; color:var(--text-secondary);">Avg Coins/Mission</div>
-                            <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round(coins / missionsCompleted) : 0}</div>
-                        </div>
-                        <div style="background:rgba(15,23,42,0.8); padding:12px; border-radius:8px; text-align:center;">
-                            <div style="color:var(--exp-color); font-size:20px;">⭐</div>
-                            <div style="font-size:14px; color:var(--text-secondary);">Avg EXP/Mission</div>
-                            <div style="font-size:18px; font-weight:bold;">${missionsCompleted > 0 ? Math.round(exp / missionsCompleted) : 0}</div>
-                        </div>
-                    </div>
-                </div>
             `;
         }
 
-        function showFeedback(text, type) {
-            const fb = document.getElementById('feedback');
-            fb.textContent = text;
-            fb.style.display = 'block';
-            fb.style.background = type === 'success' ? '#10b981' : '#ef4444';
-            setTimeout(() => fb.style.display = 'none', 2500);
-        }
-
         // ============================================================
-        // CASH DASH MINI-GAME - 6 ROUNDS WITH 5 ROLLS PER ROUND
+        // INIT
         // ============================================================
-        const CD_ITEMS = [
-            { id: 'choc', emoji: '🍫', name: 'Chocolate', buy: 2, maxQty: 10 },
-            { id: 'stick', emoji: '🧸', name: 'Stickers', buy: 1, maxQty: 10 },
-            { id: 'pencil', emoji: '✏️', name: 'Pencils', buy: 3, maxQty: 10 },
-            { id: 'laptop', emoji: '💻', name: 'Laptops', buy: 15, maxQty: 5 },
-            { id: 'phone', emoji: '📱', name: 'Phones', buy: 10, maxQty: 5 },
-            { id: 'tv', emoji: '📺', name: 'TVs', buy: 40, maxQty: 3 },
-            { id: 'bike', emoji: '🚲', name: 'Bikes', buy: 50, maxQty: 3 },
-            { id: 'watch', emoji: '⌚', name: 'Watches', buy: 60, maxQty: 2 },
-            { id: 'drone', emoji: '🛸', name: 'Drones', buy: 80, maxQty: 2 },
-            { id: 'car', emoji: '🚗', name: 'Cars', buy: 100, maxQty: 1 },
-        ];
-
-        let cdState = {
-            cash: 10,
-            round: 1,
-            maxRounds: 6,
-            history: [],
-            sellPrices: {},
-            gameActive: false,
-            timerInterval: null,
-            timeLeft: 300,
-            startTime: null,
-            startTimestamp: null,
-            rollsLeft: 5,
-            totalRolls: 0
-        };
-
-        function cdInitGame() {
-            cdState.cash = 10;
-            cdState.round = 1;
-            cdState.history = [];
-            cdState.sellPrices = {};
-            cdState.gameActive = true;
-            cdState.timeLeft = 300;
-            cdState.startTimestamp = Date.now();
-            cdState.rollsLeft = 5;
-            cdState.totalRolls = 0;
-            
-            document.getElementById('cd-cash').textContent = '$10';
-            document.getElementById('cd-round').textContent = '1/6';
-            document.getElementById('cd-current-cash').textContent = '$10';
-            document.getElementById('cd-profit').textContent = '$0';
-            document.getElementById('cd-price-level').textContent = '—';
-            document.getElementById('cd-execute-round').textContent = '1';
-            document.getElementById('cd-stars').textContent = '☆☆☆☆☆';
-            document.getElementById('cd-execute-btn').disabled = false;
-            document.getElementById('cd-roll-btn').disabled = false;
-            document.getElementById('cd-rolls-left').textContent = '5';
-            
-            cdRenderItems();
-            cdUpdateHistory();
-            cdStartTimer();
-        }
-
-        function cdRenderItems() {
-            const grid = document.getElementById('cd-items-grid');
-            grid.innerHTML = '';
-            
-            CD_ITEMS.forEach(item => {
-                const sellPrice = cdState.sellPrices[item.id] || '?';
-                const card = document.createElement('div');
-                card.className = 'cashdash-card';
-                card.innerHTML = `
-                    <div class="emoji">${item.emoji}</div>
-                    <div style="font-weight:700; font-size:13px;">${item.name}</div>
-                    <div class="price">Buy: $${item.buy}</div>
-                    <div class="sub">Sell: $${sellPrice}</div>
-                    <div style="margin-top:6px;">
-                        <label style="font-size:12px; color:var(--text-secondary);">Buy:</label>
-                        <input type="number" id="cd-${item.id}-qty" class="cashdash-input" value="0" min="0" max="${item.maxQty}">
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function cdStartTimer() {
-            if (cdState.timerInterval) {
-                clearInterval(cdState.timerInterval);
-            }
-            cdState.timerInterval = setInterval(() => {
-                cdState.timeLeft--;
-                const mins = Math.floor(cdState.timeLeft / 60);
-                const secs = cdState.timeLeft % 60;
-                document.getElementById('cd-timer').textContent = 
-                    String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-                
-                if (cdState.timeLeft <= 0) {
-                    clearInterval(cdState.timerInterval);
-                    cdState.gameActive = false;
-                    document.getElementById('cd-execute-btn').disabled = true;
-                    document.getElementById('cd-roll-btn').disabled = true;
-                    showFeedback("⏰ Time's up! Check your final profit!", 'success');
-                    cdUpdateStars();
-                    cdSaveBest();
-                }
-            }, 1000);
-        }
-
-        function cdRollPrice() {
-            if (!cdState.gameActive) {
-                showFeedback('Game is over! Start a new game.', 'danger');
-                return;
-            }
-            if (cdState.rollsLeft <= 0) {
-                showFeedback('No rolls left for this round! Complete the round to get more rolls.', 'danger');
-                return;
-            }
-            
-            CD_ITEMS.forEach(item => {
-                const roll = Math.random();
-                let multiplier;
-                if (roll < 0.25) {
-                    multiplier = 0.5 + Math.random() * 0.5;
-                } else if (roll < 0.65) {
-                    multiplier = 1.01 + Math.random() * 0.99;
-                } else if (roll < 0.93) {
-                    multiplier = 2.01 + Math.random() * 0.99;
-                } else {
-                    multiplier = 3.01 + Math.random() * 0.99;
-                }
-                const sellPrice = Math.round(item.buy * multiplier);
-                cdState.sellPrices[item.id] = sellPrice;
-            });
-            
-            cdState.rollsLeft--;
-            cdState.totalRolls++;
-            document.getElementById('cd-rolls-left').textContent = cdState.rollsLeft;
-            if (cdState.rollsLeft <= 0) {
-                document.getElementById('cd-roll-btn').disabled = true;
-            }
-            
-            document.getElementById('cd-price-level').textContent = '✓';
-            cdRenderItems();
-            showFeedback(`🎲 Prices rolled! (${cdState.totalRolls}/30 total rolls)`, 'success');
-        }
-
-        function cdExecuteRound() {
-            if (!cdState.gameActive) {
-                showFeedback('Game is over! Start a new game.', 'danger');
-                return;
-            }
-            if (cdState.round > cdState.maxRounds) {
-                showFeedback('All rounds complete! Check your final profit!', 'danger');
-                return;
-            }
-            
-            const hasPrices = CD_ITEMS.every(item => cdState.sellPrices[item.id] !== undefined);
-            if (!hasPrices) {
-                showFeedback('Roll the prices first! 🎲', 'danger');
-                return;
-            }
-
-            let totalSpent = 0;
-            let totalRevenue = 0;
-            let itemsBought = [];
-            
-            CD_ITEMS.forEach(item => {
-                const qty = parseInt(document.getElementById(`cd-${item.id}-qty`).value) || 0;
-                if (qty > 0) {
-                    const spent = qty * item.buy;
-                    const revenue = qty * cdState.sellPrices[item.id];
-                    totalSpent += spent;
-                    totalRevenue += revenue;
-                    itemsBought.push(`${qty}${item.emoji}`);
-                }
-            });
-            
-            if (itemsBought.length === 0) {
-                showFeedback('Buy at least 1 item!', 'danger');
-                return;
-            }
-            
-            if (totalSpent > cdState.cash) {
-                showFeedback(`Not enough cash! You have $${cdState.cash}, need $${totalSpent}`, 'danger');
-                return;
-            }
-            
-            cdState.cash = cdState.cash - totalSpent + totalRevenue;
-            const roundProfit = totalRevenue - totalSpent;
-            
-            cdState.history.push({
-                round: cdState.round,
-                items: itemsBought.join(' '),
-                spent: totalSpent,
-                revenue: totalRevenue,
-                cashAfter: cdState.cash,
-                profit: roundProfit
-            });
-
-            cdState.round++;
-            cdState.rollsLeft = 5;
-            document.getElementById('cd-rolls-left').textContent = '5';
-            document.getElementById('cd-roll-btn').disabled = false;
-            document.getElementById('cd-round').textContent = cdState.round + '/6';
-            document.getElementById('cd-execute-round').textContent = cdState.round;
-            document.getElementById('cd-cash').textContent = '$' + cdState.cash;
-            document.getElementById('cd-current-cash').textContent = '$' + cdState.cash;
-            
-            const totalProfit = cdState.cash - 10;
-            document.getElementById('cd-profit').textContent = '$' + totalProfit;
-            
-            CD_ITEMS.forEach(item => {
-                document.getElementById(`cd-${item.id}-qty`).value = 0;
-            });
-            cdState.sellPrices = {};
-            document.getElementById('cd-price-level').textContent = '—';
-            cdRenderItems();
-            cdUpdateHistory();
-            cdUpdateStars();
-
-            showFeedback(`✅ Round ${cdState.round-1} complete! Profit: $${roundProfit}`, 'success');
-
-            if (cdState.round > cdState.maxRounds) {
-                cdState.gameActive = false;
-                document.getElementById('cd-execute-btn').disabled = true;
-                document.getElementById('cd-roll-btn').disabled = true;
-                clearInterval(cdState.timerInterval);
-                const timeTaken = Math.floor((Date.now() - cdState.startTimestamp) / 1000);
-                showFeedback(`🏁 Game Over! Final Profit: $${cdState.cash - 10}! Time: ${timeTaken}s`, 'success');
-                cdSaveBest();
-            }
-        }
-
-        function cdSaveBest() {
-            const profit = cdState.cash - 10;
-            const timeTaken = Math.floor((Date.now() - cdState.startTimestamp) / 1000);
-            if (profit > cashdashBest.profit || (profit === cashdashBest.profit && timeTaken < cashdashBest.time && profit > 0)) {
-                cashdashBest = { profit: profit, time: timeTaken };
-                
-                const allData = getAllUserGameData();
-                let isTop1 = true;
-                let top1Profit = 0;
-                Object.keys(allData).forEach(other => {
-                    if (other !== currentUser) {
-                        const otherBest = allData[other].cashdashBest || { profit: 0, time: 0 };
-                        if (otherBest.profit > cashdashBest.profit || 
-                            (otherBest.profit === cashdashBest.profit && otherBest.time < cashdashBest.time && otherBest.profit > 0)) {
-                            isTop1 = false;
-                        }
-                        if (otherBest.profit > top1Profit) top1Profit = otherBest.profit;
-                    }
-                });
-                
-                if (isTop1 && cashdashBest.profit > 0) {
-                    cashdashRank = 1;
-                    
-                    if (!userInventory['theme_cash']) {
-                        userInventory['theme_cash'] = 1;
-                        saveUserInventory(currentUser, userInventory);
-                        showFeedback('💰 You unlocked the exclusive CASH THEME for being #1 in Cash Dash!', 'success');
-                    }
-                } else {
-                    cashdashRank = 0;
-                }
-                
-                const data = loadUserGameData(currentUser);
-                data.cashdashBest = cashdashBest;
-                data.cashdashRank = cashdashRank;
-                saveUserGameData(currentUser, data);
-                
-                let rankMsg = '';
-                if (cashdashRank >= 1) {
-                    rankMsg = '💰 RICH RANK!';
-                }
-                
-                showFeedback(`🏆 New Cash Dash Best: $${profit} in ${timeTaken}s! ${rankMsg}`, 'success');
-                if (document.getElementById('leaderboard-screen').style.display !== 'none') {
-                    renderCashdashLeaderboard();
-                }
-                if (document.getElementById('adminView').style.display !== 'none') {
-                    renderAdminTable();
-                }
-                checkAndUpdateRanks();
-            }
-        }
-
-        function cdUpdateHistory() {
-            const tbody = document.getElementById('cd-history-body');
-            if (cdState.history.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="color:var(--text-secondary);">No transactions yet</td></tr>`;
-                return;
-            }
-            tbody.innerHTML = '';
-            cdState.history.forEach(h => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${h.round}</td>
-                    <td>${h.items}</td>
-                    <td>$${h.spent}</td>
-                    <td>$${h.revenue}</td>
-                    <td style="font-weight:bold; color:${h.profit >= 0 ? 'var(--success)' : 'var(--danger)'};">$${h.cashAfter}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function cdUpdateStars() {
-            const profit = cdState.cash - 10;
-            let stars = 0;
-            if (profit <= 0) stars = 0;
-            else if (profit <= 5) stars = 1;
-            else if (profit <= 10) stars = 2;
-            else if (profit <= 15) stars = 3;
-            else if (profit <= 20) stars = 4;
-            else stars = 5;
-            
-            document.getElementById('cd-stars').textContent = '★'.repeat(stars) + '☆'.repeat(5 - stars);
-        }
-
-        function cdResetGame() {
-            if (cdState.timerInterval) {
-                clearInterval(cdState.timerInterval);
-            }
-            cdState.gameActive = false;
-            cdInitGame();
-            showFeedback('🔄 Game reset! Start fresh!', 'success');
-        }
-
         function renderAllGameContent() {
             generateCalendar();
             updateDisplay();
@@ -5430,10 +6438,12 @@
             renderInventory();
             renderStats();
             renderTAccounts();
+            renderTrialBalance();
             applyTheme();
             updateAvgTimeDisplay();
             renderLeaderboard('baby');
             renderCashdashLeaderboard();
+            renderInfiniteLeaderboard();
             updateDisplayNameUI();
             startHiddenTimer();
             startLeaderboardCheck();
@@ -5456,7 +6466,6 @@
                 renderAllGameContent();
                 updateAdminButton();
                 updateDisplayNameUI();
-                // Run initial points check
                 setTimeout(() => updateLeaderboardPoints(), 1000);
             } else {
                 showView('login');
