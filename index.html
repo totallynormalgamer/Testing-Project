@@ -1559,7 +1559,12 @@
 
                 <div id="leaderboard-screen" style="display:none;">
                     <div class="card">
-                        <h2>🏆 Leaderboard</h2>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:16px;">
+                            <h2 style="margin:0;">🏆 Leaderboard</h2>
+                            <button onclick="forceLeaderboardCheck()" class="nav-btn" style="background:var(--accent); color:black; padding:8px 20px; font-size:14px;">
+                                🔄 Refresh Rankings
+                            </button>
+                        </div>
                         <p style="color:var(--text-secondary); margin-bottom:16px;">Compete for the fastest times and highest earnings!</p>
                         
                         <div class="leaderboard-tabs" id="leaderboard-tabs">
@@ -3287,9 +3292,41 @@
         });
 
         // ============================================================
-        // LEADERBOARD POINTS SYSTEM
+        // LEADERBOARD POINTS SYSTEM - WITH DYNAMIC RANK CHANGE HANDLING
         // ============================================================
         
+        // Helper to check if a user holds a specific rank on any difficulty
+        function userHasRank(username, rankToCheck, excludeDiff) {
+            const allData = getAllUserGameData();
+            const userData = allData[username];
+            if (!userData) return false;
+            
+            const difficulties = ['baby', 'easy', 'medium', 'hard', 'ultra'];
+            
+            // Check each difficulty
+            for (const diff of difficulties) {
+                if (diff === excludeDiff) continue;
+                const entries = getLeaderboard(diff);
+                const userEntry = entries.find(e => e.username === username);
+                if (userEntry) {
+                    const rank = entries.indexOf(userEntry) + 1;
+                    if (rank === rankToCheck) return true;
+                }
+            }
+            
+            // Also check Overall
+            if (excludeDiff !== 'overall') {
+                const overallEntries = getOverallLeaderboard();
+                const userEntry = overallEntries.find(e => e.username === username);
+                if (userEntry) {
+                    const rank = overallEntries.indexOf(userEntry) + 1;
+                    if (rank === rankToCheck) return true;
+                }
+            }
+            
+            return false;
+        }
+
         function updateLeaderboardPoints() {
             const difficulties = ['baby', 'easy', 'medium', 'hard', 'ultra'];
             const allData = getAllUserGameData();
@@ -3298,39 +3335,45 @@
             difficulties.forEach(diff => {
                 const entries = getLeaderboard(diff);
                 
-                const top3 = [];
+                // Build top 3 map for current rankings
+                const top3Map = {};
                 entries.slice(0, 3).forEach((entry, index) => {
                     const rank = index + 1;
                     let pointsEarned = 0;
                     if (rank === 1) pointsEarned = 10;
                     else if (rank === 2) pointsEarned = 5;
                     else if (rank === 3) pointsEarned = 3;
-                    
-                    top3.push({
-                        username: entry.username,
-                        rank: rank,
-                        points: pointsEarned
-                    });
+                    top3Map[entry.username] = { rank: rank, points: pointsEarned };
                 });
                 
                 users.forEach(user => {
                     const username = user.user;
-                    
                     const userData = allData[username];
                     if (!userData) return;
                     
-                    const rankHistory = userData.rankHistory || { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
+                    const rankHistory = userData.rankHistory || { 
+                        baby: {rank:0, pointsEarned:0}, 
+                        easy: {rank:0, pointsEarned:0}, 
+                        medium: {rank:0, pointsEarned:0}, 
+                        hard: {rank:0, pointsEarned:0}, 
+                        ultra: {rank:0, pointsEarned:0},
+                        overall: {rank:0, pointsEarned:0}
+                    };
+                    
                     const previousRank = rankHistory[diff]?.rank || 0;
                     const previousPoints = rankHistory[diff]?.pointsEarned || 0;
                     
-                    const current = top3.find(t => t.username === username);
+                    const current = top3Map[username];
                     const currentRank = current ? current.rank : 0;
                     const currentPoints = current ? current.points : 0;
                     
+                    // Check if rank changed
                     if (previousRank !== currentRank || previousPoints !== currentPoints) {
+                        // Remove previous points if any
                         if (previousRank > 0 && previousRank <= 3) {
                             userData.points = (userData.points || 0) - previousPoints;
                         }
+                        // Add new points if any
                         if (currentRank > 0 && currentRank <= 3) {
                             userData.points = (userData.points || 0) + currentPoints;
                         }
@@ -3341,49 +3384,81 @@
                         };
                         userData.rankHistory = rankHistory;
                         
+                        // Handle rank background removal - remove old rank theme if user no longer holds that rank
+                        if (previousRank > 0 && previousRank <= 3 && previousRank !== currentRank) {
+                            const themeMap = { 1: 'theme_gold', 2: 'theme_silver', 3: 'theme_bronze' };
+                            const themeId = themeMap[previousRank];
+                            if (themeId && userInventory[themeId]) {
+                                // Check if user still holds this rank on any other difficulty
+                                const stillHasRank = userHasRank(username, previousRank, diff);
+                                if (!stillHasRank) {
+                                    // Remove the theme from inventory
+                                    delete userInventory[themeId];
+                                    saveUserInventory(username, userInventory);
+                                    if (username === currentUser) {
+                                        showFeedback(`Removed ${themeId.replace('theme_', '')} theme (no longer rank ${previousRank})`, 'danger');
+                                    }
+                                }
+                            }
+                        }
+                        
                         updated = true;
                         saveUserGameData(username, userData);
                         
+                        // Show feedback for rank changes (only for current user)
                         if (username === currentUser) {
-                            if (currentRank > 0 && currentRank <= 3) {
-                                const medal = currentRank === 1 ? '🥇' : currentRank === 2 ? '🥈' : '🥉';
-                                const title = currentRank === 1 ? 'Champion' : currentRank === 2 ? 'Runner-Up' : 'Bronze';
-                                showFeedback(`${medal} You are now #${currentRank} on the ${diff} leaderboard! (+${currentPoints} points)`, 'success');
+                            let message = '';
+                            if (previousRank > 0 && previousRank <= 3 && currentRank > 0 && currentRank <= 3) {
+                                const oldEmoji = previousRank === 1 ? '🥇' : previousRank === 2 ? '🥈' : '🥉';
+                                const newEmoji = currentRank === 1 ? '🥇' : currentRank === 2 ? '🥈' : '🥉';
+                                const pointDiff = currentPoints - previousPoints;
+                                const sign = pointDiff >= 0 ? '+' : '';
+                                message = `${oldEmoji} Rank ${previousRank} → ${newEmoji} Rank ${currentRank} on ${diff} leaderboard! (${sign}${pointDiff} points)`;
                             } else if (previousRank > 0 && previousRank <= 3 && currentRank === 0) {
-                                showFeedback(`You lost your position on the ${diff} leaderboard. Keep practicing!`, 'danger');
+                                const oldEmoji = previousRank === 1 ? '🥇' : previousRank === 2 ? '🥈' : '🥉';
+                                message = `${oldEmoji} You dropped out of top 3 on ${diff} leaderboard! (${-previousPoints} points)`;
+                            } else if (previousRank === 0 && currentRank > 0 && currentRank <= 3) {
+                                const newEmoji = currentRank === 1 ? '🥇' : currentRank === 2 ? '🥈' : '🥉';
+                                message = `${newEmoji} You reached #${currentRank} on ${diff} leaderboard! (+${currentPoints} points)`;
+                            }
+                            if (message) {
+                                showFeedback(message, currentRank <= 3 && currentRank < previousRank ? 'success' : currentRank > 0 ? 'success' : 'danger');
                             }
                         }
                     }
                 });
             });
             
+            // Handle Overall leaderboard
             const overallEntries = getOverallLeaderboard();
-            const overallTop3 = [];
+            const overallTop3Map = {};
             overallEntries.slice(0, 3).forEach((entry, index) => {
                 const rank = index + 1;
                 let pointsEarned = 0;
                 if (rank === 1) pointsEarned = 10;
                 else if (rank === 2) pointsEarned = 5;
                 else if (rank === 3) pointsEarned = 3;
-                
-                overallTop3.push({
-                    username: entry.username,
-                    rank: rank,
-                    points: pointsEarned
-                });
+                overallTop3Map[entry.username] = { rank: rank, points: pointsEarned };
             });
             
             users.forEach(user => {
                 const username = user.user;
-                
                 const userData = allData[username];
                 if (!userData) return;
                 
-                const rankHistory = userData.rankHistory || { baby: {rank:0, pointsEarned:0}, easy: {rank:0, pointsEarned:0}, medium: {rank:0, pointsEarned:0}, hard: {rank:0, pointsEarned:0}, ultra: {rank:0, pointsEarned:0} };
+                const rankHistory = userData.rankHistory || { 
+                    baby: {rank:0, pointsEarned:0}, 
+                    easy: {rank:0, pointsEarned:0}, 
+                    medium: {rank:0, pointsEarned:0}, 
+                    hard: {rank:0, pointsEarned:0}, 
+                    ultra: {rank:0, pointsEarned:0},
+                    overall: {rank:0, pointsEarned:0}
+                };
+                
                 const previousRank = rankHistory['overall']?.rank || 0;
                 const previousPoints = rankHistory['overall']?.pointsEarned || 0;
                 
-                const current = overallTop3.find(t => t.username === username);
+                const current = overallTop3Map[username];
                 const currentRank = current ? current.rank : 0;
                 const currentPoints = current ? current.points : 0;
                 
@@ -3401,22 +3476,49 @@
                     };
                     userData.rankHistory = rankHistory;
                     
+                    // Handle rank background removal for Overall
+                    if (previousRank > 0 && previousRank <= 3 && previousRank !== currentRank) {
+                        const themeMap = { 1: 'theme_gold', 2: 'theme_silver', 3: 'theme_bronze' };
+                        const themeId = themeMap[previousRank];
+                        if (themeId && userInventory[themeId]) {
+                            const stillHasRank = userHasRank(username, previousRank, 'overall');
+                            if (!stillHasRank) {
+                                delete userInventory[themeId];
+                                saveUserInventory(username, userInventory);
+                                if (username === currentUser) {
+                                    showFeedback(`Removed ${themeId.replace('theme_', '')} theme (no longer rank ${previousRank})`, 'danger');
+                                }
+                            }
+                        }
+                    }
+                    
                     updated = true;
                     saveUserGameData(username, userData);
                     
                     if (username === currentUser) {
-                        if (currentRank > 0 && currentRank <= 3) {
-                            const medal = currentRank === 1 ? '🥇' : currentRank === 2 ? '🥈' : '🥉';
-                            const title = currentRank === 1 ? 'Champion' : currentRank === 2 ? 'Runner-Up' : 'Bronze';
-                            showFeedback(`${medal} You are now #${currentRank} on the Overall leaderboard! (+${currentPoints} points)`, 'success');
+                        let message = '';
+                        if (previousRank > 0 && previousRank <= 3 && currentRank > 0 && currentRank <= 3) {
+                            const oldEmoji = previousRank === 1 ? '🥇' : previousRank === 2 ? '🥈' : '🥉';
+                            const newEmoji = currentRank === 1 ? '🥇' : currentRank === 2 ? '🥈' : '🥉';
+                            const pointDiff = currentPoints - previousPoints;
+                            const sign = pointDiff >= 0 ? '+' : '';
+                            message = `${oldEmoji} Overall Rank ${previousRank} → ${newEmoji} Rank ${currentRank}! (${sign}${pointDiff} points)`;
                         } else if (previousRank > 0 && previousRank <= 3 && currentRank === 0) {
-                            showFeedback(`You lost your position on the Overall leaderboard. Keep practicing!`, 'danger');
+                            const oldEmoji = previousRank === 1 ? '🥇' : previousRank === 2 ? '🥈' : '🥉';
+                            message = `${oldEmoji} You dropped out of Overall top 3! (${-previousPoints} points)`;
+                        } else if (previousRank === 0 && currentRank > 0 && currentRank <= 3) {
+                            const newEmoji = currentRank === 1 ? '🥇' : currentRank === 2 ? '🥈' : '🥉';
+                            message = `${newEmoji} You reached #${currentRank} on Overall leaderboard! (+${currentPoints} points)`;
+                        }
+                        if (message) {
+                            showFeedback(message, currentRank <= 3 && currentRank < previousRank ? 'success' : currentRank > 0 ? 'success' : 'danger');
                         }
                     }
                 }
             });
             
             if (updated) {
+                // Refresh all views
                 if (document.getElementById('adminView').style.display !== 'none') {
                     renderAdminTable();
                 }
@@ -3428,6 +3530,7 @@
                 if (document.getElementById('stats-screen').style.display !== 'none') {
                     renderStats();
                 }
+                // Update points display
                 const userData = loadUserGameData(currentUser);
                 if (userData) {
                     points = userData.points || 0;
@@ -4827,16 +4930,26 @@
             
             const themeSection = document.createElement('div');
             themeSection.style.cssText = 'margin-bottom:20px;';
+            // Only show shop themes (excluding speed_god which is exclusive)
+            const shopThemes = SHOP_ITEMS.filter(item => item.type === 'theme');
+            // Add diamond and legendary themes (they are achievements, not in shop)
+            const achievementThemes = [
+                { id: 'theme_diamond', name: '💎 Diamond Theme', theme: 'diamond', emoji: '💎' },
+                { id: 'theme_legendary', name: '👑 Legendary Theme', theme: 'legendary', emoji: '👑' }
+            ];
+            const allDisplayThemes = [...shopThemes, ...achievementThemes];
+            
             themeSection.innerHTML = `<h3 style="color:var(--accent); margin-bottom:12px;">🎨 Themes</h3>
                 <div class="theme-selector">
-                    ${SHOP_ITEMS.filter(item => item.type === 'theme').map(item => {
+                    ${allDisplayThemes.map(item => {
                         const owned = userInventory[item.id] || (item.price === 0);
                         const isActive = loadUserGameData(currentUser).currentTheme === item.theme;
+                        const isAchievement = item.id === 'theme_diamond' || item.id === 'theme_legendary';
                         return `<button class="theme-btn ${item.theme} ${isActive ? 'active-theme' : ''}" 
                                     onclick="buyTheme('${item.id}', '${item.theme}')" 
                                     style="border-color: ${isActive ? 'var(--accent)' : 'var(--border-color)'};">
                                     ${item.emoji} ${item.name}
-                                    ${owned ? (isActive ? ' ✅' : ' ✓') : ` ${item.price}🪙`}
+                                    ${owned ? (isActive ? ' ✅' : ' ✓') : (isAchievement ? ' 🔒' : ` ${item.price}🪙`)}
                                 </button>`;
                     }).join('')}
                 </div>
@@ -4882,6 +4995,13 @@
                 showAuthAlert('Please login to buy themes!');
                 return;
             }
+            
+            // Check if it's an achievement theme (diamond or legendary) - these cannot be bought
+            if (itemId === 'theme_diamond' || itemId === 'theme_legendary') {
+                showFeedback('🔒 This theme can only be earned through achievements!', 'danger');
+                return;
+            }
+            
             const item = SHOP_ITEMS.find(i => i.id === itemId);
             if (!item) return;
             
