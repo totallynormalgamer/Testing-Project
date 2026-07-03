@@ -393,6 +393,9 @@
             opacity: 0;
             pointer-events: auto;
         }
+        .hint-btn:hover {
+            opacity: 0.3;
+        }
 
         .shop-item {
             display: flex;
@@ -602,6 +605,8 @@
             border: 2px solid var(--primary);
             transition: background 0.3s ease, border-color 0.3s ease;
             backdrop-filter: blur(10px);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .balance-display {
@@ -1184,6 +1189,58 @@
             background: rgba(30, 41, 59, 0.5);
         }
 
+        /* How to Play styles */
+        .howto-section {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            border-left: 4px solid var(--accent);
+        }
+        .howto-section h4 {
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        .howto-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .howto-section ul li {
+            padding: 4px 0;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        .howto-section ul li::before {
+            content: "• ";
+            color: var(--accent);
+            font-weight: 700;
+        }
+        .lang-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+        .lang-toggle button {
+            padding: 8px 24px;
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .lang-toggle button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .lang-toggle button:hover {
+            background: var(--border-color);
+            color: white;
+        }
+
         @media (min-width: 768px) {
             .main { flex-direction: row; height: calc(100vh - 68px); }
             .sidebar {
@@ -1215,6 +1272,7 @@
             .leaderboard-entry { flex-wrap: wrap; gap: 8px; }
             .leaderboard-entry .rank { min-width: 30px; font-size: 18px; }
             .cashdash-grid { grid-template-columns: 1fr 1fr; }
+            .howto-section ul li { font-size: 14px; }
         }
         @media (min-width: 600px) and (max-width: 1024px) {
             .entry-form { grid-template-columns: 1fr 1fr 120px 100px; }
@@ -1319,7 +1377,6 @@
                 <button class="nav-btn active" onclick="showScreen('home')">🏠 Home</button>
                 <button class="nav-btn" onclick="showScreen('shop')">🛒 Shop</button>
                 <button class="nav-btn" onclick="showScreen('inventory')">📦 Inventory</button>
-                <button class="nav-btn" onclick="showScreen('ledger')">📒 Ledger</button>
                 <button class="nav-btn" onclick="showScreen('trialbalance')">⚖️ Trial Balance</button>
                 <button class="nav-btn" onclick="showScreen('stats')">📊 Progress</button>
                 <button class="nav-btn" onclick="showScreen('leaderboard')">🏆 Leaderboard</button>
@@ -1352,6 +1409,9 @@
                             </button>
                             <button onclick="showScreen('cashdash')" class="start-btn" style="margin-left:16px; background:linear-gradient(135deg, #8b5cf6, #6d28d9);">
                                 🎮 PLAY CASH DASH
+                            </button>
+                            <button onclick="showHowToPlay()" class="start-btn" style="margin-left:16px; background:linear-gradient(135deg, #22c55e, #16a34a); font-size:16px; padding:14px 30px;">
+                                ❓ How to Play
                             </button>
                         </div>
                         <div style="margin-top:30px; padding-top:20px; border-top:2px solid var(--border-color);">
@@ -1719,6 +1779,23 @@
             <h2 id="achievement-title" style="color:var(--accent);">Achievement Unlocked!</h2>
             <p id="achievement-text" style="margin:15px 0;"></p>
             <button onclick="document.getElementById('achievement-modal').style.display='none'" class="modal-btn" style="background:var(--accent); color:black;">Claim Reward! 🎉</button>
+        </div>
+    </div>
+
+    <!-- How to Play Modal -->
+    <div id="howto-modal" class="modal">
+        <div class="modal-content" style="max-width:600px; text-align:left;">
+            <h2 style="text-align:center; color:var(--accent); margin-bottom:16px;">📖 How to Play</h2>
+            <div class="lang-toggle">
+                <button class="active" onclick="setHowToLang('en')">🇬🇧 English</button>
+                <button onclick="setHowToLang('zh')">🇭🇰 廣東話</button>
+            </div>
+            <div id="howto-content">
+                <!-- Content rendered by JS -->
+            </div>
+            <div style="text-align:center; margin-top:16px;">
+                <button onclick="document.getElementById('howto-modal').style.display='none'" class="modal-btn">Got it! 👍</button>
+            </div>
         </div>
     </div>
 
@@ -2217,7 +2294,7 @@
         // Infinite Mode state
         let isInfiniteMode = false;
 
-        // Mission state - FIXED: properly track retry state
+        // Mission state
         let missionRetryState = {
             retrying: false,
             originalDay: null,
@@ -2476,6 +2553,8 @@
             infiniteBest = data.infiniteBest || { profit: 0, time: 0, rounds: 0 };
             infiniteRank = data.infiniteRank || 0;
             infiniteTickets = data.infiniteTickets || 0;
+            // Reset background to dark if login from logout
+            setThemeBackground('dark');
             updateUserDisplay();
             updateAdminButton();
             loadGameProgress();
@@ -2821,6 +2900,130 @@
             showFeedback(`🎨 Theme changed to ${themeName}!`, 'success');
         }
 
+        // ============================================================
+        // HOW TO PLAY - English & Cantonese
+        // ============================================================
+        let howToLang = 'en';
+        
+        function showHowToPlay() {
+            document.getElementById('howto-modal').style.display = 'flex';
+            setHowToLang(howToLang);
+        }
+
+        function setHowToLang(lang) {
+            howToLang = lang;
+            document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.lang-toggle button[onclick="setHowToLang('${lang}')"]`).classList.add('active');
+            
+            const content = document.getElementById('howto-content');
+            
+            if (lang === 'en') {
+                content.innerHTML = `
+                    <div class="howto-section">
+                        <h4>🎯 Objective</h4>
+                        <ul>
+                            <li>Learn double-entry bookkeeping by completing daily accounting missions.</li>
+                            <li>Earn EXP, coins, and climb the leaderboards!</li>
+                        </ul>
+                    </div>
+                    <div class="howto-section">
+                        <h4>📅 Missions</h4>
+                        <ul>
+                            <li>Select a date on the calendar, then choose a difficulty.</li>
+                            <li>For each transaction, select the correct <strong>Debit</strong> and <strong>Credit</strong> accounts, and enter the <strong>Amount</strong>.</li>
+                            <li>Click <strong>"Record"</strong> for each entry, then <strong>"Submit All Entries"</strong> when done.</li>
+                            <li>Your score depends on accuracy and time taken.</li>
+                        </ul>
+                    </div>
+                    <div class="howto-section">
+                        <h4>🛒 Shop & Inventory</h4>
+                        <ul>
+                            <li>Spend coins on themes and special items.</li>
+                            <li>Ultra Challenge Tickets unlock the hardest difficulty.</li>
+                            <li>Cash Dash Boosts give you profit percentage insights.</li>
+                            <li>Infinite Mode Tickets unlock a high-score challenge.</li>
+                        </ul>
+                    </div>
+                    <div class="howto-section">
+                        <h4>🏆 Leaderboard</h4>
+                        <ul>
+                            <li>Compete for the fastest average completion times.</li>
+                            <li>Rank #1, #2, or #3 to earn exclusive themes and badges.</li>
+                            <li>Overall leaderboard requires completing ALL difficulties.</li>
+                        </ul>
+                    </div>
+                    <div class="howto-section">
+                        <h4>🎮 Cash Dash</h4>
+                        <ul>
+                            <li>Buy items at the listed price, then roll for sell prices.</li>
+                            <li>Maximize your profit across rounds.</li>
+                            <li>Use the Boost to see percentage increases for 1 game.</li>
+                            <li>Infinite Mode: unlimited rounds, 3-minute timer.</li>
+                        </ul>
+                    </div>
+                    <div class="howto-section">
+                        <h4>📊 Progress</h4>
+                        <ul>
+                            <li>Track your level, stats, and leaderboard rankings.</li>
+                            <li>View detailed T-Accounts and Trial Balance from your completed missions.</li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="howto-section">
+                        <h4>🎯 目標</h4>
+                        <ul>
+                            <li>通過完成每日會計任務學習複式記帳。</li>
+                            <li>賺取經驗值、金幣，並在排行榜上攀升！</li>
+                        </ul>
+                    </div>
+                    <div class="howto-section">
+                        <h4>📅 任務</h4>
+                        <ul>
+                            <li>在日曆上選擇一個日期，然後選擇難度。</li>
+                            <li>對於每筆交易，選擇正確的<strong>借方</strong>和<strong>貸方</strong>帳戶，並輸入<strong>金額</strong>。</li>
+                            <li>點擊<strong>"記錄"</strong>，完成後點擊<strong>"提交所有條目"</strong>。</li>
+                            <li>分數取決於準確性和所用時間。</li>
+                        </ul>
+                    </div>
+                    <div class="howto-section">
+                        <h4>🛒 商店與庫存</h4>
+                        <ul>
+                            <li>用金幣購買主題和特殊物品。</li>
+                            <li>終極挑戰門票解鎖最難的難度。</li>
+                            <li>現金衝刺加成讓你在遊戲中看到利潤百分比。</li>
+                            <li>無限模式門票解鎖高分挑戰。</li>
+                        </ul>
+                    </div>
+                    <div class="howto-section">
+                        <h4>🏆 排行榜</h4>
+                        <ul>
+                            <li>競爭最快的平均完成時間。</li>
+                            <li>排名第1、2或3名可獲得獨家主題和徽章。</li>
+                            <li>總體排行榜需要完成所有難度。</li>
+                        </ul>
+                    </div>
+                    <div class="howto-section">
+                        <h4>🎮 現金衝刺</h4>
+                        <ul>
+                            <li>以標示價格購買物品，然後擲骰決定售價。</li>
+                            <li>在各回合中最大化您的利潤。</li>
+                            <li>使用加成按鈕可在1場遊戲中看到百分比增幅。</li>
+                            <li>無限模式：無限回合，3分鐘計時器。</li>
+                        </ul>
+                    </div>
+                    <div class="howto-section">
+                        <h4>📊 進度</h4>
+                        <ul>
+                            <li>追蹤您的等級、統計數據和排行榜排名。</li>
+                            <li>查看已完成任務的詳細T型帳戶和試算表。</li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
         function showView(view) {
             document.getElementById('loginView').classList.add('hidden');
             document.getElementById('registerView').classList.add('hidden');
@@ -2830,9 +3033,12 @@
             if (view === 'login') {
                 document.getElementById('loginView').classList.remove('hidden');
                 document.getElementById('loginError').textContent = '';
+                // Reset background to dark when returning to login
+                setThemeBackground('dark');
             } else if (view === 'register') {
                 document.getElementById('registerView').classList.remove('hidden');
                 document.getElementById('regError').textContent = '';
+                setThemeBackground('dark');
             } else if (view === 'admin') {
                 document.getElementById('adminView').classList.remove('hidden');
                 renderAdminTable();
@@ -2847,7 +3053,7 @@
             }
         }
 
-        // FIX #2: Admin Panel - Multi-select delete
+        // Admin Panel - Multi-select delete
         function toggleSelectAll() {
             const selectAll = document.getElementById('selectAllUsers');
             const checkboxes = document.querySelectorAll('.user-select-checkbox');
@@ -3273,6 +3479,7 @@
         let missionTimerInterval = null;
         let elapsedMissionTime = 0;
 
+        // SHOP ITEMS - removed speed_god theme from shop (it's exclusive to leaderboard)
         const SHOP_ITEMS = [
             { id: 'theme_dark', name: 'Dark Theme', price: 0, desc: 'Classic dark mode', emoji: '🌙', type: 'theme', theme: 'dark' },
             { id: 'theme_ocean', name: 'Ocean Theme', price: 100, desc: 'Calming ocean waves', emoji: '🌊', type: 'theme', theme: 'ocean' },
@@ -4001,7 +4208,7 @@
             container.innerHTML = html;
         }
 
-        // FIX #3: Leaderboard Rewards now properly triggered
+        // Leaderboard Rewards
         function checkAndClaimLeaderboardReward(difficulty, rank) {
             const rewardKey = difficulty;
             if (!leaderboardRewards[rewardKey]) {
@@ -4189,10 +4396,10 @@
             CD_ITEMS.forEach(item => {
                 const sellPrice = cdState.sellPrices[item.id] || '?';
                 const buyPrice = item.buy;
-                let percentage = '?';
+                // Only show percentage if boost is active
+                let percentage = '';
                 let percentageClass = '';
-                
-                if (sellPrice !== '?') {
+                if (sellPrice !== '?' && cdState.boostActive) {
                     const pct = ((sellPrice - buyPrice) / buyPrice * 100);
                     percentage = pct.toFixed(0) + '%';
                     percentageClass = pct >= 0 ? '' : 'negative';
@@ -4205,7 +4412,7 @@
                     <div style="font-weight:700; font-size:13px;">${item.name}</div>
                     <div class="price">Buy: $${buyPrice}</div>
                     <div class="sub">Sell: $${sellPrice}</div>
-                    ${sellPrice !== '?' ? `<div class="percentage-display ${percentageClass}">${percentage}</div>` : ''}
+                    ${percentage ? `<div class="percentage-display ${percentageClass}">${percentage}</div>` : ''}
                     <div style="margin-top:6px;">
                         <label style="font-size:12px; color:var(--text-secondary);">Buy:</label>
                         <input type="number" id="cd-${item.id}-qty" class="cashdash-input" value="0" min="0" max="${item.maxQty}">
@@ -4272,7 +4479,10 @@
             boostBtn.textContent = '✅ Boost Active';
             boostBtn.className = 'boost-btn used';
             
-            showFeedback('📊 Boost Activated! Percentage increase will be shown after each round!', 'success');
+            // Re-render items to show percentages
+            cdRenderItems();
+            
+            showFeedback('📊 Boost Activated! Percentage increase shown on items!', 'success');
         }
 
         function cdRollPrice() {
@@ -4533,11 +4743,13 @@
             }
             cdState.gameActive = false;
             cdState.gameEnded = true;
+            // Reset boost state for new game
+            cdState.boostUsed = false;
+            cdState.boostActive = false;
             cdInitGame();
             showFeedback('🔄 Game reset! Start fresh!', 'success');
         }
 
-        // FIX #10: Fixed Infinite Mode toggle and ticket management
         function cdToggleInfiniteMode() {
             if (!isInfiniteMode && (!userInventory.infinite_ticket || userInventory.infinite_ticket < 1)) {
                 showFeedback('♾️ You need an Infinite Mode Ticket from the shop to play Infinite Mode!', 'danger');
@@ -4559,6 +4771,9 @@
             }
             cdState.gameActive = false;
             cdState.gameEnded = true;
+            // Reset boost state when switching modes
+            cdState.boostUsed = false;
+            cdState.boostActive = false;
             cdInitGame();
             
             const btn = document.getElementById('cd-toggle-infinite-btn');
@@ -4624,10 +4839,6 @@
                                     ${owned ? (isActive ? ' ✅' : ' ✓') : ` ${item.price}🪙`}
                                 </button>`;
                     }).join('')}
-                    <button class="theme-btn speed_god" onclick="setTheme('speed_god')" style="border-color: var(--gold);">
-                        ⚡ Speed God Theme
-                        ${userInventory['theme_speed_god'] ? ' ✅' : ' 🔒'}
-                    </button>
                 </div>
             `;
             container.appendChild(themeSection);
@@ -4813,6 +5024,9 @@
                         btn.style.color = 'white';
                     }
                 }
+                // Reset boost state when entering Cash Dash
+                cdState.boostUsed = false;
+                cdState.boostActive = false;
                 cdInitGame();
             }
             if (screen === 'leaderboard') {
@@ -4827,7 +5041,7 @@
         }
 
         // ============================================================
-        // TRIAL BALANCE (Reworked from #8)
+        // TRIAL BALANCE
         // ============================================================
         function renderTrialBalance() {
             const container = document.getElementById('trial-balance-content');
@@ -5022,7 +5236,7 @@
         }
 
         // ============================================================
-        // MISSION FUNCTIONS (Full implementation)
+        // MISSION FUNCTIONS
         // ============================================================
         const ALL_ACCOUNTS = [
             "Cash", "Accounts Receivable", "Equipment", "Accumulated Depreciation",
@@ -5041,7 +5255,7 @@
             "Bank Loan", "Commission Revenue"
         ];
 
-        // FIX #7: Improved account type detection
+        // Account type detection
         function getAccountType(account) {
             const assetAccounts = ["Cash", "Accounts Receivable", "Equipment", "Prepaid Insurance", "Supplies", 
                 "Inventory", "Prepaid Rent", "Office Supplies", "Prepaid Advertising", "Notes Receivable",
@@ -5258,7 +5472,7 @@
             return match ? parseInt(match[1]) : null;
         }
 
-        // FIX #6: Fixed version system to properly generate new versions
+        // Version system
         function generateDailyTransactions(day, difficulty, version) {
             const diffCode = difficulty === 'baby' ? 3 : difficulty === 'easy' ? 7 : difficulty === 'medium' ? 13 : difficulty === 'hard' ? 23 : 31;
             const seed = day * 7919 + version * 6271 + diffCode * 5437;
@@ -5293,7 +5507,6 @@
             
             const numTransactions = difficulty === 'baby' ? 2 : difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : difficulty === 'hard' ? 5 : 6;
             
-            // Use a version-specific tracker to ensure different versions get different scenarios
             const trackerKey = `${difficulty}`;
             if (!usedScenarioTracker[trackerKey]) {
                 usedScenarioTracker[trackerKey] = {};
@@ -5313,10 +5526,8 @@
                 }
             }
             
-            // Shuffle with version-specific seed
             const shuffledPool = shuffleArray(uniqueScenarios, version * 97 + day * 83);
             
-            // Filter out used scenarios for this version
             const availableScenarios = shuffledPool.filter(s => {
                 const key = `${s.debit}|${s.credit}`;
                 return !usedSet.has(key);
@@ -5324,7 +5535,6 @@
             
             let selectedScenarios;
             if (availableScenarios.length < numTransactions) {
-                // If we've used all scenarios, reset for this version
                 usedScenarioTracker[trackerKey][version] = new Set();
                 const resetAvailable = shuffledPool.filter(s => {
                     const key = `${s.debit}|${s.credit}`;
@@ -5388,31 +5598,26 @@
                     d.classList.add('selected');
                     selectedDate = day;
                     document.getElementById('selected-date').textContent = `Selected: June ${day}, 2026`;
-                    // Clear version cache when selecting a new date
                     versionCache = {};
                     usedScenarioTracker = {};
                     updateAvgTimeDisplay();
-                    // Reset difficulty selection highlight
                     document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
                 };
                 cal.appendChild(d);
             }
         }
 
-        // FIX #13: Difficulty selection highlight
+        // Difficulty selection
         function selectDifficulty(diff) {
-            // Check if date is selected
             if (!selectedDate) {
                 showFeedback("Please select a date first!", "danger");
                 return;
             }
             
-            // Highlight the selected difficulty
             document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('selected'));
             const btn = document.querySelector(`.difficulty-btn.${diff}`);
             if (btn) btn.classList.add('selected');
             
-            // Start the mission
             startMission(diff);
         }
 
@@ -5438,9 +5643,7 @@
             journal = [];
             playerEntries = {};
             transactions = [];
-            // Reset retry state
             missionRetryState = { retrying: false, originalDay: null, originalDiff: null, originalVersion: null };
-            // Reset mistakes and attempts for new mission
             incorrectAttempts = 0;
             mistakes = {};
             showScreen('mission');
@@ -5451,7 +5654,6 @@
             document.getElementById('mission-content').style.display = 'none';
             updateAvgTimeDisplay();
             usedScenarioTracker = {};
-            // Clear difficulty highlights
             document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
         }
 
@@ -5477,7 +5679,6 @@
             currentDay = selectedDate;
             currentDiff = diff;
             
-            // Generate a new version - use a random version 1-3
             currentVersion = Math.floor(Math.random() * 3) + 1;
             
             const cacheKey = `${selectedDate}_${diff}`;
@@ -5519,10 +5720,8 @@
             missionSubmitted = false;
             editingId = null;
             startTime = Date.now();
-            // Reset mistakes and attempts
             incorrectAttempts = 0;
             mistakes = {};
-            // Clear any existing timer
             if (missionTimerInterval) {
                 clearInterval(missionTimerInterval);
                 missionTimerInterval = null;
@@ -5543,13 +5742,11 @@
             versionCache = {};
             usedScenarioTracker = {};
             updateAvgTimeDisplay();
-            // Clear difficulty highlights
             document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
         }
 
-        // FIX #4: Fixed explanation function with proper transaction lookup
+        // Show explanation for transactions
         function showExplanation(transactionId, wasCorrect) {
-            // Find the transaction by its unique ID
             const t = transactions.find(tr => tr.id === transactionId);
             if (!t) {
                 showFeedback("Transaction not found!", "danger");
@@ -5557,7 +5754,6 @@
             }
             document.getElementById('explain-title').textContent = `Transaction - ${wasCorrect ? '✅ Correct' : '❌ Wrong'}`;
             let explanationText = t.explanation || 'No detailed explanation available.';
-            // Add extra context if the transaction was wrong
             if (!wasCorrect) {
                 const recorded = journal.find(j => j.id === transactionId);
                 if (recorded) {
@@ -5567,6 +5763,26 @@
             }
             document.getElementById('explain-body').innerHTML = explanationText;
             document.getElementById('explain-modal').style.display = 'flex';
+        }
+
+        // Invisible answer button - shows the correct answer when clicked
+        function showAnswer(transactionId) {
+            const t = transactions.find(tr => tr.id === transactionId);
+            if (!t) return;
+            
+            const descAmount = extractAmountFromDesc(t.desc);
+            const correctAmount = descAmount !== null ? descAmount : t.amount;
+            
+            const modal = document.getElementById('answer-modal');
+            document.getElementById('answer-body').innerHTML = `
+                <strong>Transaction:</strong> ${t.desc}<br><br>
+                <strong>Correct Entry:</strong><br>
+                Debit: <span style="color:#4ade80;">${t.correctDebit}</span><br>
+                Credit: <span style="color:#f87171;">${t.correctCredit}</span><br>
+                Amount: <span style="color:#fbbf24;">$${correctAmount}</span><br><br>
+                <div style="font-size:14px; color:var(--text-secondary);">💡 ${t.explanation || 'Use this to check your work!'}</div>
+            `;
+            modal.style.display = 'flex';
         }
 
         function renderTransactions() {
@@ -5632,6 +5848,7 @@
                                 </div>
                                 <div style="display:flex;align-items:flex-end;gap:6px;">
                                     <button onclick="saveEntry(${t.id})" style="white-space:nowrap;">${isEditing ? 'Save' : 'Record'}</button>
+                                    <button onclick="showAnswer(${t.id})" class="hint-btn" title="Show Answer">👁️</button>
                                 </div>
                             </div>
                         </div>`;
@@ -5641,7 +5858,6 @@
             });
         }
 
-        // FIX #9: Fixed timer tracking - properly track elapsed time
         function updateEntry(id, el) {
             if (!playerEntries[id]) playerEntries[id] = {};
             if (el.tagName === "SELECT") {
@@ -5753,7 +5969,6 @@
             });
         }
 
-        // FIX #8: Reworked journal balance to show meaningful accounting information
         function updateJournalBalance() {
             const container = document.getElementById('journal-balance');
             if (!container) return;
@@ -5781,7 +5996,6 @@
             
             const isBalanced = totalDebits === totalCredits;
             
-            // Get top 5 accounts by balance
             const sortedAccounts = Object.entries(accountBalances)
                 .filter(([_, bal]) => bal !== 0)
                 .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
@@ -5871,7 +6085,6 @@
             missionSubmitted = true;
             lastMissionJournal = [...journal];
             
-            // FIX #9: Properly capture elapsed time
             const timeTaken = Math.floor((Date.now() - startTime) / 1000);
             
             const missionRecord = {
@@ -5889,7 +6102,6 @@
             transactionHistory.push(missionRecord);
             saveGameProgress();
 
-            // Update time tracking
             if (currentDifficulty && timeData[currentDifficulty]) {
                 timeData[currentDifficulty].totalTime += timeTaken;
                 timeData[currentDifficulty].count++;
@@ -5937,7 +6149,6 @@
             renderResults(timeTaken, score, finalScore, expEarned, coinEarned, leveledUp, avgTime, bestTime);
             showScreen('results');
             
-            // FIX #3: Check and claim leaderboard rewards after mission completion
             checkAndClaimLeaderboardReward(currentDifficulty, getLeaderboardRank(currentDifficulty));
             
             const message = finalScore === 100 ? "🌟 PERFECT DAY!" : 
@@ -5964,7 +6175,6 @@
             `);
         }
 
-        // Helper function to get leaderboard rank
         function getLeaderboardRank(difficulty) {
             const entries = getLeaderboard(difficulty);
             const userEntry = entries.find(e => e.username === currentUser);
@@ -6064,10 +6274,8 @@
             container.appendChild(statsDiv);
         }
 
-        // FIX #5: Properly reset mistakes on retry
         function retryMission() {
             missionSubmitted = false;
-            // Reset mistakes and attempts for retry
             incorrectAttempts = 0;
             mistakes = {};
             document.getElementById('setup-card').style.display = 'none';
