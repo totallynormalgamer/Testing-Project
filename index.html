@@ -719,6 +719,8 @@
         .theme-btn.silver { background: linear-gradient(135deg, #c0c0c0, #8a8a8a); color: #1a1a2e; border-color: #c0c0c0; }
         .theme-btn.bronze { background: linear-gradient(135deg, #cd7f32, #8b5a2b); color: white; border-color: #cd7f32; }
         .theme-btn.cash { background: linear-gradient(135deg, #4ade80, #15803d); color: #0a1a0a; border-color: #ffd700; box-shadow: 0 0 20px rgba(74, 222, 128, 0.3); }
+        .theme-btn.diamond { background: linear-gradient(135deg, #b9f2ff, #00d4ff); color: #0a0a2a; border-color: #00d4ff; }
+        .theme-btn.legendary { background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff); color: #0a0a2a; border-color: #ffd93d; animation: legendary-glow 1.5s ease-in-out infinite alternate; }
         .theme-btn.speed_god { 
             background: linear-gradient(135deg, #0a0a2a, #1a0a3a, #0a0a2a); 
             border-color: #ffd700; 
@@ -758,6 +760,10 @@
         @keyframes lightning-shimmer {
             0%, 100% { opacity: 0.3; }
             50% { opacity: 0.8; }
+        }
+        @keyframes legendary-glow {
+            0% { box-shadow: 0 0 20px rgba(255, 217, 61, 0.3); }
+            100% { box-shadow: 0 0 40px rgba(255, 107, 107, 0.6); }
         }
 
         .time-stat {
@@ -834,10 +840,6 @@
         .rank-badge.rich-bg { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #1a1a2e; border: 2px solid #ffd700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); font-weight: 700; }
         .rank-badge.diamond-bg { background: linear-gradient(135deg, #b9f2ff, #00d4ff); color: #0a0a2a; border: 2px solid #00d4ff; box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); font-weight: 700; }
         .rank-badge.legendary-bg { background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff); color: #0a0a2a; border: 2px solid #ffd93d; box-shadow: 0 0 30px rgba(255, 217, 61, 0.5); font-weight: 700; animation: legendary-glow 1.5s ease-in-out infinite alternate; }
-        @keyframes legendary-glow {
-            0% { box-shadow: 0 0 20px rgba(255, 217, 61, 0.3); }
-            100% { box-shadow: 0 0 40px rgba(255, 107, 107, 0.6); }
-        }
 
         .leaderboard-entry.overall-gold {
             background: linear-gradient(135deg, #4a3000, #7a4f00, #4a3000);
@@ -3605,7 +3607,9 @@
             silver: { id: 'theme_silver', name: 'Silver Theme', emoji: '🥈', desc: '🥈 Runner-Up Exclusive - Top 2 reward', theme: 'silver' },
             bronze: { id: 'theme_bronze', name: 'Bronze Theme', emoji: '🥉', desc: '🥉 Bronze Exclusive - Top 3 reward', theme: 'bronze' },
             cash: { id: 'theme_cash', name: 'Cash Theme', emoji: '💰', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash' },
-            speed_god: { id: 'theme_speed_god', name: '⚡ Speed God Theme', emoji: '⚡', desc: '♾️ Infinite Mode Champion - #1 in Infinite Mode', theme: 'speed_god' }
+            diamond: { id: 'theme_diamond', name: 'Diamond Theme', emoji: '💎', desc: '💎 Diamond Achievement - 2 #1 Rankings', theme: 'diamond' },
+            legendary: { id: 'theme_legendary', name: 'Legendary Theme', emoji: '👑', desc: '👑 Legendary Achievement - 3 #1 Rankings', theme: 'legendary' },
+            speed_god: { id: 'theme_speed_god', name: 'Speed God Theme', emoji: '⚡', desc: '♾️ Infinite Mode Champion - #1 in Infinite Mode', theme: 'speed_god' }
         };
 
         function loadGameProgress() {
@@ -4900,56 +4904,24 @@
             const container = document.getElementById('shop-items');
             container.innerHTML = '';
             
-            const exclusiveThemes = [
-                { id: 'theme_gold', name: '👑 Gold Theme', desc: '🏆 Champion Exclusive', theme: 'gold', price: 0 },
-                { id: 'theme_silver', name: '🥈 Silver Theme', desc: '🥈 Runner-Up Exclusive', theme: 'silver', price: 0 },
-                { id: 'theme_bronze', name: '🥉 Bronze Theme', desc: '🥉 Bronze Exclusive', theme: 'bronze', price: 0 },
-                { id: 'theme_cash', name: '💰 Cash Theme', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash', price: 0 },
-                { id: 'theme_diamond', name: '💎 Diamond Theme', desc: '💎 Diamond Achievement - 2 #1 Rankings', theme: 'diamond', price: 0 },
-                { id: 'theme_legendary', name: '👑 Legendary Theme', desc: '👑 Legendary Achievement - 3 #1 Rankings', theme: 'legendary', price: 0 },
-                { id: 'theme_speed_god', name: '⚡ Speed God Theme', desc: '⚡ Infinite Mode Champion - #1 in Infinite Mode', theme: 'speed_god', price: 0 }
-            ];
-            
-            const ownedExclusives = exclusiveThemes.filter(item => userInventory[item.id]);
-            if (ownedExclusives.length > 0) {
-                const exclusiveSection = document.createElement('div');
-                exclusiveSection.style.cssText = 'margin-bottom:20px; padding:16px; background:rgba(255,215,0,0.05); border-radius:12px; border:1px solid var(--gold);';
-                exclusiveSection.innerHTML = `
-                    <h3 style="color:var(--gold); margin-bottom:12px;">🏆 Exclusive Rewards</h3>
-                    <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                        ${ownedExclusives.map(item => `
-                            <button class="theme-btn ${item.theme}" onclick="setTheme('${item.theme}')" style="border-color: var(--accent);">
-                                ${item.emoji} ${item.name}
-                            </button>
-                        `).join('')}
-                    </div>
-                    <div style="margin-top:8px; font-size:12px; color:var(--text-secondary);">Earned from leaderboard achievements!</div>
-                `;
-                container.appendChild(exclusiveSection);
-            }
+            // EXCLUSIVE REWARDS SECTION - these are now shown only if earned, but NOT in the shop
+            // They are displayed in inventory only, so we skip them here completely
             
             const themeSection = document.createElement('div');
             themeSection.style.cssText = 'margin-bottom:20px;';
-            // Only show shop themes (excluding speed_god which is exclusive)
+            // Only show shop themes (excluding all exclusive/achievement themes)
             const shopThemes = SHOP_ITEMS.filter(item => item.type === 'theme');
-            // Add diamond and legendary themes (they are achievements, not in shop)
-            const achievementThemes = [
-                { id: 'theme_diamond', name: '💎 Diamond Theme', theme: 'diamond', emoji: '💎' },
-                { id: 'theme_legendary', name: '👑 Legendary Theme', theme: 'legendary', emoji: '👑' }
-            ];
-            const allDisplayThemes = [...shopThemes, ...achievementThemes];
             
             themeSection.innerHTML = `<h3 style="color:var(--accent); margin-bottom:12px;">🎨 Themes</h3>
                 <div class="theme-selector">
-                    ${allDisplayThemes.map(item => {
+                    ${shopThemes.map(item => {
                         const owned = userInventory[item.id] || (item.price === 0);
                         const isActive = loadUserGameData(currentUser).currentTheme === item.theme;
-                        const isAchievement = item.id === 'theme_diamond' || item.id === 'theme_legendary';
                         return `<button class="theme-btn ${item.theme} ${isActive ? 'active-theme' : ''}" 
                                     onclick="buyTheme('${item.id}', '${item.theme}')" 
                                     style="border-color: ${isActive ? 'var(--accent)' : 'var(--border-color)'};">
                                     ${item.emoji} ${item.name}
-                                    ${owned ? (isActive ? ' ✅' : ' ✓') : (isAchievement ? ' 🔒' : ` ${item.price}🪙`)}
+                                    ${owned ? (isActive ? ' ✅' : ' ✓') : ` ${item.price}🪙`}
                                 </button>`;
                     }).join('')}
                 </div>
@@ -4993,12 +4965,6 @@
         function buyTheme(itemId, themeName) {
             if (!currentUser) {
                 showAuthAlert('Please login to buy themes!');
-                return;
-            }
-            
-            // Check if it's an achievement theme (diamond or legendary) - these cannot be bought
-            if (itemId === 'theme_diamond' || itemId === 'theme_legendary') {
-                showFeedback('🔒 This theme can only be earned through achievements!', 'danger');
                 return;
             }
             
@@ -5077,10 +5043,6 @@
             Object.values(EXCLUSIVE_ITEMS).forEach(item => {
                 itemMap[item.id] = item;
             });
-            itemMap['theme_diamond'] = { id: 'theme_diamond', name: 'Diamond Theme', emoji: '💎', desc: '💎 Diamond Achievement - 2 #1 Rankings', theme: 'diamond', type: 'theme' };
-            itemMap['theme_legendary'] = { id: 'theme_legendary', name: 'Legendary Theme', emoji: '👑', desc: '👑 Legendary Achievement - 3 #1 Rankings', theme: 'legendary', type: 'theme' };
-            itemMap['theme_cash'] = { id: 'theme_cash', name: 'Cash Theme', emoji: '💰', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash', type: 'theme' };
-            itemMap['theme_speed_god'] = { id: 'theme_speed_god', name: '⚡ Speed God Theme', emoji: '⚡', desc: '⚡ Infinite Mode Champion - #1 in Infinite Mode', theme: 'speed_god', type: 'theme' };
             
             let html = `<div class="inventory-grid">`;
             
