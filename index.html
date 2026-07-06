@@ -3584,7 +3584,7 @@
         let missionTimerInterval = null;
         let elapsedMissionTime = 0;
 
-        // SHOP ITEMS - removed speed_god theme from shop (it's exclusive to leaderboard)
+        // SHOP ITEMS - Speed God theme removed from shop (exclusive to Infinite Mode #1)
         const SHOP_ITEMS = [
             { id: 'theme_dark', name: 'Dark Theme', price: 0, desc: 'Classic dark mode', emoji: '🌙', type: 'theme', theme: 'dark' },
             { id: 'theme_ocean', name: 'Ocean Theme', price: 100, desc: 'Calming ocean waves', emoji: '🌊', type: 'theme', theme: 'ocean' },
@@ -3609,7 +3609,7 @@
             cash: { id: 'theme_cash', name: 'Cash Theme', emoji: '💰', desc: '💰 Cash Dash Champion - #1 in Cash Dash', theme: 'cash' },
             diamond: { id: 'theme_diamond', name: 'Diamond Theme', emoji: '💎', desc: '💎 Diamond Achievement - 2 #1 Rankings', theme: 'diamond' },
             legendary: { id: 'theme_legendary', name: 'Legendary Theme', emoji: '👑', desc: '👑 Legendary Achievement - 3 #1 Rankings', theme: 'legendary' },
-            speed_god: { id: 'theme_speed_god', name: 'Speed God Theme', emoji: '⚡', desc: '♾️ Infinite Mode Champion - #1 in Infinite Mode', theme: 'speed_god' }
+            speed_god: { id: 'theme_speed_god', name: '⚡ Speed God Theme', emoji: '⚡', desc: '⚡ Infinite Mode Champion - #1 in Infinite Mode', theme: 'speed_god' }
         };
 
         function loadGameProgress() {
@@ -4909,7 +4909,7 @@
             
             const themeSection = document.createElement('div');
             themeSection.style.cssText = 'margin-bottom:20px;';
-            // Only show shop themes (excluding all exclusive/achievement themes)
+            // Only show shop themes - Speed God is NOT in the shop
             const shopThemes = SHOP_ITEMS.filter(item => item.type === 'theme');
             
             themeSection.innerHTML = `<h3 style="color:var(--accent); margin-bottom:12px;">🎨 Themes</h3>
@@ -4924,6 +4924,9 @@
                                     ${owned ? (isActive ? ' ✅' : ' ✓') : ` ${item.price}🪙`}
                                 </button>`;
                     }).join('')}
+                </div>
+                <div style="margin-top:8px; font-size:12px; color:var(--text-secondary); text-align:center;">
+                    ⚡ Speed God theme is an exclusive reward for #1 in Infinite Mode!
                 </div>
             `;
             container.appendChild(themeSection);
