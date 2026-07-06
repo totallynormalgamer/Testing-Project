@@ -306,6 +306,9 @@
             font-size: 16px;
             padding: 14px 16px;
         }
+        .sidebar.hidden-sidebar {
+            display: none !important;
+        }
 
         .game-area { 
             flex: 1; 
@@ -314,6 +317,54 @@
             -webkit-overflow-scrolling: touch;
             position: relative;
             z-index: 1;
+        }
+        .game-area.full-width {
+            padding: 30px 40px;
+        }
+        .game-area.full-width .card {
+            padding: 32px 40px;
+        }
+        .game-area.full-width .card h1 {
+            font-size: 28px;
+        }
+        .game-area.full-width .card h2 {
+            font-size: 26px;
+        }
+        .game-area.full-width .card p,
+        .game-area.full-width .card .transaction {
+            font-size: 18px;
+        }
+        .game-area.full-width .entry-form select,
+        .game-area.full-width .entry-form input {
+            font-size: 20px;
+            padding: 16px 14px;
+        }
+        .game-area.full-width .entry-label {
+            font-size: 16px;
+        }
+        .game-area.full-width button {
+            font-size: 18px;
+            padding: 16px 28px;
+        }
+        .game-area.full-width .start-btn {
+            font-size: 24px;
+            padding: 20px 60px;
+        }
+        .game-area.full-width .difficulty-btn {
+            font-size: 20px;
+            padding: 20px 40px;
+            min-width: 160px;
+        }
+        .game-area.full-width .day {
+            font-size: 20px;
+            min-height: 60px;
+        }
+        .game-area.full-width .submit-mission-btn {
+            font-size: 20px;
+        }
+        .game-area.full-width .back-to-calendar-btn {
+            font-size: 18px;
+            padding: 14px 28px;
         }
 
         .card {
@@ -634,6 +685,14 @@
         }
         .back-to-calendar-btn:hover {
             background: #475569;
+        }
+        .back-to-home-btn {
+            background: var(--primary);
+            color: white;
+            margin-bottom: 16px;
+        }
+        .back-to-home-btn:hover {
+            background: var(--primary-dark);
         }
 
         .mission-info-badge {
@@ -1275,6 +1334,14 @@
             .leaderboard-entry .rank { min-width: 30px; font-size: 18px; }
             .cashdash-grid { grid-template-columns: 1fr 1fr; }
             .howto-section ul li { font-size: 14px; }
+            .game-area.full-width { padding: 16px; }
+            .game-area.full-width .card { padding: 16px; }
+            .game-area.full-width .card h1 { font-size: 20px; }
+            .game-area.full-width .card h2 { font-size: 18px; }
+            .game-area.full-width button { font-size: 14px; padding: 12px 18px; }
+            .game-area.full-width .start-btn { font-size: 18px; padding: 14px 30px; }
+            .game-area.full-width .difficulty-btn { font-size: 16px; padding: 14px 20px; min-width: 100px; }
+            .game-area.full-width .day { font-size: 16px; min-height: 44px; }
         }
         @media (min-width: 600px) and (max-width: 1024px) {
             .entry-form { grid-template-columns: 1fr 1fr 120px 100px; }
@@ -1375,7 +1442,7 @@
         </div>
 
         <div class="main">
-            <div class="sidebar">
+            <div class="sidebar" id="mainSidebar">
                 <button class="nav-btn active" onclick="showScreen('home')">🏠 Home</button>
                 <button class="nav-btn" onclick="showScreen('shop')">🛒 Shop</button>
                 <button class="nav-btn" onclick="showScreen('inventory')">📦 Inventory</button>
@@ -1458,8 +1525,8 @@
                     </div>
 
                     <div id="mission-content" style="display:none;">
-                        <button class="back-to-calendar-btn" onclick="backToMissionSelect()" style="margin-bottom:16px;">
-                            ⬅️ Back to Calendar
+                        <button class="back-to-home-btn" onclick="goHomeFromMission()" style="margin-bottom:16px;">
+                            ⬅️ Back to Home
                         </button>
                         <div class="card">
                             <div class="mission-header" style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;">
@@ -1506,7 +1573,7 @@
                         <p style="color:var(--text-secondary);margin-bottom:18px;">Click explanation buttons below to learn from your mistakes!</p>
                         <div id="results-list"></div>
                         <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
-                            <button onclick="backToMissionSelect()" style="background:var(--border-color);">⬅️ Back to Calendar</button>
+                            <button onclick="goHomeFromResults()" style="background:var(--primary);">🏠 Back to Home</button>
                             <button onclick="retryMission()" style="background:var(--accent); color:black;">🔄 Retry Mission</button>
                             <button onclick="viewLedgerFromResults()" style="background:var(--primary);">📒 View Ledger</button>
                         </div>
@@ -1525,6 +1592,9 @@
                         <p style="color:var(--text-secondary);margin-bottom:20px; font-size:14px;">👆 Click on any account to see detailed transaction history</p>
                         <p id="ledger-mission-info" style="color:var(--text-secondary);margin-bottom:20px;"></p>
                         <div id="t-accounts" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;"></div>
+                        <div style="margin-top:20px;">
+                            <button onclick="goHomeFromLedger()" class="back-to-home-btn" style="margin-top:16px;">🏠 Back to Home</button>
+                        </div>
                     </div>
                 </div>
 
@@ -1668,6 +1738,9 @@
                             </button>
                             <button onclick="cdToggleInfiniteMode()" id="cd-toggle-infinite-btn" style="background:var(--border-color); color:white; padding:12px 24px; margin-left:12px;">
                                 ♾️ Toggle Infinite Mode
+                            </button>
+                            <button onclick="goHomeFromCashDash()" style="background:var(--primary); color:white; padding:12px 24px; margin-left:12px;">
+                                🏠 Back to Home
                             </button>
                         </div>
 
@@ -2593,9 +2666,10 @@
                 clearInterval(leaderboardCheckInterval);
                 leaderboardCheckInterval = null;
             }
+            // Reset background to dark when logging out
+            setThemeBackground('dark');
             updateUserDisplay();
             updateAdminButton();
-            setThemeBackground('dark');
         }
 
         function updateUserDisplay() {
@@ -2908,6 +2982,68 @@
         }
 
         // ============================================================
+        // SIDEBAR TOGGLE FUNCTIONS
+        // ============================================================
+        function hideSidebar() {
+            const sidebar = document.getElementById('mainSidebar');
+            const gameArea = document.getElementById('game-area');
+            sidebar.classList.add('hidden-sidebar');
+            gameArea.classList.add('full-width');
+        }
+
+        function showSidebar() {
+            const sidebar = document.getElementById('mainSidebar');
+            const gameArea = document.getElementById('game-area');
+            sidebar.classList.remove('hidden-sidebar');
+            gameArea.classList.remove('full-width');
+        }
+
+        function goHomeFromMission() {
+            // If mission is in progress, reset it
+            if (missionSubmitted) {
+                // Mission already submitted, just go home
+                showScreen('home');
+                showSidebar();
+            } else {
+                // Reset mission state
+                missionSubmitted = false;
+                journal = [];
+                playerEntries = {};
+                transactions = [];
+                incorrectAttempts = 0;
+                mistakes = {};
+                document.getElementById('setup-card').style.display = 'block';
+                document.getElementById('mission-content').style.display = 'none';
+                showScreen('home');
+                showSidebar();
+                showFeedback('🏠 Returned to Home', 'success');
+            }
+        }
+
+        function goHomeFromResults() {
+            showScreen('home');
+            showSidebar();
+        }
+
+        function goHomeFromLedger() {
+            showScreen('home');
+            showSidebar();
+        }
+
+        function goHomeFromCashDash() {
+            // Stop any running timer
+            if (cdState.timerInterval) {
+                clearInterval(cdState.timerInterval);
+                cdState.timerInterval = null;
+            }
+            cdState.gameActive = false;
+            cdState.gameEnded = true;
+            showScreen('home');
+            showSidebar();
+            showFeedback('🏠 Returned to Home', 'success');
+        }
+
+        // ============================================================
         // HOW TO PLAY - English & Cantonese
         // ============================================================
         let howToLang = 'en';
@@ -3051,7 +3187,10 @@
                 renderAdminTable();
             } else if (view === 'home' || view === 'game') {
                 document.getElementById('gameView').classList.remove('hidden');
-                if (view === 'home') showScreen('home');
+                if (view === 'home') {
+                    showSidebar();
+                    showScreen('home');
+                }
                 updateUserDisplay();
                 updateAdminButton();
                 updateDisplay();
@@ -3611,6 +3750,86 @@
             legendary: { id: 'theme_legendary', name: 'Legendary Theme', emoji: '👑', desc: '👑 Legendary Achievement - 3 #1 Rankings', theme: 'legendary' },
             speed_god: { id: 'theme_speed_god', name: '⚡ Speed God Theme', emoji: '⚡', desc: '⚡ Infinite Mode Champion - #1 in Infinite Mode', theme: 'speed_god' }
         };
+
+        // ============================================================
+        // DIFFICULTY-BASED ACCOUNT FILTERING
+        // ============================================================
+        // Basic accounts for Baby difficulty - Commission Revenue removed
+        const BABY_ACCOUNTS = [
+            "Cash", "Service Revenue", "Rent Expense", "Office Furniture", 
+            "Drawings", "Salary Expense", "Supplies", "Owner's Capital"
+        ];
+
+        // Easy difficulty accounts - includes Commission Revenue
+        const EASY_ACCOUNTS = [
+            "Cash", "Service Revenue", "Rent Expense", "Office Furniture", 
+            "Drawings", "Commission Revenue", "Salary Expense", "Supplies", 
+            "Owner's Capital", "Accounts Receivable", "Equipment", "Expense"
+        ];
+
+        // Medium difficulty accounts - more advanced
+        const MEDIUM_ACCOUNTS = [
+            "Cash", "Accounts Receivable", "Equipment", "Prepaid Insurance", 
+            "Supplies", "Inventory", "Accounts Payable", "Unearned Revenue", 
+            "Notes Payable", "Service Revenue", "Interest Revenue", "Expense",
+            "Rent Expense", "Salary Expense", "Office Furniture", "Drawings",
+            "Owner's Capital", "Commission Revenue"
+        ];
+
+        // Hard difficulty accounts - includes contra accounts and more
+        const HARD_ACCOUNTS = [
+            "Cash", "Accounts Receivable", "Equipment", "Accumulated Depreciation",
+            "Prepaid Insurance", "Supplies", "Inventory", "Accounts Payable",
+            "Unearned Revenue", "Notes Payable", "Accrued Salaries", "Bank Loan",
+            "Owner's Capital", "Dividends", "Service Revenue", "Interest Revenue",
+            "Rent Revenue", "Depreciation Expense", "Interest Expense", "Bad Debt Expense",
+            "Salary Expense", "Rent Expense", "Expense", "Drawings", "Commission Revenue",
+            "Treasury Stock", "Allowance for Doubtful Accounts"
+        ];
+
+        // Ultra difficulty accounts - all accounts
+        const ULTRA_ACCOUNTS = [
+            "Cash", "Accounts Receivable", "Equipment", "Accumulated Depreciation",
+            "Prepaid Insurance", "Supplies", "Inventory", "Prepaid Rent",
+            "Office Supplies", "Prepaid Advertising", "Notes Receivable",
+            "Prepaid Expenses", "Merchandise Inventory", "Allowance for Doubtful Accounts",
+            "Building", "Land", "Accounts Payable", "Unearned Revenue",
+            "Notes Payable", "Accrued Salaries", "Accrued Interest",
+            "Unearned Service Revenue", "Accrued Expenses", "Bonds Payable",
+            "Bank Overdraft", "Owner's Capital", "Dividends", "Retained Earnings",
+            "Treasury Stock", "Service Revenue", "Interest Revenue",
+            "Sales Revenue", "Rent Revenue", "Bad Debt Recovery",
+            "Gain on Lawsuit Settlement", "Expense", "Cost of Goods Sold",
+            "Depreciation Expense", "Interest Expense", "Bad Debt Expense",
+            "Drawings", "Office Furniture", "Salary Expense", "Rent Expense",
+            "Bank Loan", "Commission Revenue"
+        ];
+
+        function getAccountsForDifficulty(difficulty) {
+            if (difficulty === 'baby') return BABY_ACCOUNTS;
+            if (difficulty === 'easy') return EASY_ACCOUNTS;
+            if (difficulty === 'medium') return MEDIUM_ACCOUNTS;
+            if (difficulty === 'hard') return HARD_ACCOUNTS;
+            if (difficulty === 'ultra') return ULTRA_ACCOUNTS;
+            return EASY_ACCOUNTS; // default fallback
+        }
+
+        // Baby pool - Commission Revenue removed
+        function buildBabyPool() {
+            const templates = [
+                { desc: (a) => `Received $${a} cash for services`, debit: "Cash", credit: "Service Revenue" },
+                { desc: (a) => `Paid $${a} in cash for rent`, debit: "Rent Expense", credit: "Cash" },
+                { desc: (a) => `Purchased office furniture for $${a} cash`, debit: "Office Furniture", credit: "Cash" },
+                { desc: (a) => `Owner withdrew $${a} cash for personal use`, debit: "Drawings", credit: "Cash" },
+                { desc: (a) => `Paid $${a} salary to employees`, debit: "Salary Expense", credit: "Cash" },
+                { desc: (a) => `Purchased supplies for $${a} cash`, debit: "Supplies", credit: "Cash" },
+                { desc: (a) => `Owner invested $${a} cash into the business`, debit: "Cash", credit: "Owner's Capital" },
+            ];
+            templates.forEach(t => {
+                const vars = createVariations(t.desc, t.debit, t.credit, null, 6);
+                window.BABY_POOL = (window.BABY_POOL || []).concat(vars);
+            });
+        }
 
         function loadGameProgress() {
             if (currentUser) {
@@ -4904,9 +5123,6 @@
             const container = document.getElementById('shop-items');
             container.innerHTML = '';
             
-            // EXCLUSIVE REWARDS SECTION - these are now shown only if earned, but NOT in the shop
-            // They are displayed in inventory only, so we skip them here completely
-            
             const themeSection = document.createElement('div');
             themeSection.style.cssText = 'margin-bottom:20px;';
             // Only show shop themes - Speed God is NOT in the shop
@@ -5112,6 +5328,8 @@
                 // Reset boost state when entering Cash Dash
                 cdState.boostUsed = false;
                 cdState.boostActive = false;
+                // Hide sidebar when entering Cash Dash
+                hideSidebar();
                 cdInitGame();
             }
             if (screen === 'leaderboard') {
@@ -5122,6 +5340,10 @@
                 renderLeaderboard('baby');
                 renderCashdashLeaderboard();
                 renderInfiniteLeaderboard();
+            }
+            // Show sidebar for normal screens (home, shop, inventory, etc.)
+            if (screen !== 'cashdash' && screen !== 'mission' && screen !== 'results' && screen !== 'ledger') {
+                showSidebar();
             }
         }
 
@@ -5323,7 +5545,8 @@
         // ============================================================
         // MISSION FUNCTIONS
         // ============================================================
-        const ALL_ACCOUNTS = [
+        // Full list of all accounts for reference
+        const ALL_ACCOUNTS_LIST = [
             "Cash", "Accounts Receivable", "Equipment", "Accumulated Depreciation",
             "Prepaid Insurance", "Supplies", "Inventory", "Prepaid Rent",
             "Office Supplies", "Prepaid Advertising", "Notes Receivable",
@@ -5429,7 +5652,6 @@
                 { desc: (a) => `Paid $${a} in cash for rent`, debit: "Rent Expense", credit: "Cash" },
                 { desc: (a) => `Purchased office furniture for $${a} cash`, debit: "Office Furniture", credit: "Cash" },
                 { desc: (a) => `Owner withdrew $${a} cash for personal use`, debit: "Drawings", credit: "Cash" },
-                { desc: (a) => `Received $${a} cash from a customer for commission`, debit: "Cash", credit: "Commission Revenue" },
                 { desc: (a) => `Paid $${a} salary to employees`, debit: "Salary Expense", credit: "Cash" },
                 { desc: (a) => `Purchased supplies for $${a} cash`, debit: "Supplies", credit: "Cash" },
                 { desc: (a) => `Owner invested $${a} cash into the business`, debit: "Cash", credit: "Owner's Capital" },
@@ -5732,6 +5954,8 @@
             incorrectAttempts = 0;
             mistakes = {};
             showScreen('mission');
+            // Hide sidebar when entering mission
+            hideSidebar();
             document.querySelectorAll('.day').forEach(el => el.classList.remove('selected'));
             selectedDate = null;
             document.getElementById('selected-date').textContent = 'Select a day';
@@ -5874,8 +6098,15 @@
             const container = document.getElementById('transactions-list');
             container.innerHTML = '';
             
+            // Get the difficulty-specific account list
+            const difficultyAccounts = getAccountsForDifficulty(currentDifficulty || 'easy');
+            
+            // Combine with relevant accounts from transactions
             const relevantAccounts = getRelevantAccounts(transactions);
-            const allAccounts = [...new Set([...relevantAccounts, ...ALL_ACCOUNTS])].sort();
+            // Filter relevant accounts to only those available in the current difficulty
+            const filteredRelevant = relevantAccounts.filter(acc => difficultyAccounts.includes(acc));
+            // Combine and deduplicate
+            const allAccountOptions = [...new Set([...difficultyAccounts, ...filteredRelevant])].sort();
             
             transactions.forEach((t, index) => {
                 const recorded = journal.find(j => j.id === t.id);
@@ -5909,7 +6140,7 @@
                     html += `</div>`;
                 } else if (!missionSubmitted) {
                     const cur = playerEntries[t.id] || {};
-                    const accountOptions = allAccounts.map(a => 
+                    const accountOptions = allAccountOptions.map(a => 
                         `<option value="${a}" ${cur.debit===a?'selected':''}>${a}</option>`
                     ).join('');
                     
@@ -6372,6 +6603,7 @@
 
         function viewLedgerFromResults() {
             showScreen('ledger');
+            hideSidebar();
             renderTAccounts();
         }
 
